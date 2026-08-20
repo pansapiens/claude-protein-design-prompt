@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt dissection — Anthropic protein binder design campaign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  ANNOTATIONS — edit freely. One entry per block, keyed by <doc>-<line number>
+  in the source prompt. `force` is one of MECHANICAL | MUST | SHOULD | MAY and
+  drives the enforcement rail between the panes. Regenerate with build.py.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+<script type="application/json" id="annotations">
+/*__ANNOTATIONS__*/
+</script>
+
+<!-- Prompt text, segmentation and cross-document diff. Generated; do not hand-edit. -->
+<script type="application/json" id="payload">/*__PAYLOAD__*/</script>
+
+<style>
+:root{
+  --paper:#FBFBFC; --sunk:#F4F5F7; --ink:#12151A; --ink2:#5A6270; --ink3:#8B93A1;
+  --rule:#E4E6EB; --rule2:#EEF0F3;
+  --sel:#2F4FD8; --sel-bg:#EEF2FE; --green:#1B6B52; --amber:#8A5200;
+  --pad:24px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:15px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+#app{height:100%; display:flex; flex-direction:column}
+[v-cloak]{display:none}
+a{color:var(--sel)}
+button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+:focus-visible{outline:2px solid var(--sel); outline-offset:2px; border-radius:2px}
+
+/* ─── header ────────────────────────────────────────────────────────────── */
+header{
+  flex:0 0 auto; display:flex; align-items:center; gap:20px;
+  padding:0 var(--pad); height:56px; border-bottom:1px solid var(--rule);
+  background:var(--paper); position:relative; z-index:5;
+}
+.brand{display:flex; align-items:baseline; gap:10px; min-width:0}
+.brand h1{
+  margin:0; font-size:14px; font-weight:600; letter-spacing:.01em; white-space:nowrap;
+}
+.brand .sub{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.tabs{display:flex; gap:2px; background:var(--sunk); padding:3px; border-radius:6px}
+.tabs button{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; padding:5px 11px; border-radius:4px; color:var(--ink2);
+  white-space:nowrap;
+}
+.tabs button[aria-pressed=true]{background:var(--paper); color:var(--ink); box-shadow:0 1px 2px rgba(18,21,26,.08)}
+.grow{flex:1}
+.search{
+  display:flex; align-items:center; gap:7px; border:1px solid var(--rule);
+  border-radius:5px; padding:5px 10px; background:var(--paper); min-width:200px;
+}
+.search:focus-within{border-color:var(--sel); box-shadow:0 0 0 3px var(--sel-bg)}
+.search input{border:none; outline:none; font:inherit; font-size:13px; width:100%; background:none}
+.search .k{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3)}
+.hbtn{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.05em;
+  text-transform:uppercase; color:var(--ink2); padding:6px 9px; border-radius:4px;
+  border:1px solid var(--rule); white-space:nowrap;
+}
+.hbtn[aria-pressed=true]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+
+/* ─── filter drawer ─────────────────────────────────────────────────────── */
+.drawer{
+  flex:0 0 auto; border-bottom:1px solid var(--rule); background:var(--sunk);
+  padding:14px var(--pad); display:flex; flex-wrap:wrap; gap:22px; align-items:flex-start;
+}
+.fgroup{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.fgroup .lbl{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink3); margin-right:4px;
+}
+.chip{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; padding:3px 8px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--paper); color:var(--ink2);
+}
+.chip[aria-pressed=true]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.chip .n{opacity:.55; margin-left:5px}
+.legend{display:flex; flex-wrap:wrap; gap:4px 14px; align-items:center}
+.legend span.s{font-size:12px}
+
+/* ─── panes ─────────────────────────────────────────────────────────────── */
+main{flex:1; display:grid; grid-template-columns:minmax(0,1.05fr) 18px minmax(0,.95fr); min-height:0}
+/* Code is wider than prose. Reading it in a 60ch column means horizontal scrolling on
+   every second line, so the panes trade places when the Python tab is the default.
+   Scoped above the stacking breakpoint, or it would outrank the single-column rule. */
+@media (min-width:901px){
+  main.py-mode{grid-template-columns:minmax(0,.82fr) 18px minmax(0,1.18fr)}
+}
+.pane{overflow-y:auto; overflow-x:hidden; scroll-behavior:smooth; padding:26px var(--pad) 60vh}
+.pane.left{border-right:1px solid var(--rule2); padding-left:64px}
+@media (max-width:1400px){ .pane.left{padding-left:var(--pad)} }
+.pane.right{border-left:1px solid var(--rule2); background:linear-gradient(to right,#FAFAFC,var(--paper) 40px)}
+@media (prefers-reduced-motion:reduce){.pane{scroll-behavior:auto}}
+
+/* ─── section headings ──────────────────────────────────────────────────── */
+.sec{
+  display:flex; align-items:center; gap:10px; margin:34px 0 12px;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.sec:first-child{margin-top:0}
+.sec .n{color:var(--ink); font-weight:600}
+.sec .bar{flex:1; height:1px; background:var(--rule)}
+
+/* ─── prompt blocks ─────────────────────────────────────────────────────── */
+.blk{
+  position:relative; padding:9px 12px 9px 14px; margin:1px 0 1px -14px;
+  border-left:2px solid transparent; border-radius:0 3px 3px 0; cursor:pointer;
+  max-width:74ch; transition:background .12s ease, border-color .12s ease;
+}
+.blk:hover{background:var(--sunk)}
+.blk.on{background:var(--sel-bg); border-left-color:var(--sel)}
+.blk.dim{opacity:.26}
+.blk.d1{margin-left:12px}
+.blk.d2{margin-left:24px}
+.blk.d3{margin-left:40px}
+.blk .marker{
+  font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink3);
+  font-weight:500; margin-right:2px;
+}
+.blk .ln{
+  position:absolute; left:-40px; top:11px; width:30px; text-align:right;
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:#C3C8D1;
+  user-select:none;
+}
+@media (max-width:1400px){ .blk .ln{display:none} }
+
+/* ─── inline entities ───────────────────────────────────────────────────── */
+.ent{border-radius:2px}
+.ent-code{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:#EDEFF5; color:#263043; padding:.5px 3px}
+.ent-slot{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:#FBE9F5; color:#8E2A72; padding:.5px 3px}
+.ent-num {font-family:"IBM Plex Mono",monospace; font-size:.9em;  background:#FCF3E2; color:#8A5200; padding:.5px 3px}
+.ent-ctrl{font-family:"IBM Plex Mono",monospace; font-size:.82em; background:#F1EEF9; color:#55407A; padding:.5px 4px; letter-spacing:.03em}
+.ent-tool  {color:#0F6E77; font-weight:500; border-bottom:1px dotted #86BAC0}
+.ent-metric{color:#1B6B52; font-weight:500; border-bottom:1px dotted #93C1B0}
+.ent-bio   {color:#A03A3A; font-weight:500}
+.ent-cite  {color:var(--sel); text-decoration:underline; text-decoration-color:#B7C4F5; text-underline-offset:2px}
+.ent-emph  {font-style:italic}
+.ent-emph .ast{opacity:.28; font-style:normal}
+body.plain .ent{background:none!important; color:inherit!important; border-bottom:none!important; font-weight:inherit!important; font-family:inherit!important; font-size:inherit!important; padding:0!important}
+body.plain .ent-cite{color:var(--sel)!important; text-decoration:underline}
+
+/* ─── enforcement rail ──────────────────────────────────────────────────── */
+.rail{
+  position:relative; background:var(--paper);
+  border-left:1px solid var(--rule2); border-right:1px solid var(--rule2);
+  display:flex; flex-direction:column; padding:2px 0; overflow:hidden;
+}
+.rail button{
+  display:block; width:100%; padding:0; min-height:2px; position:relative;
+}
+.rail button i{
+  display:block; height:100%; min-height:2px; margin:0 auto;
+  background:var(--ink); border-radius:1px;
+}
+.rail button i.f-MECHANICAL{width:14px; background:#12151A}
+.rail button i.f-MUST      {width:10px; background:#6C7482}
+.rail button i.f-SHOULD    {width:6px;  background:#AEB5C0}
+.rail button i.f-MAY       {width:6px;  background:none; box-shadow:inset 0 0 0 1px #C8CDD6}
+.rail button.on i{background:var(--sel)!important; width:16px; box-shadow:none}
+.rail button.dim i{opacity:.2}
+.rail .viewport{
+  position:absolute; left:0; right:0; background:rgba(47,79,216,.07);
+  border-top:1px solid rgba(47,79,216,.22); border-bottom:1px solid rgba(47,79,216,.22);
+  pointer-events:none;
+}
+
+/* ─── annotation cards ──────────────────────────────────────────────────── */
+.card{
+  padding:12px 14px; margin:1px 0; border-left:2px solid transparent;
+  border-radius:0 3px 3px 0; cursor:pointer; max-width:60ch;
+  transition:background .12s ease, border-color .12s ease;
+}
+.card:hover{background:var(--sunk)}
+.card.on{background:var(--sel-bg); border-left-color:var(--sel)}
+.card.dim{opacity:.26}
+.card.showcode{max-width:none}
+.card h3{margin:0 0 5px; font-size:14px; font-weight:600; line-height:1.4}
+.card p{margin:0; font-size:13.5px; line-height:1.6; color:#2B313C}
+.meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px}
+.force{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.1em;
+  padding:2px 6px; border-radius:2px; font-weight:600;
+}
+.force.MECHANICAL{background:#12151A; color:#fff}
+.force.MUST      {background:#E7E9ED; color:#333A45}
+.force.SHOULD    {background:none; color:#6C7482; box-shadow:inset 0 0 0 1px var(--rule)}
+.force.MAY       {background:none; color:#9AA2AE; box-shadow:inset 0 0 0 1px var(--rule2)}
+.owner{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3);
+  letter-spacing:.04em;
+}
+.tags{display:flex; gap:5px; flex-wrap:wrap; margin-top:8px}
+.tag{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink2);
+  background:var(--sunk); padding:1.5px 6px; border-radius:2px;
+}
+.badge{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.06em;
+  padding:2px 6px; border-radius:2px; background:#FBE9F5; color:#8E2A72; font-weight:600;
+}
+.badge.same{background:var(--sunk); color:var(--ink3); font-weight:400}
+.badge.chg {background:#FCF3E2; color:#8A5200}
+
+/* ─── the "as Python" tab and its code block ────────────────────────────── */
+.ctabs{display:flex; gap:2px; margin:0 0 9px -3px}
+.ctabs button{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.07em;
+  text-transform:uppercase; color:var(--ink3); padding:3px 8px; border-radius:3px;
+}
+.ctabs button:hover{color:var(--ink2); background:var(--sunk)}
+.ctabs button[aria-pressed=true]{background:var(--ink); color:var(--paper)}
+.pyhead{
+  display:flex; align-items:center; gap:8px; margin-bottom:5px;
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3);
+}
+.pyhead .kind{
+  padding:1px 5px; border-radius:2px; background:var(--sunk); letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.pyhead .bar{flex:1; height:1px; background:var(--rule2)}
+pre.pycode{
+  margin:0 0 10px; padding:10px 12px; overflow-x:auto;
+  background:#F7F8FA; border:1px solid var(--rule2); border-radius:4px;
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; line-height:1.62;
+  color:#263043; tab-size:4; white-space:pre;
+}
+pre.pycode .c-kw {color:#8E2A72}
+pre.pycode .c-def{color:#2F4FD8; font-weight:500}
+pre.pycode .c-str{color:#1B6B52}
+pre.pycode .c-num{color:#8A5200}
+pre.pycode .c-bi {color:#0F6E77}
+pre.pycode .c-com{color:#7A8290; font-style:italic}
+pre.pycode .c-op {color:#6C7482}
+.pyuses{display:flex; flex-wrap:wrap; gap:5px; align-items:center; margin-top:2px}
+.pyuses .lbl{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.pyuses button{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink2);
+  background:var(--sunk); padding:1.5px 6px; border-radius:2px;
+}
+.pyuses button:hover{background:var(--sel-bg); color:var(--sel)}
+.pynote{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3);
+  margin:0 0 8px;
+}
+.pycount{opacity:.6; margin-left:5px}
+
+/* ─── delta view ────────────────────────────────────────────────────────── */
+.region{margin:0 0 30px; max-width:80ch}
+.region .rh{
+  display:flex; align-items:center; gap:9px; margin-bottom:8px;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.region .rh .bar{flex:1; height:1px; background:var(--rule)}
+.dpair{border:1px solid var(--rule); border-radius:4px; overflow:hidden; margin-bottom:10px}
+.dside{padding:10px 13px; font-size:13.5px; line-height:1.6}
+.dside + .dside{border-top:1px solid var(--rule2)}
+.dside .tagline{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.1em;
+  color:var(--ink3); display:block; margin-bottom:4px;
+}
+.dside.a{background:#FDFDFE}
+.dside.b{background:var(--paper)}
+del{background:#FBE7E7; color:#8A2020; text-decoration:none; border-radius:2px; padding:0 2px}
+ins{background:#E4F3EA; color:#14603F; text-decoration:none; border-radius:2px; padding:0 2px}
+.dnew{padding:10px 13px; font-size:13.5px; background:#F6FAF7; border-left:2px solid var(--green)}
+
+/* ─── tables in the delta pane ──────────────────────────────────────────── */
+.panel{max-width:62ch; margin-bottom:34px}
+.panel h2{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink3); font-weight:500; margin:0 0 4px;
+}
+.panel .lede{font-size:13.5px; color:#2B313C; margin:0 0 14px}
+table{border-collapse:collapse; width:100%; font-size:13px}
+th,td{text-align:left; padding:7px 10px 7px 0; border-bottom:1px solid var(--rule2); vertical-align:top}
+th{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink3); font-weight:500;
+  border-bottom:1px solid var(--rule);
+}
+td.mono,th.mono{font-family:"IBM Plex Mono",monospace; font-size:12px}
+td.was{color:var(--ink2)}
+td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
+.empty{color:var(--ink3); font-size:13.5px; padding:40px 0}
+
+@media (max-width:900px){
+  main{grid-template-columns:1fr; grid-template-rows:1fr auto 1fr}
+  .rail{flex-direction:row; border:none; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); height:16px; padding:0 2px}
+  .rail button{height:100%; width:auto; min-width:2px}
+  .rail button i{width:100%!important; height:auto; min-height:0}
+  .rail .viewport{top:0; bottom:0; left:auto; right:auto}
+  .pane.left{border-right:none}
+  .pane.right{border-left:none}
+  header{flex-wrap:wrap; height:auto; padding:10px var(--pad); gap:10px}
+}
+</style>
+
+<div id="app" v-cloak>
+
+  <header>
+    <div class="brand">
+      <h1>{{ heading.label }}</h1>
+      <span class="sub">{{ heading.sub }}</span>
+    </div>
+
+    <div class="tabs" role="group" aria-label="Document">
+      <button v-for="t in tabs" :key="t.id"
+              :aria-pressed="String(view === t.id)"
+              @click="setView(t.id)">{{ t.label }}</button>
+    </div>
+
+    <span class="grow"></span>
+
+    <label class="search">
+      <input ref="search" type="search" v-model="q" placeholder="Search prompt and annotations"
+             aria-label="Search">
+      <span class="k" v-if="!q">/</span>
+      <span class="k" v-else>{{ matchCount }}</span>
+    </label>
+
+    <button class="hbtn" :aria-pressed="String(showFilters)" @click="showFilters = !showFilters"
+            v-if="view !== 'delta'">
+      Filters<span v-if="activeFilterCount"> · {{ activeFilterCount }}</span>
+    </button>
+    <button class="hbtn" :aria-pressed="String(pyMode)" @click="togglePy"
+            v-if="view !== 'delta'" title="Show the mechanical clauses as Python">
+      As Python<span class="pycount">{{ codedCount }}</span>
+    </button>
+    <button class="hbtn" :aria-pressed="String(!plain)" @click="togglePlain">Highlight</button>
+  </header>
+
+  <div class="drawer" v-if="showFilters && view !== 'delta'">
+    <div class="fgroup">
+      <span class="lbl">Force</span>
+      <button v-for="f in vocab.forces" :key="f" class="chip"
+              :aria-pressed="String(forceSel.includes(f))" @click="toggle(forceSel, f)">
+        {{ f }}<span class="n">{{ forceCounts[f] || 0 }}</span>
+      </button>
+    </div>
+    <div class="fgroup">
+      <span class="lbl">Tag</span>
+      <button v-for="t in usedTags" :key="t" class="chip"
+              :aria-pressed="String(tagSel.includes(t))" @click="toggle(tagSel, t)">
+        {{ t }}<span class="n">{{ tagCounts[t] }}</span>
+      </button>
+    </div>
+    <div class="fgroup legend">
+      <span class="lbl">Entities</span>
+      <span class="s"><span class="ent ent-slot">&lt;slot&gt;</span></span>
+      <span class="s"><span class="ent ent-num">150</span></span>
+      <span class="s"><span class="ent ent-code">submit_gate()</span></span>
+      <span class="s"><span class="ent ent-ctrl">MECHANICAL</span></span>
+      <span class="s"><span class="ent ent-tool">RFdiffusion</span></span>
+      <span class="s"><span class="ent ent-metric">ipSAE_min</span></span>
+      <span class="s"><span class="ent ent-bio">15-PGDH</span></span>
+    </div>
+  </div>
+
+  <!-- ══ document view ══════════════════════════════════════════════════ -->
+  <main v-if="view !== 'delta'" :class="{'py-mode': pyMode}">
+    <div class="pane left" ref="left" @scroll="onScroll">
+      <template v-for="b in blocks" :key="b.id">
+        <div class="sec" v-if="b.first">
+          <span class="n">{{ b.sectionTitle }}</span><span class="bar"></span>
+        </div>
+        <div class="blk" :class="[ 'd'+b.depth, {on: sel === b.id, dim: !b.match} ]"
+             :id="'b-'+b.id" tabindex="0" role="button"
+             @click="pick(b.id)" @keydown.enter.prevent="pick(b.id)" @keydown.space.prevent="pick(b.id)">
+          <span class="ln">{{ b.line }}</span><span v-html="b.html"></span>
+        </div>
+      </template>
+    </div>
+
+    <div class="rail" ref="rail" aria-hidden="true">
+      <div class="viewport" :style="viewportStyle"></div>
+      <button v-for="b in blocks" :key="b.id" tabindex="-1"
+              :style="{flex: b.weight}" :class="{on: sel === b.id, dim: !b.match}"
+              @click="pick(b.id)">
+        <i :class="'f-' + (note(b.id).force || 'MAY')"></i>
+      </button>
+    </div>
+
+    <div class="pane right" ref="right">
+      <div class="card" v-for="b in blocks" :key="b.id"
+           :class="{on: sel === b.id, dim: !b.match, showcode: tabOf(b.id) === 'py'}"
+           :id="'c-'+b.id" tabindex="0" role="button"
+           @click="pick(b.id)" @keydown.enter.prevent="pick(b.id)" @keydown.space.prevent="pick(b.id)">
+        <div class="meta">
+          <span class="force" :class="note(b.id).force">{{ note(b.id).force }}</span>
+          <span class="owner">{{ note(b.id).owner }}</span>
+          <span class="badge" v-if="b.slot">slot · {{ b.slot }}</span>
+          <span class="badge chg" v-if="b.changed">
+            {{ view === 'single' ? 'rescaled in multi-target' : 'differs from single-target' }}
+          </span>
+          <span class="badge same" v-if="note(b.id).inherited">identical to single-target</span>
+        </div>
+        <div class="ctabs" v-if="code(b.id)">
+          <button :aria-pressed="String(tabOf(b.id) === 'note')"
+                  @click.stop="setTab(b.id, 'note')">Note</button>
+          <button :aria-pressed="String(tabOf(b.id) === 'py')"
+                  @click.stop="setTab(b.id, 'py')">As Python</button>
+        </div>
+
+        <template v-if="tabOf(b.id) === 'py'">
+          <p class="pynote" v-if="code(b.id).alias">
+            {{ code(b.id).rescaled ? 'same code, rescaled constants ·' : 'identical to' }}
+            {{ code(b.id).alias }}
+          </p>
+          <div v-for="(r, i) in code(b.id).regions" :key="i">
+            <div class="pyhead">
+              <span>pycode/{{ r.file }}:{{ r.line }}</span>
+              <span class="kind">{{ r.kind }}</span><span class="bar"></span>
+            </div>
+            <pre class="pycode" v-html="r.html"></pre>
+          </div>
+          <div class="pyuses" v-if="code(b.id).uses.length">
+            <span class="lbl">shares</span>
+            <button v-for="u in code(b.id).uses" :key="u.name"
+                    @click.stop="pick(u.block)">{{ u.name }} · {{ u.block }}</button>
+          </div>
+        </template>
+
+        <template v-else>
+          <h3>{{ note(b.id).title }}</h3>
+          <p>{{ note(b.id).note }}</p>
+          <div class="tags">
+            <span class="tag" v-for="t in note(b.id).tags" :key="t">{{ t }}</span>
+          </div>
+        </template>
+      </div>
+      <p class="empty" v-if="!blocks.length">Nothing matches.</p>
+    </div>
+  </main>
+
+  <!-- ══ delta view ═════════════════════════════════════════════════════ -->
+  <main v-else style="grid-template-columns:minmax(0,1.15fr) 18px minmax(0,.85fr)">
+    <div class="pane left">
+      <div class="panel">
+        <h2>Every difference between the two prompts</h2>
+        <p class="lede">
+          The multi-target prompt is the single-target prompt with a scaling vector applied.
+          Of {{ payload.docs.single.blocks.length }} blocks, {{ changedBlockCount }} differ —
+          and all but one of those changes is a substituted constant. Methods, scoring, gating,
+          verification and safety are byte-identical.
+        </p>
+      </div>
+      <div class="region" v-for="(r, i) in payload.regions" :key="i">
+        <div class="rh"><span>{{ sectionTitles[r.section] || r.section }}</span><span class="bar"></span>
+          <span>{{ r.kind === 'table' ? 'replaced' : 'rescaled' }}</span></div>
+
+        <template v-if="r.pairs.length">
+          <div class="dpair" v-for="(p, k) in r.pairs" :key="k">
+            <div class="dside a">
+              <span class="tagline">single · 24 h · $10,000</span>
+              <span v-for="(c, ci) in p.a" :key="ci">
+                <del v-if="c.t !== 'equal'">{{ c.s }}</del><span v-else>{{ c.s }}</span>{{ ' ' }}
+              </span>
+            </div>
+            <div class="dside b">
+              <span class="tagline">multi · 48 h · $50,000</span>
+              <span v-for="(c, ci) in p.b" :key="ci">
+                <ins v-if="c.t !== 'equal'">{{ c.s }}</ins><span v-else>{{ c.s }}</span>{{ ' ' }}
+              </span>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="dnew" v-for="id in r.mt_ids" :key="id" v-html="mtHtml[id]"></div>
+        </template>
+      </div>
+    </div>
+
+    <div class="rail" aria-hidden="true"></div>
+
+    <div class="pane right">
+      <div class="panel">
+        <h2>The scaling vector</h2>
+        <p class="lede">Fourteen targets, five times the money, twice the clock.</p>
+        <table>
+          <thead><tr><th>Parameter</th><th>Single</th><th>Multi</th></tr></thead>
+          <tbody>
+            <tr v-for="s in scaling" :key="s.k">
+              <td>{{ s.k }}</td><td class="was mono">{{ s.a }}</td><td class="now">{{ s.b }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Template slots</h2>
+        <p class="lede">
+          Derived by diffing all {{ payload.n_single_prompts }} single-target prompts against
+          15-PGDH, not hardcoded. {{ payload.slot_lines.length }} varying lines resolve to
+          {{ payload.slots.length }} slots — and 29 of those lines are the shared reference list
+          renumbering itself, not new content.
+        </p>
+        <table>
+          <thead><tr><th>Slot</th><th>Lines</th><th>Targets affected</th></tr></thead>
+          <tbody>
+            <tr v-for="s in payload.slots" :key="s.slot">
+              <td class="mono">{{ s.slot }}</td>
+              <td>{{ s.n_lines }}</td>
+              <td>{{ s.targets.length === payload.n_single_prompts - 1 ? 'all' : s.targets.join(', ') }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>The mechanical clauses, as code</h2>
+        <p class="lede">
+          All {{ payload.pymeta.n_blocks }} MECHANICAL blocks are re-coded as one
+          importable Python package under <code>pycode/</code>:
+          {{ payload.pymeta.n_regions }} regions across
+          {{ payload.pymeta.files.length }} modules, sharing one vocabulary. The build
+          compiles every module and runs its selftest — {{ payload.pymeta.selftest }}.
+          Open any MECHANICAL block and switch its card to <strong>As Python</strong>.
+        </p>
+        <table>
+          <thead><tr><th>Encoding</th><th>Regions</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr v-for="r in kindRows" :key="r.k">
+              <td class="mono">{{ r.k }}</td><td class="mono">{{ r.n }}</td>
+              <td>{{ r.meaning }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Enforcement profile</h2>
+        <p class="lede">
+          How the single-target prompt's {{ payload.docs.single.blocks.length }} blocks distribute
+          across normative force. Roughly a third of the document is machine-checked rather than
+          merely instructed.
+        </p>
+        <table>
+          <thead><tr><th>Force</th><th>Blocks</th><th>Share</th></tr></thead>
+          <tbody>
+            <tr v-for="f in vocab.forces" :key="f">
+              <td><span class="force" :class="f">{{ f }}</span></td>
+              <td class="mono">{{ profile[f] }}</td>
+              <td class="mono">{{ Math.round(100 * profile[f] / payload.docs.single.blocks.length) }}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+const payload = JSON.parse(document.getElementById('payload').textContent);
+const raw     = JSON.parse(document.getElementById('annotations').textContent);
+
+// A multi-target block whose text is byte-identical to a single-target block stores
+// only {inherited: "st-NNN"}. Resolve those to the note they point at.
+const notes = {};
+Object.keys(raw).forEach(function (id) {
+  const n = raw[id];
+  notes[id] = n.inherited && !n.title
+    ? Object.assign({}, raw[n.inherited], { inherited: n.inherited })
+    : n;
+});
+
+// Which single-target blocks sit inside a template slot, and which differ single<->multi.
+const slotByLine = {};
+payload.slot_lines.forEach(function (s) { slotByLine[s.index] = s.slot; });
+const nonBlank = payload.docs.single.blocks;
+const slotByBlockId = {};
+nonBlank.forEach(function (b, i) { if (slotByLine[i]) slotByBlockId[b.id] = slotByLine[i]; });
+
+// The MECHANICAL clauses re-coded as one Python package. A multi-target block carries
+// {alias: "st-NNN"} rather than a copy, exactly as its annotation does.
+const pycode = payload.pycode || {};
+function codeFor(id) {
+  const entry = pycode[id];
+  if (!entry) return null;
+  if (!entry.alias) return entry;
+  const base = pycode[entry.alias];
+  return base ? Object.assign({}, base, { alias: entry.alias, rescaled: entry.rescaled })
+              : null;
+}
+
+const changedIds = {};
+payload.regions.forEach(function (r) {
+  r.st_ids.forEach(function (id) { changedIds[id] = true; });
+  r.mt_ids.forEach(function (id) { changedIds[id] = true; });
+});
+
+const KIND_MEANING = {
+  logic:    'an algorithm — thresholds, ordering, arithmetic, control flow',
+  schema:   'a frozen data shape: columns, dtypes, required keys',
+  config:   'a pinned recipe — flags, versions, paths',
+  protocol: 'a contract between agents: who may write what, in what order',
+  lint:     'a rule about the campaign’s own source, checkable statically'
+};
+
+const SCALING = [
+  { k: 'Modal budget',              a: '$10,000',        b: '$50,000' },
+  { k: 'Wall clock',                a: '24 h',           b: '48 h' },
+  { k: 'Governor ceiling',          a: '150',            b: '325' },
+  { k: 'Bootstrap step / cycle',    a: '25',             b: '50' },
+  { k: 'Daemon concurrency cap',    a: '200',            b: '450' },
+  { k: 'Sub-agent headroom N',      a: '50',             b: '100' },
+  { k: 'Peak concurrent agents',    a: '>50',            b: '>100' },
+  { k: 'Designs generated',         a: '20k–200k',       b: '100k–1M' },
+  { k: 'Even-pace H100 equivalents',a: '~95',            b: '~237' },
+  { k: 'Bootstrap vs even pace',    a: '1.58×',          b: '1.37×' },
+  { k: 'Close-out reserve',         a: 'final hour',     b: 'final 3 hours' },
+  { k: 'Surplus-plan trigger',      a: '>2 h remaining', b: '>5 h remaining' },
+  { k: 'Design sheet',              a: '30 designs',     b: '30 per target' },
+  { k: 'Optimization rounds',       a: '≥5',             b: '≥2, ≥5 if hard' },
+  { k: 'Stale-metered $ threshold', a: '$40',            b: '$200' }
+];
+
+const App = {
+  data: function () {
+    return {
+      payload: payload, vocab: payload.vocab,
+      view: 'single', q: '', sel: null,
+      showFilters: false, plain: false,
+      pyMode: false, tabs2: {},
+      tagSel: [], forceSel: [],
+      scroll: { top: 0, height: 1, client: 1 }, syncing: false, pending: false,
+      tabs: [
+        { id: 'single', label: 'Single target' },
+        { id: 'multi',  label: 'Multi target' },
+        { id: 'delta',  label: 'Δ Scaling' }
+      ],
+      scaling: SCALING
+    };
+  },
+
+  computed: {
+    doc: function () {
+      return this.view === 'multi' ? payload.docs.multi : payload.docs.single;
+    },
+    heading: function () {
+      if (this.view === 'delta') {
+        return { label: 'Single ↔ Multi', sub: 'what changes when the campaign scales' };
+      }
+      return this.doc;
+    },
+    mtHtml: function () {
+      const m = {};
+      payload.docs.multi.blocks.forEach(function (b) { m[b.id] = b.html; });
+      return m;
+    },
+    sectionTitles: function () {
+      const m = { preamble: 'Preamble' };
+      this.doc.sections.forEach(function (s) { m[s.id] = s.title; });
+      return m;
+    },
+    blocks: function () {
+      const q = this.q.trim().toLowerCase();
+      const self = this;
+      let seen = null;
+      return this.doc.blocks.map(function (b) {
+        const n = notes[b.id] || {};
+        let match = true;
+        if (q) {
+          match = (b.raw + ' ' + (n.title || '') + ' ' + (n.note || '')).toLowerCase().indexOf(q) >= 0;
+        }
+        if (match && self.forceSel.length) match = self.forceSel.indexOf(n.force) >= 0;
+        if (match && self.tagSel.length) {
+          match = (n.tags || []).some(function (t) { return self.tagSel.indexOf(t) >= 0; });
+        }
+        const first = b.section !== seen;
+        seen = b.section;
+        return Object.assign({}, b, {
+          match: match,
+          first: first,
+          sectionTitle: self.sectionTitles[b.section] || b.section,
+          slot: slotByBlockId[b.id],
+          changed: !!changedIds[b.id],
+          weight: Math.max(2, Math.round(b.raw.length / 40))
+        });
+      });
+    },
+    matchCount: function () {
+      return this.blocks.filter(function (b) { return b.match; }).length;
+    },
+    tagCounts: function () {
+      const c = {};
+      this.doc.blocks.forEach(function (b) {
+        ((notes[b.id] || {}).tags || []).forEach(function (t) { c[t] = (c[t] || 0) + 1; });
+      });
+      return c;
+    },
+    usedTags: function () {
+      const c = this.tagCounts;
+      return this.vocab.tags.filter(function (t) { return c[t]; });
+    },
+    forceCounts: function () {
+      const c = {};
+      this.doc.blocks.forEach(function (b) {
+        const f = (notes[b.id] || {}).force;
+        if (f) c[f] = (c[f] || 0) + 1;
+      });
+      return c;
+    },
+    profile: function () {
+      const c = {};
+      payload.docs.single.blocks.forEach(function (b) {
+        const f = (notes[b.id] || {}).force;
+        if (f) c[f] = (c[f] || 0) + 1;
+      });
+      return c;
+    },
+    changedBlockCount: function () {
+      return payload.regions.reduce(function (n, r) { return n + r.st_ids.length; }, 0);
+    },
+    activeFilterCount: function () { return this.tagSel.length + this.forceSel.length; },
+    codedCount: function () {
+      return this.doc.blocks.filter(function (b) { return !!pycode[b.id]; }).length;
+    },
+    kindRows: function () {
+      const kinds = payload.pymeta.kinds;
+      return Object.keys(kinds).filter(function (k) { return kinds[k]; })
+        .map(function (k) { return { k: k, n: kinds[k], meaning: KIND_MEANING[k] }; });
+    },
+    viewportStyle: function () {
+      const s = this.scroll;
+      if (s.height <= s.client) return { display: 'none' };
+      return {
+        top: (100 * s.top / s.height) + '%',
+        height: Math.max(2, 100 * s.client / s.height) + '%'
+      };
+    }
+  },
+
+  methods: {
+    note: function (id) { return notes[id] || {}; },
+    code: function (id) { return codeFor(id); },
+    // Global default, overridable per card: flipping one card back to the note should
+    // not flip the other 49 with it.
+    tabOf: function (id) {
+      if (!pycode[id]) return 'note';
+      return this.tabs2[id] || (this.pyMode ? 'py' : 'note');
+    },
+    setTab: function (id, which) { this.tabs2[id] = which; },
+    togglePy: function () { this.pyMode = !this.pyMode; this.tabs2 = {}; },
+    setView: function (v) { this.view = v; this.sel = null; },
+    toggle: function (arr, v) {
+      const i = arr.indexOf(v);
+      if (i >= 0) arr.splice(i, 1); else arr.push(v);
+    },
+    togglePlain: function () {
+      this.plain = !this.plain;
+      document.body.classList.toggle('plain', this.plain);
+    },
+    onScroll: function (e) {
+      const el = e.target;
+      this.scroll = { top: el.scrollTop, height: el.scrollHeight, client: el.clientHeight };
+      if (this.syncing || this.pending) return;
+      this.pending = true;
+      window.requestAnimationFrame(this.syncPanes);
+    },
+
+    // Keep the annotation pane abreast of the prompt. A proportional mapping drifts badly
+    // where a one-line block sits beside a five-line card, so anchor instead: find the
+    // topmost visible block and put its card at the same offset in the right pane.
+    syncPanes: function () {
+      this.pending = false;
+      const left = this.$refs.left, right = this.$refs.right;
+      if (!left || !right) return;
+      const lTop = left.getBoundingClientRect().top;
+      const blocks = left.querySelectorAll('.blk');
+      let anchor = null;
+      for (let i = 0; i < blocks.length; i++) {
+        if (blocks[i].getBoundingClientRect().bottom > lTop + 8) { anchor = blocks[i]; break; }
+      }
+      if (!anchor) return;
+      const card = document.getElementById('c-' + anchor.id.slice(2));
+      if (!card) return;
+      // Clamp: the governor block alone runs 3,700 characters, so matching a deeply
+      // negative offset would push its short card off the top of the pane. Pin instead.
+      const offset = Math.max(anchor.getBoundingClientRect().top - lTop, -60);
+      const delta = (card.getBoundingClientRect().top - right.getBoundingClientRect().top) - offset;
+      if (Math.abs(delta) < 1) return;
+      this.syncing = true;
+      right.style.scrollBehavior = 'auto';
+      right.scrollTop += delta;
+      right.style.scrollBehavior = '';
+      const self = this;
+      window.requestAnimationFrame(function () { self.syncing = false; });
+    },
+    pick: function (id) {
+      this.sel = id;
+      const self = this;
+      // Hold off the scroll sync while the explicit centring animation runs, or the two
+      // would fight each other and land somewhere neither intended.
+      this.syncing = true;
+      clearTimeout(this._release);
+      this._release = setTimeout(function () { self.syncing = false; }, 700);
+      this.$nextTick(function () {
+        ['b-', 'c-'].forEach(function (p) {
+          const el = document.getElementById(p + id);
+          if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        });
+      });
+    },
+    step: function (d) {
+      const list = this.blocks.filter(function (b) { return b.match; });
+      if (!list.length) return;
+      let i = list.findIndex(function (b) { return b.id === this.sel; }, this);
+      i = i < 0 ? (d > 0 ? 0 : list.length - 1) : Math.min(list.length - 1, Math.max(0, i + d));
+      this.pick(list[i].id);
+    }
+  },
+
+  mounted: function () {
+    const self = this;
+    window.addEventListener('keydown', function (e) {
+      const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
+      if (e.key === '/' && !typing) { e.preventDefault(); self.$refs.search.focus(); return; }
+      if (e.key === 'Escape') { self.q = ''; self.sel = null; document.activeElement.blur(); return; }
+      if (typing || self.view === 'delta') return;
+      if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); self.step(1); }
+      if (e.key === 'ArrowUp'   || e.key === 'k') { e.preventDefault(); self.step(-1); }
+      if (e.key === 'p') { e.preventDefault(); self.togglePy(); }
+    });
+  }
+};
+
+Vue.createApp(App).mount('#app');
+</script>
+</body>
+</html>

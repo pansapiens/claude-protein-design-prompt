@@ -1,0 +1,296 @@
+{
+  "mt-3": {
+    "title": "The task, scaled to fourteen targets",
+    "note": "Same sentence as the single-target prompt with the target slot replaced by a count. The two goals are unchanged — this is not a different brief, it is the same brief run wide.",
+    "tags": ["objective", "framing"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-5": {
+    "title": "The 14-target table replaces the single-target dossier",
+    "note": "The one place where the multi-target prompt adds structure rather than changing a number. A fixed five-column format — name, UniProt, organism, oligomeric state, notes — which is exactly the metadata the dossier rule at line 54 requires be confirmed and recorded before any design work. Supplying it inline sets a floor for the literature review rather than replacing it.",
+    "tags": ["target-biology", "objective", "provenance"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-7": {
+    "title": "Target 1 — EGFR ectodomain",
+    "note": "Monomeric receptor ectodomain with the most public binder-design precedent of any target here: two full Adaptyv competition rounds plus a preprint are in the reference list.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-8": {
+    "title": "Target 2 — PD-L1",
+    "note": "Monomeric immune checkpoint ligand. Well-characterised interface with a clear mechanism of action for a blocking binder.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-9": {
+    "title": "Target 3 — IL-7Rα ectodomain",
+    "note": "Monomeric cytokine receptor ectodomain.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-10": {
+    "title": "Target 4 — BBF-14, a synthetic control",
+    "note": "The only non-natural target: a de novo 8-stranded beta-barrel with no UniProt entry, identified instead by reference PDB and NCBI taxid for synthetic constructs. Its presence turns the target set into a partial control experiment — a target with no evolutionary context, no paralogs and no literature binders.",
+    "tags": ["target-biology", "calibration"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-11": {
+    "title": "Target 5 — BHRF1, a viral Bcl-2 homolog",
+    "note": "Epstein-Barr virus protein. Monomeric, and one of three viral or bacterial targets that break the human-protein assumption baked into most MSA and structure tooling.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-12": {
+    "title": "Target 6 — MBP, with a disambiguation warning",
+    "note": "E. coli maltose-binding protein. The parenthetical 'NOT human myelin basic protein' is a deliberate guard: both are commonly abbreviated MBP, and picking the wrong one would silently produce a whole target's worth of useless designs.",
+    "tags": ["target-biology", "failure-handling"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-13": {
+    "title": "Target 7 — SpCas9, whose functional unit is an RNP",
+    "note": "Nominally a monomer, but the note specifies the functional unit is a 1:1 Cas9:sgRNA ribonucleoprotein. That makes it the target most likely to trip the cofactor-representation rule: an arm that cannot accept nucleic acid input cannot represent this system, and the prompt forbids waiving the requirement on that basis.",
+    "tags": ["target-biology", "scoring"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-14": {
+    "title": "Target 8 — TREM2 ectodomain",
+    "note": "Monomeric immunoreceptor Ig-like V-type domain, with prior competition data in the reference list.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-15": {
+    "title": "Target 9 — TrkA ectodomain",
+    "note": "Monomeric neurotrophin receptor ectodomain.",
+    "tags": ["target-biology"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-16": {
+    "title": "Target 10 — TNFα, a C3 homotrimer",
+    "note": "The only three-fold-symmetric target. It drives the 1:N and N:N scoring requirement at its most expensive: three protomers means three binder copies in the N:N construct.",
+    "tags": ["target-biology", "scoring"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-17": {
+    "title": "Target 11 — VEGF-A, an antiparallel disulfide-linked dimer",
+    "note": "C2 homodimer. The 'antiparallel' note matters for symmetry-operator construction of the N:N reference complex.",
+    "tags": ["target-biology", "scoring"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-18": {
+    "title": "Target 12 — GDF-8, the only counter-screened target",
+    "note": "Homodimer, and the sole target carrying a COUNTER-TARGET. Designs must be selective against GDF-11, a close paralog, which activates a chain of otherwise-dormant clauses: a GDF-11 arm at the validation gate, selectivity-directed optimization, and the nine-term ranking formula with per-arm selectivity_delta. In the single-target release this same requirement is what distinguishes the two GDF-8 prompts from the other fourteen.",
+    "tags": ["target-biology", "scoring", "objective"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-19": {
+    "title": "Target 13 — RBX1, with three structural zincs",
+    "note": "The clearest test of the cofactor rule: a RING domain coordinating three structural Zn2+, without which the fold does not exist. At least one ranking arm must represent them, and the count is asserted per scoring row. The native heteromeric Cullin-RING context is noted but not made part of the assay construct.",
+    "tags": ["target-biology", "scoring", "gate"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-20": {
+    "title": "Target 14 — Nipah-G, monomeric head on a tetrameric virion",
+    "note": "The most conformationally ambiguous entry: a beta-propeller head that is monomeric in isolation but assembles into a stalk-mediated D2 homotetramer on the virion. Exactly the apo/holo and oligomer question the dossier rule exists to force a documented decision on.",
+    "tags": ["target-biology", "scoring"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-22": {
+    "title": "Reference access policy, plural",
+    "note": "Identical to the single-target block except that the references now inform design 'against these targets'. The 29-item reference list that follows is the same list, unshifted — the single-target prompts renumber it because they prepend target-specific competition links, and the multi-target prompt has no single target to prepend for.",
+    "tags": ["reference", "corpus", "failure-handling"],
+    "force": "MUST",
+    "owner": "any-agent"
+  },
+  "mt-54": {
+    "title": "Dossier rule, per target",
+    "note": "Word-level change only: 'the target(s) of interest' becomes 'each target', and the dossier becomes 'per-target'. Every mechanical consequence — frozen construct, asserted chain and cofactor counts, CONSTRUCT_FAIL on mismatch — is unchanged, and now runs fourteen times.",
+    "tags": ["target-biology", "gate", "provenance", "scoring"],
+    "force": "MECHANICAL",
+    "owner": "sheet-writer"
+  },
+  "mt-129": {
+    "title": "Validation gate, plus a GDF-8 special case",
+    "note": "One sentence added: for GDF-8 specifically the gate file must additionally record a GDF-11 arm. The single-target GDF-8 prompts carry the equivalent clause phrased generally, because there the whole campaign is the selective one. Everything else about the gate is identical.",
+    "tags": ["gate", "verification", "calibration"],
+    "force": "MECHANICAL",
+    "owner": "any-agent"
+  },
+  "mt-135": {
+    "title": "Oligomer clause naming three targets",
+    "note": "The template slot filled with the multi-target set's actual oligomers: VEGF and GDF-8 homodimers, TNFα homotrimer. Eleven of the fourteen targets are monomers, so the 1:N and N:N double-scoring requirement binds on only three.",
+    "tags": ["scoring", "target-biology", "metric"],
+    "force": "MECHANICAL",
+    "owner": "sheet-writer"
+  },
+  "mt-145": {
+    "title": "Optimization rounds, redistributed",
+    "note": "The single-target minimum of five rounds becomes at least two per target and at least five on the more challenging ones. A genuine change in shape rather than scale: with 14 targets and only 5x the budget, uniform depth is unaffordable, so depth is reallocated by difficulty — consistent with the evidence-weighted target_weights mechanism.",
+    "tags": ["design-method", "compute", "budget"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-151": {
+    "title": "30 designs per target",
+    "note": "The order grows from 30 to 420 designs by adding two words. Everything about how those 30 are selected, capped and ranked is unchanged.",
+    "tags": ["deliverable", "objective"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-153": {
+    "title": "Compute economics, re-derived",
+    "note": "Same rate card, same formula, new arithmetic: $50,000 over 48 h is $1,042/h, roughly 237 H100-equivalents at even pace, so the 325-instance bootstrap cap runs 1.37x even pace rather than the single-target 1.58x. The multi-target campaign is proportionally more conservative at bootstrap.",
+    "tags": ["compute", "budget", "concurrency"],
+    "force": "MECHANICAL",
+    "owner": "BUDGET"
+  },
+  "mt-155": {
+    "title": "The governor, with every constant scaled",
+    "note": "The longest block in the document, and the change is purely numeric: ceiling 150 to 325, bootstrap step 25 to 50, the metered-versus-ratecard absolute divergence threshold $40 to $200. Every conditional, every submit_gate step, every fail-closed rule is byte-identical. Also the one place the release's typography differs — the single-target file has curly quotes in the cpu tag literal where this one has straight quotes.",
+    "tags": ["budget", "concurrency", "compute", "orchestration"],
+    "force": "MECHANICAL",
+    "owner": "BUDGET"
+  },
+  "mt-161": {
+    "title": "Scale target: 100,000 to 1,000,000 designs",
+    "note": "Five times the single-target range for fourteen targets — so per target the expected volume actually falls by roughly a factor of three. The added qualifier 'on a target' reframes the optimisation trigger from campaign-wide to per-target.",
+    "tags": ["objective", "compute"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-169": {
+    "title": "$50,000 of Modal spend",
+    "note": "Five times the single-target budget for fourteen times the targets, over twice the wall clock.",
+    "tags": ["budget", "compute"],
+    "force": "MUST",
+    "owner": "BUDGET"
+  },
+  "mt-174": {
+    "title": "Spend-to-target band at $50,000",
+    "note": "Same +/-10% band, same 'under-pace is a planning failure' framing. The list of ways to add work gains one option that only exists here: 'harder targets'.",
+    "tags": ["budget", "epistemics", "objective"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-176": {
+    "title": "Scale-up trigger with a fourteenth degree of freedom",
+    "note": "Identical mechanism, one addition: the orchestrator may scale up by taking on harder targets, not only by adding designs, seeds and rounds. The per-target weighting machinery described in the rest of the block was already written for multiple targets — in the single-target prompt it degenerates to a set of one.",
+    "tags": ["budget", "orchestration", "compute"],
+    "force": "MECHANICAL",
+    "owner": "BUDGET"
+  },
+  "mt-186": {
+    "title": "Kickoff post without a target in the header",
+    "note": "The header drops '(<target>)'. In the single-target release, concurrent campaigns against different targets share one Slack channel, so the target string is what disambiguates them; here there is one campaign covering all fourteen.",
+    "tags": ["reporting", "cadence", "isolation"],
+    "force": "MECHANICAL",
+    "owner": "orchestrator"
+  },
+  "mt-187": {
+    "title": "Morning update without a target in the header",
+    "note": "Same header simplification. The content requirements, including per-target gate status read from the gate files, are unchanged — the per-target detail moves from the header into the body.",
+    "tags": ["reporting", "cadence"],
+    "force": "MUST",
+    "owner": "SCRIBE"
+  },
+  "mt-188": {
+    "title": "Hourly update reports per-target best scores",
+    "note": "Drops the single target name and asks instead for the current per-target best final_score. The hourly post becomes a fourteen-row summary rather than a one-line one.",
+    "tags": ["reporting", "cadence"],
+    "force": "MUST",
+    "owner": "SCRIBE"
+  },
+  "mt-195": {
+    "title": "Drive invariant without a per-target folder name",
+    "note": "The campaign sub-folder no longer contains the target name. Still exactly one folder, one writer, one close_out/ directory, and the same transactional close-out — only the naming convention changes.",
+    "tags": ["deliverable", "isolation", "verification"],
+    "force": "MECHANICAL",
+    "owner": "DELIVERABLES"
+  },
+  "mt-224": {
+    "title": "Use the whole window",
+    "note": "Identical to the single-target block apart from a straight versus curly apostrophe. Recorded here because a naive byte diff of the two prompts reports it as a change; it is not one.",
+    "tags": ["cadence", "objective"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-226": {
+    "title": "Close-out reserve: three hours",
+    "note": "Tripled from one hour, and the surplus-plan trigger moves from more-than-2-hours-remaining to more-than-5. Fourteen sheets, fourteen supplements and a 420-row order take proportionally longer to freeze, verify and upload than one.",
+    "tags": ["cadence", "deliverable", "orchestration"],
+    "force": "MUST",
+    "owner": "DELIVERABLES"
+  },
+  "mt-230": {
+    "title": "48 hours",
+    "note": "Double the single-target window, against fourteen times the targets. The mismatch between those two ratios is what forces most of the other scaling decisions in this document.",
+    "tags": ["cadence", "objective"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-232": {
+    "title": "Timing and CLOCK, with a raised daemon ceiling",
+    "note": "The dormancy rules, the compaction-versus-hang distinction and the CLOCK singleton spec are unchanged. Three constants move: the daemon concurrency ceiling from min(200, ...) to min(450, ...), and the sub-agent headroom N cap from 50 to 100. The relation the ceiling enforces — daemon limit tracks governor ceiling with at most one loop of lag — is identical.",
+    "tags": ["cadence", "orchestration", "delegation", "concurrency"],
+    "force": "MECHANICAL",
+    "owner": "CLOCK"
+  },
+  "mt-234": {
+    "title": "Orchestrator discipline, seeded at 325",
+    "note": "Byte-identical except for the bootstrap ceiling written by SETUP and the one-time set_concurrency_limit call after it returns. Every prohibition — no sleep, no provider SDK, no foreground collect loop, block on SETUP — is unchanged.",
+    "tags": ["orchestration", "concurrency", "failure-handling"],
+    "force": "MECHANICAL",
+    "owner": "orchestrator"
+  },
+  "mt-236": {
+    "title": "Plan for >100 concurrent agents",
+    "note": "Doubled from >50. The swarming architecture, the same-base-model requirement and the delegation-rejection fallback are otherwise unchanged.",
+    "tags": ["delegation", "concurrency", "orchestration"],
+    "force": "MUST",
+    "owner": "orchestrator"
+  },
+  "mt-238": {
+    "title": "Delegation architecture, one constant changed",
+    "note": "The entire WATCHDOG escalation ladder, the singleton liveness contract, the per-10-jobs monitor rule and the in-sandbox dead-man switch are byte-identical. The only edit is the sub-agent headroom cap moving from 50 to 100 — notable given this is the block that defines the campaign's whole control architecture.",
+    "tags": ["delegation", "orchestration", "concurrency", "failure-handling"],
+    "force": "MECHANICAL",
+    "owner": "WATCHDOG"
+  },
+  "mt-254": {
+    "title": "Verification and roster PASS",
+    "note": "Identical to the single-target block apart from straight versus curly quotation marks around the 'metered unavailable' string. All five PASS conditions, the 10% budget cap per unvalidated model, the canary rule and the reap criterion are unchanged.",
+    "tags": ["verification", "tooling", "gate", "compute"],
+    "force": "MECHANICAL",
+    "owner": "any-agent"
+  },
+  "mt-268": {
+    "title": "Liveness, reaping, and the restart sequence",
+    "note": "One constant changed: the daemon concurrency ceiling in the restart sequence, min(200, ...) to min(450, ...), matching the raised governor. The single-reaper rule, the one-app rule and the five-step restart-from-durable-storage procedure are unchanged.",
+    "tags": ["verification", "concurrency", "isolation", "failure-handling"],
+    "force": "MECHANICAL",
+    "owner": "BUDGET"
+  },
+  "mt-278": {
+    "title": "Isolation, with target dropped from volume names",
+    "note": "Modal volume names lose the <target> component: campaign-<model>-<date>-<frameid8>-{state,ledger,out,novelty}. One campaign, one set of four volumes, shared across all fourteen targets — which is why the ledger and gate files are keyed by target internally rather than by volume.",
+    "tags": ["isolation", "failure-handling", "provenance"],
+    "force": "MUST",
+    "owner": "any-agent"
+  }
+}

@@ -1,0 +1,6 @@
+# The upstream release bundle: 1.1 GB, fetched from HuggingFace, never modified here.
+# See README.md for how to download it.
+protein_binder_design_prompts_release/
+
+__pycache__/
+*.py[cod]
