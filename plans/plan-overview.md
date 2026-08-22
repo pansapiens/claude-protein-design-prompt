@@ -19,7 +19,9 @@ annotation on the right, bidirectional click-to-highlight, clean minimal light t
 | `build.py` | Generates `index.html` from the release bundle + `annotations/`. Stdlib only. |
 | `annotations/single_target.json` | 170 block annotations for `15-PGDH.md`. |
 | `annotations/multi_target.json` | 42 authored annotations for the multi-target prompt; the other 142 blocks inherit by exact text match. |
+| `annotations/dspy_roles.json` | A second facet over the same 170 blocks: what each would be as a DSPy program, with the evidence for the claim. |
 | `pycode/` | All 50 `MECHANICAL` blocks re-coded as one importable Python package, rendered by the viewer's **As Python** tab. |
+| `dspy_slice/` | The DSPy feasibility experiment: one slice rebuilt as a program, plus a counterexample chosen to fail. Not part of the build. |
 | `ANALYSIS.md` | The written dissection: findings, tables, method. |
 | `CLAUDE.md` | Repo conventions and the frozen-artifact rule. |
 
@@ -58,6 +60,17 @@ protocols, 6 are schemas, 2 are static lint rules over the campaign's own source
 blocks, which is the structural finding: several apparent repetitions in the prompt are
 one rule invoked at a second point, not a second rule.
 
+**Normative force is almost independent of decidability.** A second classification asks what
+each block would be in a [DSPy](https://github.com/stanfordnlp/dspy) program — `code`, `metric`,
+`signature`, `scaffolding`, `corpus`, `inert` or `unclear` — and the build refuses a claim without
+its evidence: `metric` needs a predicate naming a concrete artifact, `signature` needs its output
+fields, `scaffolding` needs the DSPy capability it lacks. The two axes agree at the extremes
+(`MECHANICAL` is two-thirds `code`, `SHOULD` nine-tenths `corpus`) and disagree in the middle:
+`MUST` scatters across five roles with no majority. Only **11 blocks are genuine judgment sites**,
+ten of them epistemic rather than scientific, and `scaffolding` — the campaign machinery DSPy
+cannot express at all — is 25% of the document by text. Method and verdict in
+[dspy_slice/README.md](dspy_slice/README.md).
+
 Full detail, tables and method in [ANALYSIS.md](ANALYSIS.md).
 
 ## Viewer design
@@ -72,16 +85,21 @@ Three views: **Single target**, **Multi target**, **Δ Scaling**.
   (solid = `MECHANICAL`, hairline = `SHOULD`, hollow = `MAY`). It doubles as a minimap and a
   scroll-position indicator, and it makes the uneven density of machine-checked clauses visible at
   a glance.
-- Filters by force and tag dim non-matching blocks rather than hiding them, so the document's
-  continuity survives filtering. Search covers prompt text and annotations. `j`/`k` step, `/`
-  focuses search, `Esc` clears. A **Highlight** toggle strips entity colouring for plain reading.
+- Filters by force, tag and DSPy role dim non-matching blocks rather than hiding them, so the
+  document's continuity survives filtering. Search covers prompt text and annotations. `j`/`k`
+  step, `/` focuses search, `Esc` clears. A **Highlight** toggle strips entity colouring for
+  plain reading.
+- **The DSPy role** rides as a badge on each card with its evidence — the predicate, the output
+  fields, or the missing capability — printed under the note. The rail can be recoloured to the
+  role axis instead of force, which is how the disagreement between the two becomes visible.
 - **As Python** turns the annotation card into the block's own code. Every `MECHANICAL`
   block is re-coded in `pycode/`, one package with a shared vocabulary rather than 50
   snippets, so a card can say "calls `submit_gate()`, defined at st-137" and the chip is
   clickable. The header button flips the default; each card can be flipped back
   individually. `p` toggles it.
 - **Δ Scaling** shows all 16 changed regions with word-level diffs, alongside the scaling-vector
-  table, the derived template-slot table, the encoding breakdown, and the enforcement profile.
+  table, the derived template-slot table, the encoding breakdown, the enforcement profile, the
+  role table and the force×role cross-tab.
 
 Entity classes highlighted inline: operator placeholders (`<SLACK_CHANNEL_ID>`), template slots,
 numeric constants, snake_case identifiers and dotted API calls, state artifacts and file paths,
@@ -108,6 +126,10 @@ and edited by hand.
 - Every `MECHANICAL` block has a `pycode/` region; the build fails on a gap, on a marker
   naming an unknown block, on a module that does not compile, on a failing selftest, or on
   a region that does not round-trip through the syntax highlighter.
+- Every block carries a DSPy role, and no role claim is accepted without its evidence — a
+  `metric` without a predicate, a `signature` without output fields or a `scaffolding` without
+  a named blocker fails the build. Coverage is not to be bought by softening a predicate;
+  `unclear` is a legitimate answer and the build prints which blocks use it.
 
 ## Not covered
 

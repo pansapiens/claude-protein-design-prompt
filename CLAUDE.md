@@ -29,6 +29,9 @@ index.html                  generated; self-contained, opens on file:// with no 
 annotations/
   single_target.json        block records for prompts/single_target/15-PGDH.md
   multi_target.json         block records for prompts/multi_target_binder_design_prompt.md
+  dspy_roles.json           the DSPy-role axis, single-target only; multi inherits by text
+dspy_slice/                 the DSPy feasibility experiment: one slice rebuilt as a
+                            program, plus the counterexample. Not part of the build.
 pycode/                     the MECHANICAL clauses re-coded as one importable package;
                             the viewer's "As Python" tab renders regions out of it
 ANALYSIS.md                 the written dissection
@@ -128,6 +131,46 @@ block (st-137 has two — the governor file, then the gate function). `kind` is 
 
 Multi-target blocks do not get their own code: they alias the single-target region, either
 outright (byte-identical text) or flagged `rescaled` (same code, different constants).
+
+## The DSPy-role axis
+
+`annotations/dspy_roles.json` is a second facet over the same 170 blocks: what each would
+be if the campaign were rebuilt as a DSPy program. Authored for the single-target
+document only; multi-target blocks inherit by exact text match, because rescaling a
+constant does not move a block from one role to another.
+
+```json
+"st-218": {
+  "role": "metric",
+  "also": [],
+  "why": "an obligation on every claim the campaign emits, decidable against its own fetch log",
+  "predicate": "every external identifier in a deliverable appears in the session fetch log"
+}
+```
+
+Roles: `code` `metric` `signature` `scaffolding` `corpus` `inert` `unclear`.
+
+**The evidence requirement is the point, and `build.py` enforces it.** A block counts as
+`metric` only with a non-empty `predicate` naming a concrete artifact and a decidable
+check; `signature` only with `outputs` naming the fields; `scaffolding` only with a
+`blocker` naming what DSPy lacks. Without this the axis degenerates into relabelling —
+it is easy to call anything a metric and hard to write the predicate. `unclear` is a
+legitimate value and the build prints which blocks use it rather than hiding them.
+
+Do not "improve" coverage by softening a predicate. If a predicate cannot be written, the
+block is not a `metric`, and that fact is the result.
+
+Multi-target coverage is 167/184: 142 blocks are byte-identical and inherit outright, 25
+are rescaled and inherit through the single↔multi alignment (the same argument
+`alias_pycode` makes — only the constants moved). The remaining 17 have no single-target
+counterpart: the 14-row target table, its header, the multi-target task line, and the
+reference header. **They are deliberately unclassified.** The taxonomy classifies
+instructions, and those blocks are *data* — a limitation of the six roles, not a gap in
+coverage. Do not "fix" it by labelling them `inert`.
+
+The viewer renders the role as a badge, the evidence under the note, a filter group, and
+a rail-colouring toggle; the delta view carries the role table and the force×role
+cross-tab. See `dspy_slice/README.md` for what the experiment found.
 
 ## Tag vocabulary
 

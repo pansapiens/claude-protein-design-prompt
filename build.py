@@ -45,6 +45,16 @@ TAGS = (
     "verification", "epistemics", "failure-handling", "isolation", "safety",
 )
 
+# The DSPy-role axis. See dspy_slice/README.md for what the experiment is testing and
+# annotations/dspy_roles.json for the classification itself.
+#
+# The evidence requirement is what makes this a measurement rather than a relabelling:
+# a block only counts as `metric` if someone wrote the predicate down, and only counts
+# as `signature` if someone named the output fields. `unclear` is a real answer and the
+# build reports it rather than hiding it.
+DSPY_ROLES = ("code", "metric", "signature", "scaffolding", "corpus", "inert", "unclear")
+ROLE_EVIDENCE = {"metric": "predicate", "signature": "outputs", "scaffolding": "blocker"}
+
 
 # --------------------------------------------------------------------------------------
 # segmentation
@@ -550,6 +560,101 @@ def inherit_annotations(st_blocks: list[dict], st_notes: dict,
     return merged
 
 
+def load_roles(st_blocks: list[dict], mt_blocks: list[dict]) -> tuple[dict, dict, list[str]]:
+    """The DSPy-role axis, with its evidence requirement enforced.
+
+    Authored for the single-target document only. Multi-target blocks inherit by exact
+    text match, the same way annotations do -- the two documents differ by a scaling
+    vector, and rescaling a constant does not move a block from one role to another.
+
+    Returns (roles by block id, the authored single-target records, problems).
+    """
+    src = load_annotations("dspy_roles")
+    if not src:
+        return {}, {}, []
+
+    problems = []
+    known = {b["id"] for b in st_blocks}
+    for bid in sorted(set(src) - known):
+        problems.append(f"roles/{bid}: not a single-target block")
+    for bid in sorted(known - set(src)):
+        problems.append(f"roles/{bid}: no role assigned")
+
+    for bid, rec in sorted(src.items()):
+        role = rec.get("role")
+        if role not in DSPY_ROLES:
+            problems.append(f"roles/{bid}: bad role {role!r}")
+            continue
+        if not rec.get("why", "").strip():
+            problems.append(f"roles/{bid}: empty why")
+        # The evidence requirement. A `metric` without a predicate is an assertion, not
+        # a measurement, and is exactly what this exercise exists to avoid.
+        need = ROLE_EVIDENCE.get(role)
+        if need and not rec.get(need):
+            problems.append(f"roles/{bid}: role {role!r} requires a non-empty {need!r}")
+        bad = [r for r in rec.get("also", []) if r not in DSPY_ROLES]
+        if bad:
+            problems.append(f"roles/{bid}: unknown also-role(s) {bad}")
+        if role in rec.get("also", []):
+            problems.append(f"roles/{bid}: {role!r} listed in both role and also")
+
+    by_text = {b["raw"]: b["id"] for b in st_blocks}
+    roles = dict(src)
+    for blk in mt_blocks:
+        origin = by_text.get(blk["raw"])
+        if origin and origin in src:
+            roles[blk["id"]] = {"inherited": origin}
+    return roles, src, problems
+
+
+def inherit_roles_across_rescaling(roles: dict, regions: list[dict]) -> int:
+    """Rescaled blocks keep their role: $10k -> $50k does not change what a clause is.
+
+    Exact text match leaves the 42 changed multi-target blocks without a role. The
+    single<->multi alignment already pairs them, and the same argument `alias_pycode`
+    makes for code applies here -- only the constants moved.
+    """
+    n = 0
+    for region in regions:
+        if len(region["st_ids"]) != len(region["mt_ids"]):
+            continue
+        for st_id, mt_id in zip(region["st_ids"], region["mt_ids"]):
+            if st_id in roles and mt_id not in roles:
+                roles[mt_id] = {"inherited": st_id, "rescaled": True}
+                n += 1
+    return n
+
+
+def role_summary(st_blocks: list[dict], src: dict, roles: dict, st_notes: dict) -> dict:
+    """Counts over the authored single-target set; `roles` only supplies the inherit tally.
+
+    Share is reported by text as well as by block because one line of this document runs
+    to 6,000 characters, so a block count badly understates the operational sections.
+    """
+    counts = {r: sum(1 for b in st_blocks if src.get(b["id"], {}).get("role") == r)
+              for r in DSPY_ROLES}
+    chars = {r: sum(len(b["raw"]) for b in st_blocks
+                    if src.get(b["id"], {}).get("role") == r) for r in DSPY_ROLES}
+    total_chars = sum(chars.values()) or 1
+    return {
+        "counts": counts,
+        "chars": chars,
+        "pct_chars": {r: round(100 * chars[r] / total_chars, 1) for r in DSPY_ROLES},
+        "n_also": sum(1 for r in src.values() if r.get("also")),
+        "n_inherited": sum(1 for r in roles.values() if r.get("inherited")),
+        "n_rescaled": sum(1 for r in roles.values() if r.get("rescaled")),
+        # How the new axis lands against the one already in the annotations. This
+        # cross-tab is the actual result of the experiment.
+        "by_force": {
+            f: {r: sum(1 for b in st_blocks
+                       if st_notes.get(b["id"], {}).get("force") == f
+                       and src.get(b["id"], {}).get("role") == r)
+                for r in DSPY_ROLES}
+            for f in FORCES
+        },
+    }
+
+
 def validate(blocks: list[dict], notes: dict, label: str, strict: bool) -> list[str]:
     problems = []
     missing = [b["id"] for b in blocks if b["id"] not in notes]
@@ -592,8 +697,10 @@ def main() -> int:
     st_notes = load_annotations("single_target")
     mt_authored = load_annotations("multi_target")
     mt_notes = inherit_annotations(st_blocks, st_notes, mt_blocks, mt_authored)
+    roles, role_src, role_problems = load_roles(st_blocks, mt_blocks)
     problems = (validate(st_blocks, st_notes, "single", strict)
-                + validate(mt_blocks, mt_notes, "multi", strict))
+                + validate(mt_blocks, mt_notes, "multi", strict)
+                + role_problems)
 
     n_inherited = sum(1 for n in mt_notes.values() if n.get("inherited"))
     print(f"blocks: single={len(st_blocks)} multi={len(mt_blocks)}  "
@@ -622,6 +729,22 @@ def main() -> int:
           f"covering {len(mechanical)}/{len(mechanical)} MECHANICAL blocks; "
           + ", ".join(f"{k}={v}" for k, v in pymeta["kinds"].items() if v))
     print(f"        {pymeta['selftest']}; every region round-trips through the highlighter")
+
+    rolemeta = {}
+    if role_src:
+        n_rescaled = inherit_roles_across_rescaling(roles, regions)
+        rolemeta = role_summary(st_blocks, role_src, roles, st_notes)
+        counts = rolemeta["counts"]
+        covered = sum(1 for b in mt_blocks if b["id"] in roles)
+        print("dspy roles: " + ", ".join(f"{r}={counts[r]}" for r in DSPY_ROLES if counts[r])
+              + f"  ({rolemeta['n_also']} span a second role)")
+        print("            by text: " + ", ".join(
+            f"{r} {rolemeta['pct_chars'][r]}%" for r in DSPY_ROLES if counts[r]))
+        print(f"            multi-target: {covered}/{len(mt_blocks)} inherited "
+              f"({rolemeta['n_inherited'] - n_rescaled} identical, {n_rescaled} rescaled)")
+        if counts["unclear"]:
+            unclear = sorted(b for b, r in role_src.items() if r.get("role") == "unclear")
+            print(f"            unclear: {', '.join(unclear)}")
 
     n_prompts = len(list(SINGLE_DIR.glob("*.md")))
     print(f"template slots: {len(slot_lines)} varying line(s) across {n_prompts} prompts "
@@ -655,7 +778,10 @@ def main() -> int:
         "slot_lines": slot_lines,
         "n_single_prompts": n_prompts,
         "regions": regions,
-        "vocab": {"tags": list(TAGS), "forces": list(FORCES), "owners": list(OWNERS)},
+        "roles": roles,
+        "rolemeta": rolemeta,
+        "vocab": {"tags": list(TAGS), "forces": list(FORCES), "owners": list(OWNERS),
+                  "roles": list(DSPY_ROLES)},
     }
 
     # The viewer keys annotations by block id across both documents in one flat map.

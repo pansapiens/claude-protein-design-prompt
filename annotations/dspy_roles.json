@@ -1,0 +1,1158 @@
+{
+  "st-1": {
+    "role": "scaffolding",
+    "why": "Partitions obligations by position in the agent tree and forbids unauthorized side effects. It is about who may act, not about any output or computation; the authority it references (the parent's task brief) is free text, so nothing here is decidable.",
+    "blocker": "multi-agent org chart + external side effects (Slack, Drive, spending) + authority to cancel sibling processes and in-flight jobs",
+    "also": []
+  },
+  "st-3": {
+    "role": "inert",
+    "why": "The task statement. Its two goals (zero-shot affinity, high hit rate) are the campaign's real objective, but nothing in-session can decide them -- ground truth arrives from the wet lab weeks later. No rule to implement, no artifact to check.",
+    "also": []
+  },
+  "st-5": {
+    "role": "inert",
+    "also": [
+      "corpus"
+    ],
+    "why": "Supplies the target's identity, oligomeric state and constitutive cofactor as input data, plus a competition link. It states no obligation of its own; the facts are consumed by the construct gate at st-39. DSPy would model this as an input field value -- a slot this taxonomy has no name for."
+  },
+  "st-7": {
+    "role": "corpus",
+    "why": "Retrieval policy for the bundled corpus: the entry index, page-split PDFs, and the rule that a paywall is not grounds to skip a source. Instruction about how to retrieve, not about what to produce.",
+    "also": []
+  },
+  "st-9": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (BenchBB benchmark); retrieval material.",
+    "also": []
+  },
+  "st-10": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Protein Optimization 101); retrieval material.",
+    "also": []
+  },
+  "st-11": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Protein Optimization 102); retrieval material.",
+    "also": []
+  },
+  "st-12": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Protein Optimization 103); retrieval material.",
+    "also": []
+  },
+  "st-13": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (has binder design been solved?); calibration reading, no obligation.",
+    "also": []
+  },
+  "st-14": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (MBP/BindCraft case study); retrieval material.",
+    "also": []
+  },
+  "st-15": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (EGFR competition preprint); retrieval material.",
+    "also": []
+  },
+  "st-16": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (EGFR round 1 collection); also feeds the known-binder corpus, but as data, not instruction.",
+    "also": []
+  },
+  "st-17": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (EGFR round 2 collection); retrieval material.",
+    "also": []
+  },
+  "st-18": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Agents vs Humans); retrieval material.",
+    "also": []
+  },
+  "st-19": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (MUNI hackathon submissions); retrieval material.",
+    "also": []
+  },
+  "st-20": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (TREM2 competition); retrieval material.",
+    "also": []
+  },
+  "st-21": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Myostatin/GDF-8 competition); retrieval material.",
+    "also": []
+  },
+  "st-22": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (RBX1 competition announcement); retrieval material.",
+    "also": []
+  },
+  "st-23": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (RBX1 results); retrieval material.",
+    "also": []
+  },
+  "st-24": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (RBX1 all submissions); retrieval material.",
+    "also": []
+  },
+  "st-25": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Nipah-G submissions overview); retrieval material.",
+    "also": []
+  },
+  "st-26": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Nipah-G competition); retrieval material.",
+    "also": []
+  },
+  "st-27": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Nipah-G results); retrieval material.",
+    "also": []
+  },
+  "st-28": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Nipah-G all submissions); retrieval material.",
+    "also": []
+  },
+  "st-29": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (RFdiffusion re-validation); retrieval material.",
+    "also": []
+  },
+  "st-30": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (BindCraft v1 re-validation); retrieval material.",
+    "also": []
+  },
+  "st-31": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (AlphaProteo technical report); retrieval material.",
+    "also": []
+  },
+  "st-32": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (AlphaProteo blog); retrieval material.",
+    "also": []
+  },
+  "st-33": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Cao et al. 2022); retrieval material.",
+    "also": []
+  },
+  "st-34": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Watson et al. 2023, RFdiffusion); method paper for a roster tool, cited not commanded.",
+    "also": []
+  },
+  "st-35": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (Pacesa et al. 2025, BindCraft); method paper for a roster tool.",
+    "also": []
+  },
+  "st-36": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (BoltzGen preprint); method paper for a roster tool.",
+    "also": []
+  },
+  "st-37": {
+    "role": "corpus",
+    "why": "Numbered bibliography entry (BoltzGen release designs); retrieval material that doubles as novelty-gate input data.",
+    "also": []
+  },
+  "st-39": {
+    "role": "code",
+    "also": [
+      "metric",
+      "signature"
+    ],
+    "why": "The load-bearing content is a fail-closed assertion the scoring job itself must implement: parse its own output structure, compare asserted chain count and cofactor atoms against the frozen /state/gates/{target}.json construct, and on mismatch write the score as NaN with construct_status=CONSTRUCT_FAIL rather than a number. Secondarily it obliges recorded artifacts (predicate: every production scoring row has non-null construct_status, and each target's design-sheet metadata records oligomeric state, cofactors, assay construct and representative depositions; instrument_realization.csv has the cofactor and target-chain-count columns per arm), and it rests on a literature-review judgment about which state and which depositions are assay-relevant."
+  },
+  "st-41": {
+    "role": "signature",
+    "why": "Deciding which depositions to design against, and which one best matches the assay construct and state, is a model judgment over structures with a nameable structured output. The 'where feasible' cross-check is discretionary, which is exactly why it is not a metric.",
+    "outputs": [
+      "selected_pdb_ids: list[str]",
+      "primary_pdb_id: str",
+      "rationale: str"
+    ],
+    "also": []
+  },
+  "st-43": {
+    "role": "signature",
+    "why": "Choosing which surface to target from the dossier and the design literature is a judgment with a structured output. 'Biologically relevant', 'plausible mechanism of action' and 'differentiated hypothesis' are all LM determinations, not predicates.",
+    "outputs": [
+      "epitope: str",
+      "residues: list[str]",
+      "rationale: str",
+      "precedent_refs: list[str]"
+    ],
+    "also": []
+  },
+  "st-45": {
+    "role": "metric",
+    "why": "A licence boundary on the tool set is an obligation on what the campaign shipped, checkable after the fact against the roster ledger and each row's provenance. The only judgment is reading a licence, which is a lookup.",
+    "predicate": "every tool recorded in the roster ledger, and every tool named in a shipped design's provenance, has a recorded open-source licence permitting commercial use",
+    "also": []
+  },
+  "st-47": {
+    "role": "inert",
+    "why": "List header. 'Examples include (in no particular order)' carries no obligation; it only stops the roster being read as exhaustive.",
+    "also": []
+  },
+  "st-49": {
+    "role": "code",
+    "why": "Defines an enumeration downstream code ranges over: the roster's structure-design methods and, via the asterisk, the exact membership of the set subject to the 50-backbone floor at st-65 and the method_vocab tokens at st-90. No judgment enters; without this line the floor matrix cannot be computed.",
+    "also": []
+  },
+  "st-50": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "Provisioning choreography: pinned source repository, an end-to-end bring-up validation, and two named install failure modes. The only design-relevant payload (beta-containing reference folds enable the non-all-alpha share) is advice, not a rule.",
+    "blocker": "external environment provisioning -- installing and validating a tool from a GitHub repo has no place in a request/response program"
+  },
+  "st-51": {
+    "role": "code",
+    "why": "Defines the sequence-design enumeration -- the two soluble variants and their base counterparts -- that st-71's order restriction and st-90's frozen seq_method vocabulary both range over. Declaration of constants, no judgment.",
+    "also": []
+  },
+  "st-52": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Defines the frozen three-arm ranking instrument and tiers everything else (substitute-arm only, diagnostic only). That tiering is the constant every scoring path reads. Checkable secondarily: no ranking column in the design sheet is sourced from AF_Unmasked, and any supplementary model appearing in score_instrument is recorded as a substitute for a named failed arm."
+  },
+  "st-53": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "Its payload is the frozen inference configuration that makes scores comparable campaign-wide (num_loops=10, num_sampling_steps=68, num_diffusion_samples=1, blind mode, msa_max_seq=2048, Fast is single-sequence) plus the in-scope folder set. The install pinning and the halt-and-post condition are the scaffolding half."
+  },
+  "st-54": {
+    "role": "scaffolding",
+    "also": [
+      "code",
+      "metric"
+    ],
+    "why": "Mostly bring-up choreography around a hard gate: a 4-6 minute JIT compile, a persistent TORCH_EXTENSIONS_DIR shared across containers, a 15-minute first-canary timeout, retry on a fresh physical host, production generation and scoring on every target held until roster status=PASS, and halt after five attempts. The pinned pip/flags are implementable config, and roster PASS is itself artifact-decidable (a CIF plus per-token PAE on disk from a production-flag run), but the block is dominated by scheduling.",
+    "blocker": "wall clock and timeouts, container/host lifecycle and retry, a pipeline-wide hold on production, and a Slack halt -- none exist in a request/response program"
+  },
+  "st-55": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "A pinned build-and-run recipe (AF3 JAX engine, of3-p2-155k.pt weights, --of3_weights --norun_data_pipeline --use_msa_server) with a licence rationale, plus one real constraint: it is a cross-check and may not displace the frozen instrument. The build itself is environment provisioning."
+  },
+  "st-57": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "The first hour is allocated as a TOOL-BRINGUP stage with one sub-agent per roster tool plus three utilities, and sandbox lifecycle is assigned to a per-10-live-jobs monitor. The two implementable invariants (try/finally with sb.terminate(); a non-zero exit with the declared output present is a HARVEST, not a re-run) are the code half.",
+    "blocker": "scheduler (first-hour stage), multi-agent fan-out, and external process lifecycle with billed sandbox time"
+  },
+  "st-59": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The obligation is that a specific artifact exist: evidence that the structure-design to sequence-design adapter, not each tool alone, ran on a campaign target. The named failure modes (CA-only PDBs, non-standard comp_id, swapped chain order) make it concrete. Caveat: the artifact it must be checked against (run_<tool>.py plus its canary record) is named in st-57, not here.",
+    "predicate": "for every structure-design model on the roster, the bring-up record contains a run in which that model's output structure was consumed by a sequence-design tool on a campaign target and yielded a sequence"
+  },
+  "st-61": {
+    "role": "metric",
+    "why": "A membership condition on the tools any shipped design depends on, decidable against the roster ledger and the sheet's provenance columns, with three named exclusions that need no judgment at all.",
+    "predicate": "no tool appears in a shipped design's provenance unless it is pre-cleared or the roster ledger records an end-to-end production run on a real target plus a commercially usable licence; AlphaFold3 weights, Rosetta/PyRosetta and ESM3 appear in no provenance field",
+    "also": []
+  },
+  "st-63": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "Defines the deliverable object with numbers: single chain, 50-120 residues, 35-160 only with a recorded rationale, and everything generated de novo with no literature binder as starting point or graft. All three clauses are checkable against the shipped sheet.",
+    "predicate": "every binder in the design sheet is a single chain of 50-120 residues, or 35-160 with a rationale string in the target metadata, and no row's provenance names a known miniprotein/peptide/nanobody/antibody as scaffold or graft"
+  },
+  "st-65": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The core is a count matrix and a floor: every asterisked method contributes >=50 backbones to every target's scored pool, recomputed per cycle into /state/floor_matrix.json, with under-represented cells given dispatch priority and throughput/cost/skill explicitly rejected as excuses. The 15-minute governor cycle, the dedicated DISPATCH sub-agent and the single-submit-token-issuer invariant are process machinery."
+  },
+  "st-67": {
+    "role": "inert",
+    "why": "Describes a failure mode (a generator reproducing a target protomer) and says 'avoid it'. It states no threshold, no artifact and no structured judgment -- the operative check is the TM-score >= 0.5 branch of the novelty gate at st-81. A MUST that carries no implementable content on its own.",
+    "also": []
+  },
+  "st-69": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The block supplies its own operational definition via DSSP and its own threshold, and states the disclosure path when the pool cannot supply it -- so the disjunction is fully decidable against the shipped sheet and report.",
+    "predicate": "at least 10% of rows in each design order sheet are non-all-alpha by DSSP (>=1 beta strand of >=3 consecutive E/B residues, or helical fraction < 0.70); if fewer, the sheet and the report both state the count and the reason"
+  },
+  "st-71": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The load-bearing clause is a condition on what gets ordered (soluble variants only; base variants confined to backbone search), checkable on the sheet. The Caliby dual-mode and co-design native-plus-redesign requirements are protocol steps that leave the same trace.",
+    "predicate": "every row of the design order sheet has seq_method in {SolubleMPNN, SolubleCaliby}, and every co-design model contributing rows has both a native-sequence and a redesigned-sequence entry"
+  },
+  "st-73": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Requires implementing a specific per-position penalty exactly as defined in Figure 1 and applying it as a restraint during sequence design -- an algorithm, not a judgment. The checkable half is that lcp_score is recorded for every sequence designed."
+  },
+  "st-75": {
+    "role": "corpus",
+    "why": "Figure caption; the referenced material (the LCP definition figure) is retrieval input for st-73's implementation.",
+    "also": []
+  },
+  "st-77": {
+    "role": "corpus",
+    "why": "Figure caption; supporting evidence for the LCP restraint, no obligation.",
+    "also": []
+  },
+  "st-79": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "An ordering rule with a cost rationale -- cheap filters execute before any co-folding spend -- plus two distinct timelines the implementation must honour (UniRef90 staging is not a dispatch gate; full-UniRef90 novelty and Ubiquitin rejection are required before the FINAL sheet) and an exclusion of curated mini-databases. The secondary predicate: every row on the FINAL ranked sheet carries full-UniRef90 novelty and Ubiquitin-control results."
+  },
+  "st-81": {
+    "role": "code",
+    "why": "Three numeric rejection criteria over three named comparison sets (>60% identity over >50% coverage, >=30% gapped local identity over >=40 aligned residues, TM-score >=0.5 to any target or control chain), plus a local-alignment special case for Ubiquitin. Pure computation.",
+    "also": []
+  },
+  "st-82": {
+    "role": "code",
+    "why": "Three sequence-level computations to implement (Cys parity, homopolymer runs, surface hydrophobic patches). It states no thresholds -- those are the agent's to choose and freeze under st-84 -- which is precisely why it cannot be a metric.",
+    "also": []
+  },
+  "st-83": {
+    "role": "code",
+    "why": "A predicate with a stated default (mean pLDDT 70 on the 0-100 scale, 0.7 on the 0-1 scale that ESMFold2 emits) frozen per target at the validation gate. Threshold arithmetic, no judgment.",
+    "also": []
+  },
+  "st-84": {
+    "role": "code",
+    "why": "Names the geometry/clash/packing computations and obliges the thresholds be chosen at kickoff and frozen. The freeze is what makes it implementable; the absence of stated numbers is what stops it being a metric.",
+    "also": []
+  },
+  "st-86": {
+    "role": "metric",
+    "why": "The cleanest metric in the batch: it defines when a gate counts as run in terms of a set relation between two artifacts, closing the gap between a filter that computes a verdict and a filter that removes anything.",
+    "predicate": "every design_id in the rejection log is absent from every downstream scoring pool and from the design sheet (the intersection of rejected ids with all downstream pools is empty)",
+    "also": []
+  },
+  "st-88": {
+    "role": "code",
+    "why": "A clustering rule branching on pool type: de novo pools cluster at ~90% identity before scoring, close-variant pools drop exact duplicates only and defer diversity to selection time. Algorithm plus control flow; the '~' on 90% is what keeps it out of metric.",
+    "also": []
+  },
+  "st-90": {
+    "role": "code",
+    "why": "Key assignment and propagation rules, an enum-membership check against the frozen method_vocab.json with an alias map, and a recompute-and-compare guard: the sheet writer recomputes every gate from the row's own sequence and structure and admits the row only on agreement to 1e-4, halting with the row id otherwise. Entirely mechanical.",
+    "also": []
+  },
+  "st-92": {
+    "role": "code",
+    "why": "Six ceilings applied in a stated order with exact numbers (exact duplicates, Levenshtein <=5, 5% per root_backbone_id, 10% per TM-0.90 cluster, 50% and >=3 distinct structure_methods, two-thirds per seq_method with backfill). Sorting and arithmetic; no judgment enters.",
+    "also": []
+  },
+  "st-94": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The opening is justification (corpus-flavoured) and the middle restates the frozen per-arm MSA configuration, but the operative obligation closes a waiver loophole: a dossier-flagged cofactor is supplied to every arm because all three are all-atom co-folders. That leaves a trace in the artifact st-39 already mandates.",
+    "predicate": "for every target whose dossier flags a fold- or interface-required cofactor, instrument_realization.csv records that cofactor present for each of the three ranking arms, or a deviation is logged in the same table"
+  },
+  "st-96": {
+    "role": "code",
+    "why": "The canonical definition of the instrument constant every downstream scoring rule dereferences: three named arms with their MSA regimes and one sample per seed. A declaration of constants, not a restatement of the task.",
+    "also": []
+  },
+  "st-98": {
+    "role": "code",
+    "why": "The scoring core, stated as arithmetic: per-arm sc_DockQ against the designed complex using each arm's own argmax-ipSAE seed and the DockQ-maximizing symmetric chain relabeling, pose_dockq = min over arms that ran, pose_PASS at 0.23 default, an ordered substitute-lineage preference, and two summary formulas (final_score = raw mean of six terms; rank_zscore = per-target z-average weighted 4:1 ipSAE:sc_DockQ). No LM judgment anywhere in it.",
+    "also": []
+  },
+  "st-100": {
+    "role": "inert",
+    "why": "Section header introducing the two seed tiers; carries no obligation itself.",
+    "also": []
+  },
+  "st-102": {
+    "role": "code",
+    "why": "Defines the SCREEN tier as 1 seed per arm ranked by rank_zscore with a budget-determined top fraction. Seed count and rank key are constants the pipeline reads.",
+    "also": []
+  },
+  "st-103": {
+    "role": "code",
+    "why": "Nominally a header, but the parenthetical is the load-bearing constant: the INTERMEDIATE/FINAL tier is 5 distinct seeds per arm, which downstream assertions check for uniqueness and non-zero per-design variance.",
+    "also": []
+  },
+  "st-104": {
+    "role": "inert",
+    "why": "Pure latitude: five-seed scoring may be used freely between waves and optimization rounds. No obligation, no computation, no judgment.",
+    "also": []
+  },
+  "st-105": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Spells the FINAL ranking out term by term -- three per-arm ipSAE_min values maxed over seeds weighted 4, three sc_DockQ values weighted 1, reported alongside the raw mean -- and defines REDUCED_MASK behaviour. Checkable secondarily: under a reduced mask the sheet's score_instrument names exactly the realized terms, and no validated arm is absent from a frozen mask."
+  },
+  "st-107": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "The frozen per-target mask, the NaN-reject rule and the instrument_realization-DERIVED rule are guards the sheet writer executes on every write; no judgment enters them. The pre-registration clause adds a checkable ordering (formula frozen and disclosed before the first production score row), which is the secondary metric. The qualifier 'separates controls substantially better' carries no threshold and is the one part of the block that resists both."
+  },
+  "st-109": {
+    "role": "inert",
+    "why": "A bare section header introducing the eleven considerations. It carries no obligation of its own despite inheriting MUST force from the list it opens.",
+    "also": []
+  },
+  "st-111": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "The gate is a file-existence-and-status test inside submit_gate(): read /state/gates/{target}.json, return False if absent or status != PASS. The remediation ladder is a fixed three-step ordering, and 'a geometry-only or pose-only score fails (b) by definition' is a definitional rule, not a judgment. Secondarily the gate file itself is an artifact with required contents, checkable after the fact. Only 'scoring clearly above negative controls' and 'comprehensive search' need judgment, and both are re-stated with structure in st-112."
+  },
+  "st-112": {
+    "role": "signature",
+    "also": [
+      "code"
+    ],
+    "why": "This is the block that asks the agent to choose controls and to weigh what a control result means: prefer non-antibody, demote antibody/nanobody to secondary, exclude published de novo miniprotein binders as circular. Deciding whether a candidate is a natural ligand, an antibody, or a de novo binder is literature judgment with a nameable structured output. The one mechanical residue is the fallback rule that an antibody-only control failing (b) lets the gate pass on (a) alone.",
+    "outputs": [
+      "control_id: str",
+      "control_class: Literal['natural_ligand','receptor_ectodomain','viral_entry','peptide','antibody','nanobody','de_novo_miniprotein']",
+      "role_in_gate: Literal['primary','secondary','excluded']",
+      "exclusion_reason: Optional[str]",
+      "evidence: list[str]"
+    ]
+  },
+  "st-113": {
+    "role": "code",
+    "why": "A pinned recipe: stage MSAs once per target into a shared cache at TOOL-BRINGUP, read from cache rather than re-querying, binder always single-sequence, ESMFold2-Fast single-sequence only, Protenix via precomputed_msa_dir, controls get MSAs on target chains plus the control-ligand chain. Every clause is a configuration value or a call-site rule an implementation fixes. The single-sequence deviation clause needs judgment ('clearly outperforms') but is an escape hatch, not the block's job.",
+    "also": []
+  },
+  "st-114": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Freezes what ranks: ipSAE_min only, with ipTM and LIS recorded but excluded from the rank key, and a binder-masked iptm_binder computed on the union masks for multimers. That is a formula/selection freeze. The secondary metric is that ranked rows carry the shadow columns. The closing clause, 'interpret whole-complex ipTM with this inflation in mind', is pure epistemics and is checkable by nothing."
+  },
+  "st-115": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The transductivity of z is a stated fact; the obligation it produces is a property of every shipped row - carry the raw per-seed values and the seed count so the batch can be re-standardized later. That is decidable against the sheet and the per-seed metrics file. The 'rank with z, report raw' half is the code residue. The prohibition on cross-target comparison is not independently checkable and I did not try to make it a predicate.",
+    "predicate": "every ranked row in the design sheet records the raw per-seed ipSAE_min values and its n_seeds alongside the z-score, and the reported score columns are raw while the rank key is a within-batch z"
+  },
+  "st-116": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The block states a property the shipped sheet must have and, unusually, supplies its own decidable form: the prose requirement (the predicted complex recapitulates the designed epitope) is explicitly reduced by the prompt to pose_dockq non-null on every ranked row. It is MECHANICAL because the sheet writer enforces it, which is the secondary code role, but the obligation is post-hoc over the artifact.",
+    "predicate": "every ranked row of the design sheet has non-null pose_dockq; count of nulls == 0"
+  },
+  "st-117": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Mostly a construction algorithm: crop allowed at design but never at scoring, score at both 1:N and 1:N/N:N stoichiometries, build the N:N reference by applying the target's own Cn symmetry operators to the single designed pose, co-fold N independent binder chains, and search symmetric chain relabelings taking the mapping that maximizes DockQ / minimizes RMSD. Secondarily it names three additional required sheet columns. 'Disclose any design whose N:N score collapses' has no stated collapse threshold."
+  },
+  "st-118": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "The operative instruction is a configuration rule for every scoring call - include the dossier's metals, ligands, nucleic acids and membranes, and never waive on the assumption that an arm is protein-only. The dossier supplies the entity list, so no judgment is required at the call site. The trailing sentence, 'co-folding metrics are not comparable across targets', is a bare fact that carries no obligation and is the reason I did not make this primarily a metric."
+  },
+  "st-119": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A default flag setting plus a fence: no template injection anywhere, AF_Unmasked with a target template admissible only as a validation-gate diagnostic and explicitly outside the production scoring and pose-check path. Both halves are pinned config an implementation enforces at dispatch. The secondary metric is that no production-stage job config carries a template."
+  },
+  "st-120": {
+    "role": "signature",
+    "also": [
+      "metric"
+    ],
+    "why": "The obligation is a judgment made before a fact is recorded: read the model's own paper and API and decide whether an apparent incapability is a real model limitation, a missing wrapper input class (a bring-up fix), or an oversized-chain case handled by a biologically reasonable crop. 'Biologically reasonable' in particular cannot be reduced to a check. The secondary metric is weak but real - the recorded limitation must cite the model's own source rather than the wrapper.",
+    "outputs": [
+      "capability: Literal['rna','dna','ligand','oversized_chain']",
+      "supported_by_model: bool",
+      "evidence: list[str]",
+      "remedy: Literal['bringup_wrapper_fix','biological_crop','genuine_limitation']"
+    ]
+  },
+  "st-121": {
+    "role": "code",
+    "why": "The most purely specificational block in the batch: min over both alignment directions per Dunbrack 2025, a single union-mask call with mask_binder = (asym_id == B) and mask_target = (asym_id != B), n0/d0 re-derived from the union mask sizes, that call replacing the stock pairwise ipsae.py loop, then min over directions, max over seeds, combine across arms. It is an algorithm with no free parameters and no judgment.",
+    "also": []
+  },
+  "st-123": {
+    "role": "metric",
+    "also": [
+      "signature"
+    ],
+    "why": "The obligation is that a calibration panel exists with a specified composition, run under settings matched to the design runs, and reported raw only - all decidable against the panel's own records. The judgment the block also asks for is the saturation call ('begin to consider a target saturated'), which has a soft trigger and a soft consequence and is not a predicate.",
+    "predicate": "a per-model calibration record exists containing at least one native-complex ceiling member and the three named negative constructions (non-interacting pair, sequence-shuffled binder, cross-pair mismatch), every member run at the same seed count, chain construct and ipSAE pairing as the designs, reported as raw scores with no z-score column, and no member drawn from the campaign target set"
+  },
+  "st-125": {
+    "role": "metric",
+    "why": "A single-clause obligation on the shipped artifact with an explicit population (designs that receive a rank) and an explicit quantity. Nothing to implement beyond calling the model, nothing to judge.",
+    "predicate": "every design row carrying a rank has a non-null ESMC log-likelihood (or pseudo-perplexity) value recorded",
+    "also": []
+  },
+  "st-127": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The hard obligation is a count over the campaign's own provenance records - at least five optimization rounds - together with a lineage invariant (all rounds under the same root_backbone_id) and a selection-pool rule. Both are checkable against the run manifest. The predict-then-redesign cycle itself (feed the predicted complex, not the designed structure, back into sequence design) is the code residue. 'Continuing while metrics continue to improve' has no stated improvement threshold and I left it out of the predicate.",
+    "predicate": "the run manifest shows at least five optimization rounds per target, every optimization-round design carries the root_backbone_id of its parent, and the 30 selected designs are drawn from the union of the de novo round and all optimization rounds"
+  },
+  "st-129": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Four ordering rules: no round 1 before an indexed, 1-seed-screened wave exists; each round scored on the same instrument and seed count that ranked its parents; 5-seed promotion before parent selection; and a rank key that places all-arm 5-seed rows above everything else with n_seeds disclosed rather than dropped. Ordering and rank keys are code by the rubric's own definition. The last rule is separately checkable on the shipped sheet, hence the secondary metric; the precondition 'at least one full generation + sequence-design wave' has no defined size and would not survive as a predicate."
+  },
+  "st-131": {
+    "role": "metric",
+    "why": "A retention obligation with five enumerated classes, each naming a concrete artifact, and a stated closure rule ('if it was computed, it is saved'). This is checkable long after the fact by walking the ledger and the volume, which is exactly the point of the block - post-hoc auditability by someone who was not there.",
+    "predicate": "for every job_id in the ledger the volume contains (a) a config record with model name/version, weights checksum, image digest, command line, contig/epitope spec, seeds and pinned input paths, (b) one tar of all emitted structure files, (c) one JSONL row per design x arm x seed plus one aggregated row per design x arm, (d) a manifest row mapping each design_id to its parent backbone, sequence-design model and producing job_id, and (e) stdout/stderr and failure records",
+    "also": []
+  },
+  "st-133": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "Two obligations, both decidable: a count on the deliverable (30 designs) and an absence on the campaign's action log (the agent never places the CRO order). The no-order clause is also a hard boundary on an external side effect, which is the scaffolding residue - a DSPy program has no notion of an action it is forbidden to take on the world.",
+    "predicate": "the final deliverable names exactly 30 selected designs, and no order-placement call to Adaptyv Bio or Twist Bioscience appears anywhere in the session's tool log"
+  },
+  "st-135": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "A rate card plus arithmetic over it: burn rate = gpu_rate + cores x $0.047/h + mem_gib x $0.008/h, an even-pace ceiling derived from budget/hours, and max_instances = floor(target_hourly_rate / weighted_per_sandbox_rate) re-derived whenever the fleet mix changes. Every number is fixed and every step is deterministic. It is secondarily scaffolding because what the arithmetic parameterizes is a budget governor over a live fleet, which DSPy has no vocabulary for."
+  },
+  "st-137": {
+    "role": "code",
+    "why": "submit_gate() is a fixed sequence of lettered comparisons over a freshly read /state/governor.json - staleness dead-man switch, ceiling==0, long-timeout-over-pace, subtractive live-sandbox count, headroom margin with jittered backoff - wrapped end to end in try/except and returning False on any exception. The governor value itself is arithmetic over metered and projected spend with named writers and named thresholds. No step admits judgment; the fail-closed default is what makes the whole thing decidable.",
+    "also": []
+  },
+  "st-139": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A one-line configuration freeze - every job on H100 - with the reasoning given inline (throughput-per-dollar parity once weight-load and JIT amortize, and elimination of the mixed-fleet weighted-rate step). It is the setting that makes st-135's weighted rate degenerate to a constant. Secondarily checkable over the job ledger's gpu_type column. 'A100 remains a last resort' has no decidable boundary."
+  },
+  "st-141": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The cost formula is stated as an exact computation - fresh input = input_tokens - cache_read_tokens, then three rate terms - together with the specific double-counting error it forbids. The companion rule that every posted number come from a server-side SELECT SUM(...) in the same cell that composes the post is a provenance constraint on how the number is produced. It is secondarily scaffolding: the target of the rule is a Slack side effect, and the opening clause licenses unbounded sub-agent fan-out."
+  },
+  "st-143": {
+    "role": "metric",
+    "why": "A campaign-scale obligation with an explicit numeric range, made decidable by st-147's rule that campaign totals are exactly a sum over the design-count ledger. The second sentence settles a scope question (optimization counts as design work) rather than adding an obligation.",
+    "predicate": "the sum of n_generated over the design-count ledger tree falls in [20000, 200000] campaign-wide, with optimization-round jobs counted in that sum",
+    "also": []
+  },
+  "st-145": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "A frozen row schema ({ts_utc, job_id, target, structure_method, stage, n_generated, n_scored, gpu_seconds, writer_frame_id}), a path convention, and a job-type definition with a fixed internal ordering: generate, filter in-job, write survivors and the n_generated row, then 1-seed screen on all three instruments and append n_scored. The stage vocabulary and the PRELIMINARY marking are likewise definitional. It is secondarily scaffolding because the one-file-per-writer tree exists solely to work around non-atomic concurrent volume appends - a volume-layout and concurrency concern DSPy has no place for."
+  },
+  "st-147": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "Fixes the counting definitions (designs_screened = sum of n_scored over stage=screen, designs_ranked = over stage=final, intermediate counts toward neither), makes totals a single aggregation rather than a file count, declares an empty post-wave ledger fail-loud rather than zero, and specifies submit_gate step (d2) as an exact inequality: refuse when gen[target] >= 200 and gen[target] > 2 * max(scr[target], 50). Secondarily scaffolding: idempotent single-writer subfiles, appends routed through the owning singleton after a fresh remount, and hourly status-block reporting are all process machinery."
+  },
+  "st-149": {
+    "role": "inert",
+    "why": "A header introducing the resource list. It states no obligation and asks for no judgment; the budget apparatus that operates on those resources lives in st-135 and st-137.",
+    "also": []
+  },
+  "st-151": {
+    "role": "scaffolding",
+    "why": "Declares the metered spend envelope the whole Compute section is derived from. A DSPy program has no envelope to declare; there is nothing to implement, check, or judge here, only a resource to be governed.",
+    "blocker": "budget — DSPy has no metered spend envelope and no governor to hold one",
+    "also": []
+  },
+  "st-152": {
+    "role": "scaffolding",
+    "why": "The other half of the resource declaration: token spend is unmetered, which is what licenses the singleton sub-agents. This is a statement about the cost model of the runtime, not about any output.",
+    "blocker": "budget — no notion of a second, unmetered resource whose abundance justifies fan-out",
+    "also": []
+  },
+  "st-154": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "A standing agent on a 15-minute cycle for the full window, holding exclusive write ownership of a shared state file. Cycle period, lifetime and single-writer ownership are all process facts; the canonical-source rule (metered field authoritative, rate card a cross-check) is the only implementable part.",
+    "blocker": "long-lived process + wall clock + multi-agent (a 15-minute standing cycle with exclusive file ownership)"
+  },
+  "st-156": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The band is stated numerically and the campaign's own spend ledger is the artifact, so final pace is decidable after the fact. The remedy half — every hourly cycle adds work while behind — is a scheduler obligation and is the secondary role.",
+    "predicate": "final metered Modal spend (sum of scoreboard.csv gpu_dollars, cross-checked against /state/governor.json's metered total) lies in [$9,000, $11,000]; if below, the final report contains an explanation of the under-spend"
+  },
+  "st-158": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The trigger is a literal comparison over two counters on three consecutive cycles, and the weight file has a defined schema whose shares the dispatcher normalizes and tracks; the 30-order-ready-designs floor and the 10x ceiling are arithmetic. What is scaffolding is the WAKE write and the orchestrator scale-up loop it drives."
+  },
+  "st-160": {
+    "role": "scaffolding",
+    "why": "Pacing generation against scoring is a scheduler property: the observable is queue occupancy at a moment in time (idle GPUs, unused concurrency), not a property of any shipped artifact, and no ratio or threshold is stated that would make it checkable later.",
+    "blocker": "scheduler + concurrency (no queue, no parallel wave, no notion of an idle worker)",
+    "also": []
+  },
+  "st-162": {
+    "role": "inert",
+    "why": "An explicit restatement of st-152 placed before the Deliverables section. It adds no obligation, no threshold and no judgment beyond the resource declaration already made.",
+    "also": []
+  },
+  "st-164": {
+    "role": "inert",
+    "why": "Section header introducing the deliverables list; carries no obligation itself.",
+    "also": []
+  },
+  "st-166": {
+    "role": "inert",
+    "why": "List header for the four-part Slack protocol. The obligations are in st-167 through st-171.",
+    "also": []
+  },
+  "st-167": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "An external side effect ordered by wall clock (\"your first Slack action\") whose product — a thread ts — is the addressing root every later send depends on. The fixed header and the one-top-level-post rule are checkable against the channel, which is the secondary role.",
+    "blocker": "external side effect + wall clock (Slack post ordering, and a thread anchor that must persist across the whole run)"
+  },
+  "st-168": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "A recurring obligation pinned to a wall-clock time in a named timezone, including weekends, delivered to an external channel. The content list makes each post's shape checkable, but the reason DSPy cannot express this is the schedule, not the shape.",
+    "blocker": "scheduler + wall clock + external side effect (09:00 America/New_York every day, posted to Slack)"
+  },
+  "st-169": {
+    "role": "scaffolding",
+    "why": "Hourly cadence to an external channel for the full window. The fallback (best ipSAE_min while no final row exists) is a one-line branch, not the substance; the substance is that something must fire every hour for 24 hours.",
+    "blocker": "scheduler + external side effect (an hourly posting loop with no request to respond to)",
+    "also": []
+  },
+  "st-170": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A boolean guard on every send: thread_ts set, reply_broadcast=false, with exactly three enumerated exceptions. No judgment enters it, and the escape path (acknowledge and continue) is also mechanical. It is checkable afterwards as a count of broadcasts in the channel, which is the secondary role."
+  },
+  "st-171": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A fixed six-field format plus one hard conditional — if basis is ESTIMATE the entire pace field reads UNCALIBRATED and no pace adjective may appear — and a line count read off an append-only JSONL. All of it is implementable without judgment; the resulting posts are then checkable against the ledger."
+  },
+  "st-172": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "One saved function that runs a fresh server-side aggregate, asserts the truncation flag false, and returns; the forbidden sources (memory, cache, client-side sum, file counts) are a guard around that function. The cross-artifact clause — same function is sole source in every report and Drive document — is separately checkable."
+  },
+  "st-173": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "Names an operator-supplied external store and requires files be placed in it and cross-linked from another external service. The link-everything rule is checkable, but the block exists to bind the campaign to two side-effecting systems.",
+    "blocker": "external side effect (Google Drive folder supplied out-of-band, plus Slack cross-linking)"
+  },
+  "st-174": {
+    "role": "metric",
+    "also": [
+      "scaffolding",
+      "code"
+    ],
+    "why": "Most of the block states shape properties of the shipped folder and of close-out outputs that are decidable by inspection. The single-writer-role rule is multi-agent protocol (scaffolding) and the transactional freeze-then-derive sequence is implementable (code).",
+    "predicate": "the campaign Drive folder contains exactly one sub-folder naming the target, containing exactly one close_out/ whose files are one design_sheet.csv, one scoreboard.csv, deviations.jsonl and a README.md listing every deliverable; every mandatory_nonnull gate column is non-null and non-PENDING on every shipped ranked row; every abstract number equals the corresponding sheet aggregate"
+  },
+  "st-176": {
+    "role": "inert",
+    "why": "Header introducing the six final deliverables; the obligations are in the numbered items that follow.",
+    "also": []
+  },
+  "st-178": {
+    "role": "metric",
+    "why": "A count obligation on the shipped CSV with an exclusivity clause (\"and only those 30\") and a required rank column. Nothing here needs judgment or a computation beyond counting.",
+    "predicate": "design_sheet.csv contains exactly 30 rows for each target and no rows for that target beyond those 30, and each target's rows carry a complete intra-target rank permutation 1..30",
+    "also": []
+  },
+  "st-179": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "A frozen schema is a checkable property of the shipped sheet: the named columns must be present with the declared dtypes and enums. The per-row validator and the merge script's refusal of renamed/retyped/missing/duplicated columns are the implementation side.",
+    "predicate": "sheet_schema.json exists and was written at kickoff, and design_sheet.csv validates against it (no renamed, retyped, missing or duplicated columns) and contains at least the named required columns plus one predicted_structure_path_{arm} per ranking arm and one column per scoring arm and shadow metric actually computed"
+  },
+  "st-180": {
+    "role": "code",
+    "also": [
+      "metric",
+      "scaffolding"
+    ],
+    "why": "The core is an ordering — ORDER BY (n_seeds>=5 on all arms) DESC, pose_PASS DESC, rank_zscore DESC — declared the only rank-assignment path, plus a NaN-not-sentinel write rule and the frozen instrument mask. The resulting sheet is checkable (metric), and the top-up wave with its governor exemptions is dispatch machinery (scaffolding)."
+  },
+  "st-181": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "Recompute each gate from raw inputs at the same threshold the carried flag was set at and block the row on any disagreement. A pure computation plus a fail-closed comparison, executed at write time; the invariant it establishes is then checkable on the shipped sheet."
+  },
+  "st-182": {
+    "role": "inert",
+    "why": "Header introducing the two companion files; the obligations are in st-183 and st-184.",
+    "also": []
+  },
+  "st-183": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "Three decidable properties of a named shipped file, one of them with an explicit numeric tolerance. This is the cleanest metric in the batch; the sampled recompute is the implementation that evaluates it.",
+    "predicate": "per_seed_metrics.parquet has one row per (design_id, scoring_arm, seed); its design_ids cover 100% of design_sheet.csv's ranked design_ids by exact case-sensitive match (including the off-target arm at equal seed count for counter-screened targets); no (design_id, scoring_arm) group is uniformly null on the ranking metric; and final_score recomputed from the companion alone for 30 randomly sampled rows per target agrees with the sheet to within 1e-4"
+  },
+  "st-184": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "A fully specified table whose every numeric must equal a recount over other shipped artifacts, with two named non-null/non-empty conditions. Derivation from the companion and the gate file is the implementation; row-for-row agreement with the recount is the check.",
+    "predicate": "instrument_realization.csv has exactly one row per (target, ranking_arm) with the eleven named fields; control_separation_value is non-null on every gate_status=PASS row except rows whose /state/gates/{target}.json records the no-literature-control path (which carry NA and name it in drop_reason); drop_reason is non-empty wherever used_in_final_score=false; and every numeric equals a recount over per_seed_metrics.parquet and the gate files"
+  },
+  "st-185": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A fixed relaxation order with numeric hard stops (per-root_backbone_id 25%, per-method 50%, >=3 structure_methods), two never-relaxed columns, a last-resort branch with absolute floors, and an assert on seed distinctness. The shipped consequences (exactly 30 rows or a disclosed N<30; relaxation_step stamped on every admitted row with a matching deviations.jsonl line) are checkable, and the closing clause is a lint rule on how relaxation may be implemented."
+  },
+  "st-186": {
+    "role": "metric",
+    "also": [
+      "signature"
+    ],
+    "why": "The operative clause is a reproduction check against the as-shipped artifacts, which is decidable. The stylistic half — a publication-ready Baker-lab-style paper with figures and citations — is a language-model judgment and is the secondary role.",
+    "predicate": "every quantitative claim in the report's abstract and key-results sections recomputes exactly from the shipped design_sheet.csv, scoreboard.csv and per_seed_metrics.parquet, and no number remains that cannot be traced to one of them"
+  },
+  "st-187": {
+    "role": "metric",
+    "why": "Existence and uniqueness of a named archive are decidable. Note the second half — that it contains ALL campaign information not suited to PDF — is not decidable on its own; st-188 is what makes the contents checkable.",
+    "predicate": "exactly one supplement.tar.gz is present in the campaign's close_out Drive folder",
+    "also": []
+  },
+  "st-188": {
+    "role": "metric",
+    "why": "A fully specified directory layout keyed by rank and design_id, plus a path-discipline rule that is decidable by string inspection of the sheet's path columns.",
+    "predicate": "for every ranked row, ordered_structures/<target>/<rank:02d>_<design_id>/ exists inside ordered_structures.tar.gz and contains designed.pdb and a predicted_<arm>_seedbest.cif for every arm used in scoring; and every designed_structure_path and predicted_structure_path_{arm} in design_sheet.csv is bundle-relative (no Modal or workspace path component) and resolves inside that bundle",
+    "also": []
+  },
+  "st-189": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "Two post-hoc predicates over the shipped bundle and sheet together, including the specific drift failure (a rank prefix in a path disagreeing with the sheet's rank). The rebuild-as-last-close-out-step ordering is the implementation side.",
+    "predicate": "after the rebuild, for every design_sheet.csv row, designed_structure_path and every non-null predicted_structure_path_{arm} resolve to a real file inside the rebuilt ordered_structures bundle, and no path string embeds a rank prefix different from that row's rank"
+  },
+  "st-190": {
+    "role": "metric",
+    "why": "A stated 100% threshold over an enumerated set of files, with the source of truth pinned to the Drive copy rather than the local one. Opening a file either succeeds or does not.",
+    "predicate": "for every ranked row in design_sheet.csv, every file referenced by its path columns opens successfully when read from the Drive copy of the supplement; the open-success rate is 100% for every target",
+    "also": []
+  },
+  "st-191": {
+    "role": "metric",
+    "why": "The verification is concrete (the uploaded archive must open with a stock unarchiver) and the byte-split branch carries its own checkable obligations on the README and the Slack thread. SHOULD-force but still a property of shipped artifacts.",
+    "predicate": "every uploaded archive opens with a stock unarchiver; and if any deliverable was byte-split, the README contains the exact concatenation command and the part list appears in the Slack thread",
+    "also": []
+  },
+  "st-192": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "An exact column list, a no-NaN/no-sentinel/no-free-text rule, and a named gaps file for anything uncomputable. Decidable by loading one CSV. The clause requiring diversity columns to come from the cap-enforcing code is the secondary implementation role.",
+    "predicate": "scoreboard.csv has one row per target and exactly the 17 named columns; every non-target column holds a real numeric on every row (no NaN, no sentinel, no free text); and any missing value has a corresponding scoreboard_gaps.csv row {target, column, reason, owning_frame_id}"
+  },
+  "st-193": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "\"Actual files, not a manifest of artifact IDs\" is decidable against the folder listing. The upload-only-when-final discipline and the version-suffix path are process rules about an external store and are the secondary role.",
+    "predicate": "every artifact named in deliverables 1-4 exists as a real file in the ONE campaign Drive folder (not as an artifact-ID reference), and any superseded file carries a version suffix with a canonical-file map posted to Slack"
+  },
+  "st-194": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "A gate on the final post that requires dispatching a fleet of at least five independent auditors, two with named independence properties — one with GPU access, one that must not see the report's conclusions. Context isolation between agents and a review-fleet dispatch are exactly what a request/response program cannot express. The closing post itself and the blocker-resolution are checkable.",
+    "blocker": "multi-agent + external side effect (a review fleet with enforced context isolation, gating a Slack broadcast)"
+  },
+  "st-196": {
+    "role": "signature",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The rule turns on a judgment about each inbound thread message: whether it comes from the campaign operator and whether it explicitly directs a plan change, versus a bystander suggestion to be answered but not obeyed. That judgment has a nameable structured output. The inbound-channel loop itself is scaffolding.",
+    "outputs": [
+      "is_from_campaign_operator: bool",
+      "is_explicit_plan_directive: bool",
+      "reply_text: str",
+      "plan_change_authorized: bool"
+    ]
+  },
+  "st-198": {
+    "role": "scaffolding",
+    "also": [
+      "signature"
+    ],
+    "why": "Fan-out of reviewer agents, some briefed with an adversarial stance, over every deliverable including intermediate Slack posts. The fan-out and the role-briefing are multi-agent machinery; each individual review is a model judgment.",
+    "blocker": "multi-agent (spawning reviewer agents with distinct adversarial briefs over artifacts produced earlier in the same run)"
+  },
+  "st-200": {
+    "role": "scaffolding",
+    "why": "A pacing instruction about how the wall-clock window should be consumed. It names no artifact and states no threshold — \"a little late\" and \"very early\" are not decidable — so it cannot be a metric.",
+    "blocker": "wall clock (a fixed window whose full consumption is itself the objective)",
+    "also": []
+  },
+  "st-202": {
+    "role": "scaffolding",
+    "also": [
+      "metric",
+      "code"
+    ],
+    "why": "A reserved terminal hour with named wave exemptions, close-out run as a wait=False child so the parent's heartbeat loop stays alive, and a foreground/background split of decision authority. The README-versus-Drive reconciliation is a real metric and the surplus trigger (>2h or >10% budget) plus the same-instrument promotion rule are implementable comparisons.",
+    "blocker": "wall clock + scheduler + long-lived process + multi-agent (a reserved final hour, a detached child, and a parent that must keep looping while it runs)"
+  },
+  "st-204": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "Entirely about in-flight work: throttles apply to new dispatch only, running jobs always complete, no cancel/terminate/reap, and every measure carries an expiry. There is no in-flight job in a request/response program to protect or to throttle.",
+    "blocker": "scheduler + long-lived process + concurrency (in-flight jobs, dispatch gating, and time-bounded emergency measures)"
+  },
+  "st-206": {
+    "role": "scaffolding",
+    "why": "The campaign window scalar, plus the instruction to size the GPU fleet and the agent fleet to it. Both halves are runtime facts with no request/response analogue.",
+    "blocker": "wall clock + multi-agent (a 24-hour window that the fleet size must be chosen against)",
+    "also": []
+  },
+  "st-208": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "Dormancy as a defect, distinguishing a compaction restart from a hang, a CLOCK singleton dispatched inside 15 minutes that never returns between cycles, liveness files, and re-dispatch on staleness. The only implementable parts are the concurrency-limit arithmetic min(200, max(1, ceiling+N)) and the >2-cycle staleness test.",
+    "blocker": "wall clock + long-lived process + scheduler (an agent that cannot tell time, a never-returning singleton loop, and liveness measured as file age)"
+  },
+  "st-210": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "A behavioural specification for a root process: never sleep, park only on bounded waits, no tool call over five minutes, no provider SDK or billing call from this process at all, one batched state-volume call per iteration, heartbeat at the top of every loop, and a blocking SETUP boot before anything else may be dispatched. Almost every clause is about process identity and loop structure; set_concurrency_limit(150) and the batching timeout are the code parts.",
+    "blocker": "long-lived process + scheduler + process isolation (a root frame with a loop, a boot order, and a list of calls it may never make itself)"
+  },
+  "st-212": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "Fleet sizing (>50 concurrent), depth (sub-sub-agents), a uniform-model constraint across all depths, and a concrete fallback topology when the harness refuses a nested delegation. The uniform-model rule is separately checkable against the frames table.",
+    "blocker": "multi-agent + concurrency (nested delegation, peak concurrent agent count, and a fallback dispatch topology)"
+  },
+  "st-214": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "The delegation architecture, WATCHDOG/BUDGET singletons and heartbeat protocol are process machinery with no request/response analogue; the thresholds inside it (15/30-minute staleness, live_gpu > max(2*ceiling, ceiling+50) on two cycles, output_file_count<=2, timeout min(ceil(2.0*p90), 5400)) are implementable comparisons.",
+    "blocker": "long-lived process + multi-agent + wall clock"
+  },
+  "st-216": {
+    "role": "metric",
+    "also": [
+      "signature"
+    ],
+    "why": "The three triggers are named events and the block requires a written record of each re-read, so the obligation to have consulted the paper before acting is checkable after the fact. The judgment half - whether the paper actually explains the failure, or whether the substitute really provides what the original did - is a separate signature that this predicate does not cover.",
+    "predicate": "for every method declared broken, dropped, substituted, or budget-reallocated, the living ideas document contains a dated re-read entry naming that method's paper in corpus folder \"07 Prompt-Cited Papers\", timestamped at or before the decision that triggered it"
+  },
+  "st-218": {
+    "role": "metric",
+    "why": "An obligation on every claim the campaign emits, decidable against the session's own fetch log. The 'verified means you ran the check' clause is the same predicate applied to computations rather than identifiers.",
+    "predicate": "every external identifier (DOI, PMID, PDB ID, accession, URL) appearing in any deliverable, target spec, or Slack post is present in the fetch/lookup log of the session that wrote it",
+    "also": []
+  },
+  "st-220": {
+    "role": "signature",
+    "also": [
+      "metric"
+    ],
+    "why": "Deciding that an observed value is an anomaly rather than a real result, and then diagnosing it, is the judgment the block exists for; 'perfect metric' and 'impossible runtime' have no stated thresholds and cannot be reduced to a check. The secondary metric half is narrow but real: the enumerated degenerate patterns are detectable and the halt-then-proceed ordering, plus verification of inherited inputs against a named primary source, is loggable.",
+    "outputs": [
+      "is_anomaly: bool",
+      "pattern: Literal['zero_score','degenerate_gate','perfect_metric','impossible_runtime','other']",
+      "diagnosis: str",
+      "disposition: Literal['halt','proceed']"
+    ]
+  },
+  "st-222": {
+    "role": "signature",
+    "why": "Identifying which cheap experiment could falsify a plan is exactly a model judgment: neither 'significant amount of compute' nor 'cheapest check' is quantified anywhere in the prompt, so there is no threshold to test against and no artifact that records the counterfactual check that was not chosen.",
+    "outputs": [
+      "falsifier: str",
+      "est_runtime_s: float",
+      "signal_if_plan_is_wrong: str",
+      "decision: Literal['proceed','abort','revise']"
+    ],
+    "also": []
+  },
+  "st-224": {
+    "role": "signature",
+    "why": "A characterization judgment about the campaign's own results. There is no artifact against which 'reported as messy' is decidable - the ground truth of whether a result was inconclusive lives in the same report being checked.",
+    "outputs": [
+      "conclusiveness: Literal['conclusive','mixed','inconclusive']",
+      "caveats: list[str]",
+      "headline: str"
+    ],
+    "also": []
+  },
+  "st-226": {
+    "role": "signature",
+    "also": [
+      "metric"
+    ],
+    "why": "'The worst defensible reading of your data' is a framing judgment with no artifact that fixes what is defensible. The forking-paths clause is the checkable half: if the session log shows an analysis rerun under multiple configurations, the deliverable must state the count, and that count must match.",
+    "outputs": [
+      "headline: str",
+      "worst_defensible_reading: str",
+      "method_deviations: list[str]",
+      "n_configurations_tried: int"
+    ]
+  },
+  "st-228": {
+    "role": "signature",
+    "why": "The first two sentences are rationale, but the last is an operative tie-break the model must apply: ship a confident result or flag an uncertainty. It is a decision site with a nameable output and no artifact predicate - the very case where the rule fires is the case where no check exists.",
+    "outputs": [
+      "verdict: Literal['ship','flag']",
+      "uncertainty: str",
+      "confidence: Literal['high','medium','low']"
+    ],
+    "also": []
+  },
+  "st-230": {
+    "role": "code",
+    "also": [
+      "metric",
+      "scaffolding"
+    ],
+    "why": "The PASS definition is five enumerated boolean conditions (build+import, checksum equality, exit 0, parse with >=1 chain and >=30 residues and no NaN coords, adapter emits >=1 sequence), plus a dispatch guard keyed on image_id, a 10%-of-budget cap, a >10-job canary rule, a terminal-status reap predicate, and a ratecard-vs-metered arithmetic rule. None of it needs judgment. The ledger row shape is a checkable artifact and the 30-minute reconciliation cadence and provider billing API are process machinery."
+  },
+  "st-232": {
+    "role": "metric",
+    "why": "'Your own build is the source of truth' is a shape requirement on three concrete artifacts plus a prohibition on a class of call in production code. Both halves are decidable by inspecting the build spec and the production driver source; no model judgment enters except the tie-break when a skill and README disagree.",
+    "predicate": "each roster model has (i) a pinned Modal image spec listing commit SHAs, (ii) weights fetched from the canonical HF/Zenodo/GitHub release into a campaign volume, (iii) an in-session-authored run_<tool>.py taking (target_pdb, hotspot, n_designs, out_dir); and no production dispatch path imports or calls a skill-provided helper (e.g. kernel.py)",
+    "also": []
+  },
+  "st-234": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "The first-shard verification leaves a record with three named contents, and the degenerate-gate condition is computable from the shard's own outputs. The ordering constraint (verification before fan-out) is decidable from timestamps in the dispatch log.",
+    "predicate": "for every scoring or filtering stage, a first-shard verification record exists containing item count, pass/fail counts and >=1 spot-checked example, timestamped before that stage's first fan-out dispatch; and no scaled gate shows pass rate 0% or 100% or a constant score without a linked investigation"
+  },
+  "st-236": {
+    "role": "code",
+    "also": [
+      "metric",
+      "signature"
+    ],
+    "why": "The seed-concordance rule (DockQ computed on argmax_seed(ipSAE_min), not argmax_seed(DockQ)), the null-is-not-a-flag rule, and the four-key ORDER BY are pure computation. The rank-eligibility condition is also a checkable property of the shipped sheet, and the closing clause - 'a substantial fraction ... treat the instrument as suspect' - is an unquantified judgment call about whether to distrust the instrument or the designs."
+  },
+  "st-238": {
+    "role": "metric",
+    "also": [
+      "signature"
+    ],
+    "why": "The validation must exist as an artifact and its parameters must equal production's, which is a direct comparison. Whether the ensemble 'adds ranking information' has no stated threshold, so that sub-claim is judgment layered on top of a checkable artifact.",
+    "predicate": "for each metric used to rank in production, a validation artifact exists whose recorded seed count and aggregation equal the production values, and which reports both a single-seed baseline comparison and a measured seed variance"
+  },
+  "st-240": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "This is the sheet writer's algorithm: rank eligibility conditioned on protocol or disclosed relaxation, mandatory top-up attempt before demotion, automatic routing of missing-gate and missing-column rows to unranked with the reason named, and a selection-order algorithm for diversity caps. The pre-ship closing check (no ranked row with empty or zero score) is additionally a metric over the shipped deliverable."
+  },
+  "st-242": {
+    "role": "metric",
+    "also": [
+      "code"
+    ],
+    "why": "Every clause names an artifact and a comparison: both counts present, the >~10% shortfall warning, and equality between a reported number and the same number recomputed from artifacts or the ledger. Idempotent bookkeeping is an implementation property rather than an output check, hence the secondary code role.",
+    "predicate": "every batch job report carries commanded and delivered item counts; where delivered < 0.9 * commanded the manifest and update carry a warning; and every count in a deliverable equals the value recomputed from artifacts or the ledger at write time, with any planned-vs-measured gap stated"
+  },
+  "st-244": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "Five-minute liveness polling, a 15-minute BUDGET cycle owning the sole campaign-wide reap sweep, a one-Modal-app rule protecting a workspace cap shared with other teams, zero load-bearing kernel state, and a five-step restart sequence are all long-lived-process and external-side-effect machinery. The reap predicate and set_concurrency_limit(min(200, max(1, ceiling + N))) arithmetic are the code half.",
+    "blocker": "long-lived process + wall clock/scheduler + multi-agent + external provider side effects: a request/response program has no daemons to restart, no sandboxes to reap, and no notion of state surviving a process death"
+  },
+  "st-246": {
+    "role": "code",
+    "also": [
+      "metric"
+    ],
+    "why": "A final assertion pass with quantified thresholds (no exact duplicates, no pair within Levenshtein 5, <=5% per root_backbone_id, <=10% per TM-0.90 cluster, >=3 structure methods) and an explicit formula extension from six to nine terms with selectivity_delta_{arm} = ipSAE_min(on) - ipSAE_min(off) computed under matched seed count and aggregation, weighted 4 in rank_zscore. The 'all 30 ranked rows counter-screened, null is a fail-loud' clause is a checkable property of the canonical sheet."
+  },
+  "st-248": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "The requirement is on the composition of a reviewer fleet and on information isolation between reviewers - one must form its verdict from raw data without seeing the conclusions. That blindness is a property of how agents are wired, not of any output. The traceability clause (each finding ships its query or script) is checkable and is the secondary metric.",
+    "blocker": "multi-agent: DSPy has no reviewer fleet, no way to provision a GPU-holding reviewer, and no context-isolation guarantee that keeps one reviewer blind to another's conclusions"
+  },
+  "st-250": {
+    "role": "metric",
+    "also": [
+      "signature"
+    ],
+    "why": "The five required queries are checkable against the log; deciding whether their results actually establish unavailability, and whether an alternate source counts, is judgment.",
+    "predicate": "if any tool, model, or resource is declared unavailable, the session log contains a query against each of HuggingFace, GitHub, PyPI, the skill catalog, and the External Resource Corpus, logged alongside the conclusion"
+  },
+  "st-252": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "Uniqueness and prefixing of design_ids, version stamps and thresholds on each row, and the absence of credential material in any written surface are all decidable by scanning artifacts. The P0 response - post to the thread and stop dispatch from an identity until rotated - is a Slack side effect and a dispatch halt, which is process machinery.",
+    "predicate": "design_ids are globally unique and prefixed by target and method; every design row records a pipeline script version and its gate thresholds; and no credential or API token string (Modal, HuggingFace, Adaptyv) appears in any command string, script body, log line, ledger row, artifact, or Slack message"
+  },
+  "st-254": {
+    "role": "scaffolding",
+    "also": [
+      "metric"
+    ],
+    "why": "The whole block is about coexisting with other campaigns in one shared account: which Slack posts, Drive files and Modal volumes belong to you, what infrastructure is reusable, what is created fresh, and how to tell your own sub-agent's output from a foreign deployment via the frames table. The volume-naming rule is the one crisply checkable clause.",
+    "blocker": "external side effects + multi-agent: DSPy has no shared account, no cross-campaign namespace, and no frames table to attribute an unrecognized artifact to one of your own sub-agents"
+  },
+  "st-256": {
+    "role": "scaffolding",
+    "also": [
+      "code"
+    ],
+    "why": "Storage layout against a provider inode cap, cache placement on a persistent volume, and a preserve-before-delete rule with halt-and-escalate on failure are all facts about a filesystem that outlives the call. The batching scheme (one metrics JSONL + one structures tar per job_id) and the delete guard are the implementable half.",
+    "blocker": "external side effect / persistent storage: a request/response program has no volume, no inode budget, and nothing to delete or preserve between calls"
+  },
+  "st-258": {
+    "role": "metric",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "Every clause is decidable against the session's tool log and the deliverable text: a fresh read call with limit >= 500 preceding the action, the directive locatable in the returned thread, and the verbatim quote with channel and timestamp attached to anything labeled owner-approved. The hourly polling cadence is the scaffolding remainder.",
+    "predicate": "every acted-on Slack directive appears in the output of a slack_read_thread call with limit >= 500 made in the same session before the action, and any claim of owner-approved status quotes that message verbatim with its channel and timestamp"
+  },
+  "st-260": {
+    "role": "signature",
+    "also": [
+      "code",
+      "scaffolding"
+    ],
+    "why": "The core ask is a choice under uncertainty: which target still deserves compute, which prepared idea to activate when one stalls, and in what nameable way this retry differs from the last. The 'still improving or one untested round remaining' continuation criterion is implementable as a predicate, and compute allocation, the Drive-hosted ideas document, and scaling concurrency against a wall-clock constraint are campaign machinery.",
+    "outputs": [
+      "decision: Literal['continue','substitute','kill']",
+      "target: str",
+      "next_attempt_differs_by: str",
+      "expected_value_rationale: str",
+      "budget_arithmetic: str"
+    ]
+  },
+  "st-262": {
+    "role": "code",
+    "also": [
+      "scaffolding"
+    ],
+    "why": "The mechanical content is a static prohibition on two named calls at any depth with a named replacement route (host.send_message(kind='question')), plus a post-for-tracking-not-approval rule - a guard, checkable statically over any frame's tool calls, with no judgment in it. The surrounding autonomy framing and the emergency-contact placeholders are human-in-the-loop machinery."
+  },
+  "st-264": {
+    "role": "unclear",
+    "why": "Three heterogeneous clauses, none of which any role hosts honestly. The bioweapons exclusion is an absolute scope constraint with no artifact predicate and no structured output - it is a constitutional side condition on the whole program, not a computation, a check, or a prediction. The stop-instruction clause implies an out-of-band interrupt channel, which is the only part with a DSPy analogue at all (scaffolding-adjacent: no long-lived process to interrupt), but the clause's force comes from its override status over every other block, which scaffolding does not capture. The third clause is a carve-out from st-262 rather than an obligation of its own. It is emphatically not inert - it is the strongest obligation in the document - and calling it metric or signature would be a forced fit.",
+    "also": []
+  }
+}

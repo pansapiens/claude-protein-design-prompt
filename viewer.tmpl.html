@@ -223,6 +223,42 @@ body.plain .ent-cite{color:var(--sel)!important; text-decoration:underline}
 .badge.same{background:var(--sunk); color:var(--ink3); font-weight:400}
 .badge.chg {background:#FCF3E2; color:#8A5200}
 
+/* ─── the DSPy-role axis ────────────────────────────────────────────────── */
+/* A second facet over the same blocks: what each would be if the campaign were
+   rebuilt as a DSPy program. Deliberately a different visual family from .force
+   (dot + label, not a filled slab) so the two axes never read as one. */
+.role{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  padding:2px 6px 2px 5px; border-radius:2px; font-weight:600; color:var(--ink2);
+  background:var(--sunk); display:inline-flex; align-items:center; gap:5px;
+}
+.role::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor}
+.role.code       {color:#12151A}
+.role.metric     {color:#1B6B52}
+.role.signature  {color:#2F4FD8}
+.role.scaffolding{color:#8A5200}
+.role.corpus     {color:#7A8290}
+.role.inert      {color:#9AA2AE; background:none; box-shadow:inset 0 0 0 1px var(--rule2)}
+.role.unclear    {color:#B4341C; background:#FDECE8}
+.evid{
+  margin-top:9px; padding:7px 9px; border-radius:3px; background:var(--sunk);
+  border-left:2px solid var(--rule);
+}
+.evid .lbl{
+  display:block; font-family:"IBM Plex Mono",monospace; font-size:9px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); margin-bottom:3px;
+}
+.evid code{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:#2B313C;
+           line-height:1.55; display:block}
+.evid.sig code{color:#2F4FD8}
+.rail button i.r-code       {width:14px; background:#12151A}
+.rail button i.r-metric     {width:12px; background:#1B6B52}
+.rail button i.r-signature  {width:12px; background:#2F4FD8}
+.rail button i.r-scaffolding{width:10px; background:#D9A441}
+.rail button i.r-corpus     {width:5px;  background:#C8CDD6}
+.rail button i.r-inert      {width:5px;  background:none; box-shadow:inset 0 0 0 1px #DDE0E6}
+.rail button i.r-unclear    {width:12px; background:#B4341C}
+
 /* ─── the "as Python" tab and its code block ────────────────────────────── */
 .ctabs{display:flex; gap:2px; margin:0 0 9px -3px}
 .ctabs button{
@@ -363,6 +399,17 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
         {{ f }}<span class="n">{{ forceCounts[f] || 0 }}</span>
       </button>
     </div>
+    <div class="fgroup" v-if="hasRoles">
+      <span class="lbl">DSPy role</span>
+      <button v-for="r in usedRoles" :key="r" class="chip"
+              :aria-pressed="String(roleSel.includes(r))" @click="toggle(roleSel, r)">
+        {{ r }}<span class="n">{{ roleCounts[r] }}</span>
+      </button>
+      <button class="chip" :aria-pressed="String(railAxis === 'role')" @click="toggleRail"
+              title="Colour the centre rail by DSPy role instead of normative force">
+        rail: {{ railAxis }}
+      </button>
+    </div>
     <div class="fgroup">
       <span class="lbl">Tag</span>
       <button v-for="t in usedTags" :key="t" class="chip"
@@ -402,7 +449,8 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
       <button v-for="b in blocks" :key="b.id" tabindex="-1"
               :style="{flex: b.weight}" :class="{on: sel === b.id, dim: !b.match}"
               @click="pick(b.id)">
-        <i :class="'f-' + (note(b.id).force || 'MAY')"></i>
+        <i :class="railAxis === 'role' ? 'r-' + (role(b.id).role || 'inert')
+                                       : 'f-' + (note(b.id).force || 'MAY')"></i>
       </button>
     </div>
 
@@ -419,6 +467,10 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
             {{ view === 'single' ? 'rescaled in multi-target' : 'differs from single-target' }}
           </span>
           <span class="badge same" v-if="note(b.id).inherited">identical to single-target</span>
+          <span class="role" :class="role(b.id).role" v-if="role(b.id).role"
+                :title="role(b.id).why">{{ role(b.id).role }}</span>
+          <span class="role" :class="r" v-for="r in role(b.id).also || []" :key="r"
+                style="opacity:.55">+ {{ r }}</span>
         </div>
         <div class="ctabs" v-if="code(b.id)">
           <button :aria-pressed="String(tabOf(b.id) === 'note')"
@@ -449,6 +501,19 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
         <template v-else>
           <h3>{{ note(b.id).title }}</h3>
           <p>{{ note(b.id).note }}</p>
+          <!-- The evidence the role classification had to produce to be accepted.
+               A `metric` with no predicate fails the build, so if this renders, the
+               check was actually written down. -->
+          <div class="evid" v-if="role(b.id).predicate">
+            <span class="lbl">as a metric</span><code>{{ role(b.id).predicate }}</code>
+          </div>
+          <div class="evid sig" v-if="role(b.id).outputs">
+            <span class="lbl">signature outputs</span>
+            <code>{{ (role(b.id).outputs || []).join('  ·  ') }}</code>
+          </div>
+          <div class="evid" v-if="role(b.id).blocker">
+            <span class="lbl">DSPy lacks</span><code>{{ role(b.id).blocker }}</code>
+          </div>
           <div class="tags">
             <span class="tag" v-for="t in note(b.id).tags" :key="t">{{ t }}</span>
           </div>
@@ -553,6 +618,61 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
         </table>
       </div>
 
+      <div class="panel" v-if="hasRoles">
+        <h2>The same document as a DSPy program</h2>
+        <p class="lede">
+          Every block classified by the role it would play if the campaign were rebuilt with
+          <a href="https://github.com/stanfordnlp/dspy">DSPy</a> signatures and modules. The
+          classification carries an evidence requirement: a block counts as
+          <span class="role metric">metric</span> only if the predicate was written down, and
+          <span class="role signature">signature</span> only if the output fields were named.
+          The build fails otherwise, so these counts are claims someone had to cash.
+          Share is by <em>text</em>, not blocks — one line of this document runs to 6,000
+          characters. Switch the centre rail to <strong>role</strong> in the filter drawer to
+          see the distribution down the document.
+        </p>
+        <table>
+          <thead><tr><th>Role</th><th>Blocks</th><th>Text</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr v-for="r in roleRows" :key="r.r">
+              <td><span class="role" :class="r.r">{{ r.r }}</span></td>
+              <td class="mono">{{ r.n }}</td>
+              <td class="mono">{{ r.pct }}%</td>
+              <td>{{ r.meaning }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel" v-if="hasRoles">
+        <h2>Force against role</h2>
+        <p class="lede">
+          The experiment. <strong>Force</strong> was assigned by reading the prompt for how hard
+          each clause binds, before DSPy was ever considered; <strong>role</strong> was assigned
+          afterwards, against a rubric that never mentions force. If the two axes agree, the
+          document was already carrying the decomposition and nobody had to invent it.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Force</th>
+              <th v-for="c in (crossTab[0] || {cells:[]}).cells" :key="c.r">
+                <span class="role" :class="c.r">{{ c.r }}</span>
+              </th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in crossTab" :key="row.f">
+              <td><span class="force" :class="row.f">{{ row.f }}</span></td>
+              <td class="mono" v-for="c in row.cells" :key="c.r"
+                  :style="{opacity: c.n ? 1 : .25}">{{ c.n }}</td>
+              <td class="mono">{{ row.total }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="panel">
         <h2>Enforcement profile</h2>
         <p class="lede">
@@ -615,6 +735,25 @@ payload.regions.forEach(function (r) {
   r.mt_ids.forEach(function (id) { changedIds[id] = true; });
 });
 
+// The DSPy-role axis. Authored for the single-target document; a multi-target block
+// whose text is byte-identical carries {inherited: "st-NNN"}, same as its annotation.
+const roles = payload.roles || {};
+function roleFor(id) {
+  const r = roles[id];
+  if (!r) return {};
+  return r.inherited ? (roles[r.inherited] || {}) : r;
+}
+
+const ROLE_MEANING = {
+  code:        'a computation the agent must implement — the body of forward(), or a guard',
+  metric:      'an obligation on an artifact, decidable after the fact — a metric function',
+  signature:   'a judgment a model must make, with a nameable structured output',
+  scaffolding: 'campaign machinery DSPy has no vocabulary for',
+  corpus:      'reference material — retrieval, not instruction',
+  inert:       'a header or framing line carrying no obligation',
+  unclear:     'resisted every role; recorded rather than forced'
+};
+
 const KIND_MEANING = {
   logic:    'an algorithm — thresholds, ordering, arithmetic, control flow',
   schema:   'a frozen data shape: columns, dtypes, required keys',
@@ -648,7 +787,7 @@ const App = {
       view: 'single', q: '', sel: null,
       showFilters: false, plain: false,
       pyMode: false, tabs2: {},
-      tagSel: [], forceSel: [],
+      tagSel: [], forceSel: [], roleSel: [], railAxis: 'force',
       scroll: { top: 0, height: 1, client: 1 }, syncing: false, pending: false,
       tabs: [
         { id: 'single', label: 'Single target' },
@@ -690,6 +829,9 @@ const App = {
           match = (b.raw + ' ' + (n.title || '') + ' ' + (n.note || '')).toLowerCase().indexOf(q) >= 0;
         }
         if (match && self.forceSel.length) match = self.forceSel.indexOf(n.force) >= 0;
+        if (match && self.roleSel.length) {
+          match = self.roleSel.indexOf(roleFor(b.id).role) >= 0;
+        }
         if (match && self.tagSel.length) {
           match = (n.tags || []).some(function (t) { return self.tagSel.indexOf(t) >= 0; });
         }
@@ -738,7 +880,47 @@ const App = {
     changedBlockCount: function () {
       return payload.regions.reduce(function (n, r) { return n + r.st_ids.length; }, 0);
     },
-    activeFilterCount: function () { return this.tagSel.length + this.forceSel.length; },
+    hasRoles: function () { return !!payload.rolemeta && !!payload.rolemeta.counts; },
+    roleCounts: function () {
+      const c = {};
+      this.doc.blocks.forEach(function (b) {
+        const r = roleFor(b.id).role;
+        if (r) c[r] = (c[r] || 0) + 1;
+      });
+      return c;
+    },
+    usedRoles: function () {
+      const c = this.roleCounts;
+      return (this.vocab.roles || []).filter(function (r) { return c[r]; });
+    },
+    roleRows: function () {
+      // The headline table: how the DSPy axis lands, by block and by text. Text is the
+      // honest denominator here -- one line of this document runs to 6,000 characters.
+      const m = payload.rolemeta;
+      return (this.vocab.roles || []).filter(function (r) { return m.counts[r]; })
+        .map(function (r) {
+          return { r: r, n: m.counts[r], pct: m.pct_chars[r],
+                   meaning: ROLE_MEANING[r] };
+        });
+    },
+    crossTab: function () {
+      // force x role. This is the actual experimental result: whether the normative
+      // axis derived by reading predicts the DSPy axis derived by classification.
+      const m = payload.rolemeta, self = this;
+      return this.vocab.forces.map(function (f) {
+        const row = m.by_force[f] || {};
+        return {
+          f: f,
+          cells: (self.vocab.roles || []).filter(function (r) {
+            return m.counts[r];
+          }).map(function (r) { return { r: r, n: row[r] || 0 }; }),
+          total: Object.keys(row).reduce(function (a, k) { return a + row[k]; }, 0)
+        };
+      });
+    },
+    activeFilterCount: function () {
+      return this.tagSel.length + this.forceSel.length + this.roleSel.length;
+    },
     codedCount: function () {
       return this.doc.blocks.filter(function (b) { return !!pycode[b.id]; }).length;
     },
@@ -760,6 +942,10 @@ const App = {
   methods: {
     note: function (id) { return notes[id] || {}; },
     code: function (id) { return codeFor(id); },
+    role: function (id) { return roleFor(id); },
+    toggleRail: function () {
+      this.railAxis = this.railAxis === 'force' ? 'role' : 'force';
+    },
     // Global default, overridable per card: flipping one card back to the note should
     // not flip the other 49 with it.
     tabOf: function (id) {

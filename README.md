@@ -11,7 +11,9 @@ self-contained — open it by double-clicking, no server, no build step at view 
 
 Each of the 264 lines is annotated with what it does, who owns it, and how hard it binds.
 The 50 clauses that are *mechanically* enforced are additionally re-coded as Python, which
-you can read side-by-side with the prose.
+you can read side-by-side with the prose. A second axis classifies every block by what it
+would be if the campaign were rebuilt as a [DSPy](https://github.com/stanfordnlp/dspy)
+program — and refuses the label unless the evidence for it is written down.
 
 ---
 
@@ -105,6 +107,8 @@ blocks: single=170 multi=184  sections=32
 annotations: single=170/170 multi=184/184 (142 inherited, 42 authored)
 pycode: 51 region(s) across 9 module(s) covering 50/50 MECHANICAL blocks
         24 checks passed; every region round-trips through the highlighter
+dspy roles: code=48, metric=39, signature=11, scaffolding=26, corpus=32, inert=13, unclear=1
+            multi-target: 167/184 inherited (142 identical, 25 rescaled)
 template slots: 36 varying line(s) across 16 prompts -> 6 slot(s)
 fidelity: 354 blocks round-trip from index.html
 ```
@@ -121,11 +125,14 @@ same block.
 
 The **centre rail** carries one tick per block, weighted by normative force — solid for
 `MECHANICAL`, hairline for `SHOULD`, hollow for `MAY`. It is a minimap, a scroll indicator,
-and a picture of how unevenly the machine-checked clauses are distributed.
+and a picture of how unevenly the machine-checked clauses are distributed. It can be
+recoloured to the **DSPy role** axis instead, which is how the disagreement between the two
+classifications becomes visible.
 
 **As Python** turns each annotation card into that block's code, with clickable chips
-showing which other block defines a name it borrows. **Δ Scaling** shows every difference
-between the two prompts with word-level diffs.
+showing which other block defines a name it borrows. Each card also carries its DSPy role
+and the evidence for it — the predicate, the output fields, or the capability DSPy lacks.
+**Δ Scaling** shows every difference between the two prompts with word-level diffs.
 
 Filters dim rather than hide, so the document stays continuous. `j`/`k` step, `/` searches,
 `p` toggles Python, `Esc` clears.
@@ -164,6 +171,29 @@ Doing that arithmetic also surfaced a small inconsistency in the prompt itself. 
 in the prose — while the `floor()` rule the same block specifies gives 94, and so 1.60x.
 Immaterial in dollars; flagged rather than corrected.
 
+**How hard a clause binds says little about whether it can be checked.** Classifying the
+same 170 blocks a second time — by what each would be in a DSPy program — gives 48 `code`,
+39 `metric`, 26 `scaffolding`, 32 `corpus`, 13 `inert`, one `unclear`, and only **11
+`signature` blocks: places where a model must actually exercise judgment.** Ten of those
+eleven are epistemic rather than scientific; they govern how the campaign reasons and
+reports, not what it designs.
+
+Set against the force axis, the two agree at the extremes and part company in the middle:
+
+|  | code | metric | signature | scaffolding | corpus | inert | unclear |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `MECHANICAL` | **33** | 9 | · | 8 | · | · | · |
+| `MUST` | 14 | **28** | 9 | 17 | 2 | 10 | 1 |
+| `SHOULD` | · | 2 | 1 | · | **30** | · | · |
+| `MAY` | 1 | · | 1 | 1 | · | 3 | · |
+
+`MUST` scatters across five roles with no majority — "you must" states a consequence, not a
+check. The blocks that resist becoming metrics are the ones whose subject the campaign never
+records: pacing between generation and scoring, "use as much time as possible", adversarial
+review of every deliverable. Making those checkable is a change to what the campaign
+*writes down*, not to how the prompt is worded. Method, counterexample and verdict in
+[dspy_slice/README.md](dspy_slice/README.md).
+
 Full detail, tables and method in [ANALYSIS.md](ANALYSIS.md).
 
 ---
@@ -177,7 +207,9 @@ index.html                generated, self-contained, opens on file://
 annotations/
   single_target.json      170 block annotations for 15-PGDH.md
   multi_target.json       42 authored; the other 142 blocks inherit by exact text match
+  dspy_roles.json         the DSPy-role axis over the same 170 blocks, with its evidence
 pycode/                   the 50 MECHANICAL blocks as one Python package + its selftest
+dspy_slice/               the DSPy feasibility experiment; runs offline, outside the build
 ANALYSIS.md               the written dissection
 CLAUDE.md                 repo conventions
 plans/                    approved implementation plans, plus plan-overview.md (status)
@@ -201,6 +233,11 @@ The build fails rather than producing a plausible-looking page:
 - **Code.** Every `MECHANICAL` block must have a `pycode/` region, every module must
   compile, every region must round-trip through the syntax highlighter byte-for-byte, and
   `pycode/selftest.py` must pass.
+- **Evidence.** Every block must carry a DSPy role, and the role must be earned: a `metric`
+  without a predicate naming a concrete artifact, a `signature` without its output fields,
+  or a `scaffolding` without a named missing capability fails the build. This is the rule
+  that keeps the axis from degenerating into relabelling — it is easy to call something a
+  metric and hard to write the predicate.
 
 ---
 
@@ -211,6 +248,13 @@ runnable against real services — `pycode/external.py` stubs the provider and h
 surfaces so the package imports and its pure logic can be exercised. Its purpose is to make
 the prompt's own arithmetic and control flow legible, and its selftest checks that the
 arithmetic the prompt states is the arithmetic the code computes.
+
+`dspy_slice/` is likewise an experiment rather than a port. It rebuilds one slice — roster
+bring-up triage — as a DSPy program and runs it offline on `dspy.utils.DummyLM`, so **no
+real model is called anywhere in it** and nothing in it measures a model's skill. What it
+measures is control flow: a guarded program and an unguarded one, driven by the *same*
+unreliable scripted model, score 1.00 and 0.60–0.80 against the same metric. It needs
+`pip install dspy` and is deliberately outside `build.py`, which stays stdlib-only.
 
 ## Licensing
 

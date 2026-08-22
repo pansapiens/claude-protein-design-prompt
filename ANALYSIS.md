@@ -237,6 +237,45 @@ the WATCHDOG escalation ladder and its independent runaway brake).
 
 ---
 
+## 5a. The same document as a DSPy program
+
+A separate experiment, in `dspy_slice/`: one slice of the prompt rebuilt with
+[DSPy](https://github.com/stanfordnlp/dspy) signatures and modules, and all 170 blocks
+classified by the role each would play in such a program. The classification carries an
+evidence requirement the build enforces — a block counts as `metric` only if the
+predicate was written down, `signature` only if the output fields were named — so the
+counts are claims someone had to cash rather than labels.
+
+| Role | Blocks | Text |
+|---|---:|---:|
+| `code` — a computation to implement | 48 | 46.0% |
+| `metric` — an obligation on an artifact, decidable after the fact | 39 | 19.0% |
+| `scaffolding` — machinery DSPy cannot express | 26 | 25.1% |
+| `corpus` — the bibliography | 32 | 3.8% |
+| `inert` — headers and framing | 13 | 1.5% |
+| `signature` — a judgment a model must make | 11 | 4.1% |
+| `unclear` — st-264, Safety | 1 | 0.6% |
+
+**The result contradicted the prediction.** From a five-block sample I had extrapolated
+that ~66 of the 81 `MUST` blocks were checkable predicates; the measured figure is 28,
+or 45 counting `metric` as a secondary role. The `force` and role axes agree at the
+extremes — `MECHANICAL` is two-thirds `code`, `SHOULD` is nine-tenths `corpus` — but
+`MUST` scatters across five roles with no majority. Normative force turns out to be
+nearly independent of decidability: "you must" states a consequence, not a check.
+
+Two secondary findings. `MECHANICAL` is not uniformly code — 9 of the 50 blocks state a
+property of a shipped file rather than a computation, and 8 are process machinery. And
+several blocks read like metrics but are not, because the campaign never records their
+subject: generation-scoring pace (st-160) describes a momentary queue state, "use as much
+time as possible" (st-200) supplies no number, and adversarial review of every deliverable
+(st-198) names no artifact where reviews are recorded.
+
+The viewer carries the axis as a badge, a filter, a rail colouring and two delta-view
+tables. `dspy_slice/README.md` has the verdict, the runnable slice, and the
+counterexample — `submit_gate()` written as a signature, which runs and is wrong.
+
+---
+
 ## 6. Recurring rhetorical moves
 
 Reading all 170 blocks, a handful of patterns account for most of the document's unusual passages.
