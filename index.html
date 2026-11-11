@@ -2767,6 +2767,22 @@ header{
 }
 .hbtn[aria-pressed=true]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
 
+/* ─── about dialog ──────────────────────────────────────────────────────── */
+.about-bg{
+  position:fixed; inset:0; z-index:20; background:rgba(18,21,26,.35);
+  display:flex; align-items:flex-start; justify-content:center; padding:72px 16px 16px; overflow-y:auto;
+}
+.about{
+  position:relative; background:var(--paper); border:1px solid var(--rule); border-radius:8px;
+  max-width:620px; padding:22px 26px 18px; box-shadow:0 8px 30px rgba(18,21,26,.18);
+  font-size:14px; line-height:1.55;
+}
+.about h2{margin:0 0 10px; font-size:16px}
+.about h3{margin:16px 0 6px; font-size:12px; font-family:"IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3)}
+.about p{margin:0 0 10px}
+.about ul{margin:0; padding-left:20px}
+.about-x{position:absolute; top:14px; right:16px}
+
 /* ─── filter drawer ─────────────────────────────────────────────────────── */
 .drawer{
   flex:0 0 auto; border-bottom:1px solid var(--rule); background:var(--sunk);
@@ -3040,7 +3056,32 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
       As Python<span class="pycount">{{ codedCount }}</span>
     </button>
     <button class="hbtn" :aria-pressed="String(!plain)" @click="togglePlain">Highlight</button>
+    <button class="hbtn" :aria-pressed="String(showAbout)" @click="showAbout = true">About</button>
   </header>
+
+  <div class="about-bg" v-if="showAbout" @click.self="showAbout = false">
+    <div class="about" role="dialog" aria-modal="true" aria-labelledby="about-h">
+      <button class="hbtn about-x" @click="showAbout = false" aria-label="Close">Close</button>
+      <h2 id="about-h">About this viewer</h2>
+      <p>This is a dissection of the protein binder design campaign prompts Anthropic released as
+        <a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Anthropic/claude-protein-binder-design</a>:
+        16 single-target prompts, one multi-target prompt, two kickoff messages and a 1.1 GB
+        reference corpus.</p>
+      <p>To help navigate and interpret the prompts, the viewer shows the prompt text on the left, a
+        per-block annotation on the right, and a quick navigation overview between them. The prompt text is
+        the unmodified source. The annotations are this project's own reading of it.</p>
+      <p>The 50 clauses that are <em>mechanically</em> enforced are additionally re-coded as Python,
+        which you can read side by side with the prose using the As Python button. That code is a
+        reconstruction for reading, not the campaign's implementation.</p>
+      <h3>Original sources</h3>
+      <ul>
+        <li><a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
+        <li><a href="https://www.anthropic.com/research/Claude-accelerates-protein-design" target="_blank" rel="noopener">Blog post: Claude accelerates protein design</a></li>
+        <li><a href="https://www-cdn.anthropic.com/30bf50e22a01388bb29bf077ee3f244531594b7a.pdf" target="_blank" rel="noopener">Technical report (PDF)</a></li>
+        <li><a href="https://github.com/pansapiens/claude-protein-design-prompt" target="_blank" rel="noopener">This project on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
 
   <div class="drawer" v-if="showFilters && view !== 'delta'">
     <div class="fgroup">
@@ -3333,7 +3374,7 @@ const App = {
     return {
       payload: payload, vocab: payload.vocab,
       view: 'single', q: '', sel: null,
-      showFilters: false, plain: false,
+      showFilters: false, plain: false, showAbout: false,
       pyMode: false, tabs2: {},
       tagSel: [], forceSel: [],
       scroll: { top: 0, height: 1, client: 1 }, syncing: false, pending: false,
@@ -3529,7 +3570,7 @@ const App = {
     window.addEventListener('keydown', function (e) {
       const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
       if (e.key === '/' && !typing) { e.preventDefault(); self.$refs.search.focus(); return; }
-      if (e.key === 'Escape') { self.q = ''; self.sel = null; document.activeElement.blur(); return; }
+      if (e.key === 'Escape') { self.showAbout = false; self.q = ''; self.sel = null; document.activeElement.blur(); return; }
       if (typing || self.view === 'delta') return;
       if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); self.step(1); }
       if (e.key === 'ArrowUp'   || e.key === 'k') { e.preventDefault(); self.step(-1); }
