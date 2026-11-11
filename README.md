@@ -1,15 +1,15 @@
 # Dissecting the Claude protein binder design prompts
 
-A close reading of the campaign prompts Anthropic released as
+View at: [https://pansapiens.github.io/claude-protein-design-prompt/](https://pansapiens.github.io/claude-protein-design-prompt/)
+
+This is a dissection of the protein binder design campaign prompts Anthropic released as
 [**Anthropic/claude-protein-binder-design**](https://huggingface.co/datasets/Anthropic/claude-protein-binder-design)
 — 16 single-target prompts, one multi-target prompt, two kickoff messages and a 1.1 GB
 reference corpus.
 
-The deliverable is **`index.html`**: a two-pane viewer with the prompt on the left, a
-per-block annotation on the right, and an enforcement rail between them. It is
-self-contained — open it by double-clicking, no server, no build step at view time.
+To help navigate and interpret the prompts, there is a two-pane viewer with the prompt on the left, a
+per-block annotation on the right, and a quick navigation overview between them.
 
-Each of the 264 lines is annotated with what it does, who owns it, and how hard it binds.
 The 50 clauses that are *mechanically* enforced are additionally re-coded as Python, which
 you can read side-by-side with the prose.
 
@@ -17,8 +17,7 @@ you can read side-by-side with the prose.
 
 ## Getting the source bundle
 
-The release bundle is **not** in this repository — it is 1.1 GB and belongs to its
-publisher. Download it from the original source into the repo root:
+The original release bundle from Anthropic in not included in this repository. You can download it from the original source from [https://huggingface.co/datasets/Anthropic/claude-protein-binder-design](https://huggingface.co/datasets/Anthropic/claude-protein-binder-design), like:
 
 ```bash
 curl -L -o protein_binder_design_prompts_release.zip \
@@ -43,50 +42,6 @@ protein_binder_design_prompts_release/
 │   └── kickoff/
 └── corpus/                     339 files of reference material
 ```
-
-Or, via the HuggingFace CLI:
-
-```bash
-pip install huggingface_hub
-hf download Anthropic/claude-protein-binder-design \
-  prompts/protein_binder_design_prompts_release.zip \
-  --repo-type dataset --local-dir .
-```
-
-(On `huggingface_hub` older than 0.34 the command is `huggingface-cli download`, same
-arguments.)
-
-### Verifying the download
-
-`MANIFEST.sha256` uses a three-column format — `sha256  size  path` — so plain
-`sha256sum -c` will report every file as failed. Check it like this instead:
-
-```bash
-python3 - <<'EOF'
-import hashlib, os
-root = "protein_binder_design_prompts_release"
-bad = n = 0
-for line in open(os.path.join(root, "MANIFEST.sha256")):
-    parts = line.split()
-    if len(parts) < 3:
-        continue
-    digest, path = parts[0], " ".join(parts[2:])
-    h = hashlib.sha256()
-    with open(os.path.join(root, path), "rb") as fh:
-        for chunk in iter(lambda: fh.read(1 << 20), b""):
-            h.update(chunk)
-    n += 1
-    if h.hexdigest() != digest:
-        print("MODIFIED", path)
-        bad += 1
-print(f"{n} files verified, {bad} modified")
-EOF
-```
-
-Expect `339 files verified, 0 modified`.
-
-**The bundle is read-only.** Nothing in this repository writes to it; all analysis reads
-from it and the build re-verifies its own assumptions about it on every run.
 
 ---
 
