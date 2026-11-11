@@ -72,7 +72,11 @@ header{
 }
 .search:focus-within{border-color:var(--sel); box-shadow:0 0 0 3px var(--sel-bg)}
 .search input{border:none; outline:none; font:inherit; font-size:13px; width:100%; background:none}
-.search .k{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3)}
+.search .k{font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink3); white-space:nowrap}
+.search .nav{display:flex; gap:1px}
+.search .nav button{font-size:12px; line-height:1; padding:2px 5px; border-radius:3px; color:var(--ink2)}
+.search .nav button:hover:not(:disabled){background:var(--sunk); color:var(--ink)}
+.search .nav button:disabled{opacity:.35}
 .hbtn{
   font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.05em;
   text-transform:uppercase; color:var(--ink2); padding:6px 9px; border-radius:4px;
@@ -355,9 +359,15 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
 
     <label class="search">
       <input ref="search" type="search" v-model="q" placeholder="Search prompt and annotations"
-             aria-label="Search">
-      <span class="k" v-if="!q">/</span>
-      <span class="k" v-else>{{ matchCount }}</span>
+             aria-label="Search" @keydown.enter.prevent="step($event.shiftKey ? -1 : 1)">
+      <span class="k" v-if="!narrowed">/</span>
+      <template v-else>
+        <span class="k">{{ matchPos ? matchPos + '/' : '' }}{{ matchCount }}</span>
+        <span class="nav" v-if="view !== 'delta'">
+          <button @click.prevent="step(-1)" :disabled="!matchCount" title="Previous match (Shift+Enter, k)" aria-label="Previous match">&uarr;</button>
+          <button @click.prevent="step(1)" :disabled="!matchCount" title="Next match (Enter, j)" aria-label="Next match">&darr;</button>
+        </span>
+      </template>
     </label>
 
     <button class="hbtn" :aria-pressed="String(showFilters)" @click="showFilters = !showFilters"
@@ -749,6 +759,11 @@ const App = {
     matchCount: function () {
       return this.blocks.filter(function (b) { return b.match; }).length;
     },
+    narrowed: function () { return !!this.q || this.activeFilterCount > 0; },
+    matchPos: function () {
+      return this.blocks.filter(function (b) { return b.match; })
+        .findIndex(function (b) { return b.id === this.sel; }, this) + 1;
+    },
     tagCounts: function () {
       const c = {};
       this.doc.blocks.forEach(function (b) {
@@ -873,7 +888,8 @@ const App = {
       const list = this.blocks.filter(function (b) { return b.match; });
       if (!list.length) return;
       let i = list.findIndex(function (b) { return b.id === this.sel; }, this);
-      i = i < 0 ? (d > 0 ? 0 : list.length - 1) : Math.min(list.length - 1, Math.max(0, i + d));
+      // Wraps at either end, like a browser's find bar.
+      i = i < 0 ? (d > 0 ? 0 : list.length - 1) : (i + d + list.length) % list.length;
       this.pick(list[i].id);
     }
   },
