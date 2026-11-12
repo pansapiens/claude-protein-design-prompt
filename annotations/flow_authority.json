@@ -1,6 +1,6 @@
 {
-  "title": "Who may do what",
-  "lede": "Each agent role, the shared state it reads or writes, and the external surfaces it alone may touch. Every node and arrow cites the block that states it; the quoted text is checked against the prompt on every build.",
+  "title": "Subagent roles",
+  "lede": "Each agent role, the shared state it reads or writes, and the external surfaces it alone may touch. Every node and arrow cites the block of the prompt that states it.",
   "nodes": [
     {
       "id": "ORCH",

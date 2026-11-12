@@ -411,17 +411,19 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   <div class="about-bg" v-if="showAbout" @click.self="showAbout = false">
     <div class="about" role="dialog" aria-modal="true" aria-labelledby="about-h">
       <button class="hbtn about-x" @click="showAbout = false" aria-label="Close">Close</button>
-      <h2 id="about-h">About this viewer</h2>
+      <h2 id="about-h">Claude Protein Design Prompt Analysis</h2>
       <p>This is a dissection of the protein binder design campaign prompts Anthropic released as
         <a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Anthropic/claude-protein-binder-design</a>:
-        16 single-target prompts, one multi-target prompt, two kickoff messages and a 1.1 GB
-        reference corpus.</p>
+        a prompt for a single protein target, and a multi-target version.</p>
       <p>To help navigate and interpret the prompts, the viewer shows the prompt text on the left, a
         per-block annotation on the right, and a quick navigation overview between them. The prompt text is
         the unmodified source. The annotations are this project's own reading of it.</p>
       <p>The 50 clauses that are <em>mechanically</em> enforced are additionally re-coded as Python,
         which you can read side by side with the prose using the As Python button. That code is a
         reconstruction for reading, not the campaign's implementation.</p>
+      <p>The Flow tab, shown first, is a diagram of the overall orchestration: which agents, state
+        stores and external surfaces exist, and which prompt rules give each one authority over the
+        others. Click a node to list its rules, each tied to the prompt block it quotes.</p>
       <h3>Original sources</h3>
       <ul>
         <li><a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
@@ -763,16 +765,16 @@ const App = {
   data: function () {
     return {
       payload: payload, vocab: payload.vocab,
-      view: 'single', q: '', sel: null,
-      showFilters: false, plain: false, showAbout: false,
+      view: 'flow', q: '', sel: null,
+      showFilters: false, plain: false, showAbout: true,
       pyMode: false, tabs2: {},
       tagSel: [], forceSel: [],
       scroll: { top: 0, height: 1, client: 1 }, syncing: false, pending: false,
       tabs: [
+        { id: 'flow',   label: 'Flow' },
         { id: 'single', label: 'Single target' },
         { id: 'multi',  label: 'Multi target' },
-        { id: 'delta',  label: 'Δ Scaling' },
-        { id: 'flow',   label: 'Flow' }
+        { id: 'delta',  label: 'Δ Scaling' }
       ],
       scaling: SCALING,
       flow: payload.flow, flowSel: null,
@@ -1031,6 +1033,7 @@ const App = {
 
   mounted: function () {
     const self = this;
+    if (this.view === 'flow') this.renderFlow();
     window.addEventListener('keydown', function (e) {
       const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
       if (e.key === '/' && !typing) { e.preventDefault(); self.$refs.search.focus(); return; }
