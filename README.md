@@ -68,7 +68,7 @@ fidelity: 354 blocks round-trip from index.html
 
 ## Using the viewer
 
-Three views, switched from the header.
+Four views, switched from the header.
 
 **Single target** and **Multi target** put the prompt beside its annotation. Click either
 side to select the pair; scrolling the prompt keeps the annotation pane anchored to the
@@ -80,7 +80,9 @@ and a picture of how unevenly the machine-checked clauses are distributed.
 
 **As Python** turns each annotation card into that block's code, with clickable chips
 showing which other block defines a name it borrows. **Δ Scaling** shows every difference
-between the two prompts with word-level diffs.
+between the two prompts with word-level diffs. **Flow** draws which agent role may dispatch,
+read, write or terminate what (19 nodes, 36 rules); click a node to list its rules, each
+with the verbatim quote and a link to its block.
 
 Filters dim rather than hide, so the document stays continuous. `j`/`k` step, `/` searches,
 `p` toggles Python, `Esc` clears.
@@ -132,6 +134,7 @@ index.html                generated, self-contained, opens on file://
 annotations/
   single_target.json      170 block annotations for 15-PGDH.md
   multi_target.json       42 authored; the other 142 blocks inherit by exact text match
+  flow_authority.json     the Flow tab's graph; every edge quotes its block verbatim
 pycode/                   the 50 MECHANICAL blocks as one Python package + its selftest
 ANALYSIS.md               the written dissection
 CLAUDE.md                 repo conventions

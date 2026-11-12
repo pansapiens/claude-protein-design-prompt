@@ -573,6 +573,48 @@ def validate(blocks: list[dict], notes: dict, label: str, strict: bool) -> list[
     return problems if strict else [p for p in problems if "unknown" in p or "bad" in p]
 
 
+FLOW_ARROWS = {"dispatch": "==>", "write": "-->", "read": "-.->", "terminate": "--x", "never": "-.-x"}
+FLOW_SHAPES = {"agent": ('(["', '"])'), "code": ('[["', '"]]'), "state": ('[("', '")]'),
+               "external": ('{{"', '"}}')}
+
+
+def load_flow(raw_by_id: dict[str, str]) -> dict:
+    """The Flow tab's authority graph. Every node name and every edge quote must appear
+    verbatim in the block it cites, so the diagram cannot drift into paraphrase."""
+    flow = json.loads((ANNOTATIONS / "flow_authority.json").read_text(encoding="utf-8"))
+    ids = {n["id"] for n in flow["nodes"]}
+    for n in flow["nodes"]:
+        assert n["kind"] in FLOW_SHAPES, f"flow node {n['id']}: kind {n['kind']}"
+        assert n["match"] in raw_by_id[n["block"]], f"flow node {n['id']}: {n['match']!r} not in {n['block']}"
+        assert n.get("summary", "").strip(), f"flow node {n['id']}: missing summary"
+    for e in flow["edges"]:
+        assert e["from"] in ids and e["to"] in ids, f"flow edge {e['from']}->{e['to']}: unknown node"
+        assert e["kind"] in FLOW_ARROWS, f"flow edge {e['from']}->{e['to']}: kind {e['kind']}"
+        assert e["quote"] in raw_by_id[e["block"]], \
+            f"flow edge {e['from']}->{e['to']}: quote not found verbatim in {e['block']}"
+
+    lines = ["flowchart TB"]
+    for n in flow["nodes"]:
+        a, b = FLOW_SHAPES[n["kind"]]
+        lines.append(f"  {n['id']}{a}{n['label']}{b}:::{n['kind']}")
+    for i, e in enumerate(flow["edges"]):
+        # No edge labels: they double the diagram's width. The rule list beside it carries
+        # each edge's label and quote.
+        lines.append(f"  {e['from']} {FLOW_ARROWS[e['kind']]} {e['to']}")
+        if e["kind"] == "never":
+            lines.append(f"  linkStyle {i} stroke:#B42318,color:#B42318")
+    lines += [f"  click {n['id']} flowNode" for n in flow["nodes"]]
+    lines += [
+        "  classDef agent fill:#EEF2FE,stroke:#2F4FD8,color:#12151A",
+        "  classDef code fill:#F4F5F7,stroke:#12151A,color:#12151A",
+        "  classDef state fill:#FBFBFC,stroke:#8B93A1,color:#12151A",
+        "  classDef external fill:#FFF6E8,stroke:#8A5200,color:#12151A",
+    ]
+    flow["mermaid"] = "\n".join(lines)
+    print(f"flow: {len(flow['nodes'])} nodes, {len(flow['edges'])} edges; every quote found verbatim")
+    return flow
+
+
 def main() -> int:
     strict = "--draft" not in sys.argv
 
@@ -655,6 +697,7 @@ def main() -> int:
         "slot_lines": slot_lines,
         "n_single_prompts": n_prompts,
         "regions": regions,
+        "flow": load_flow({b["id"]: b["raw"] for b in st_blocks}),
         "vocab": {"tags": list(TAGS), "forces": list(FORCES), "owners": list(OWNERS)},
     }
 

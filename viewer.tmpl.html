@@ -310,6 +310,32 @@ del{background:#FBE7E7; color:#8A2020; text-decoration:none; border-radius:2px; 
 ins{background:#E4F3EA; color:#14603F; text-decoration:none; border-radius:2px; padding:0 2px}
 .dnew{padding:10px 13px; font-size:13.5px; background:#F6FAF7; border-left:2px solid var(--green)}
 
+/* ─── flow view ───────────────────────────────────────────────────────── */
+.flowsvg svg{max-width:100%; height:auto}
+.flowsvg .node{cursor:pointer}
+.flowsvg .node.focus rect, .flowsvg .node.focus path, .flowsvg .node.focus polygon{stroke-width:3px}
+.flowsvg .dim{opacity:.12}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink2); margin:0}
+.legend .never{color:#B42318}
+.legend .ln{display:inline-block; width:22px; vertical-align:middle; margin-right:6px; border-top:1.5px solid currentColor}
+.legend .ln.thick{border-top-width:3.5px}
+.legend .ln.dot{border-top-style:dotted; border-top-width:2px}
+.pin{position:sticky; top:0; z-index:2; margin:0 0 14px; padding:12px 14px;
+  background:var(--sel-bg); border:1px solid #C9D3F8; border-radius:6px; font-size:13.5px; line-height:1.55;
+  box-shadow:0 2px 0 var(--paper), 0 -24px 0 var(--paper)}
+.pin .rh{display:flex; justify-content:space-between; align-items:center; gap:8px;
+  font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600}
+.pin p{margin:6px 0}
+.pin .kind{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.06em; color:var(--ink3)}
+.rule{padding:9px 0; border-bottom:1px solid var(--rule2); font-size:13px}
+.rule .rh{display:flex; justify-content:space-between; gap:8px; font-family:"IBM Plex Mono",monospace; font-size:11.5px}
+.rule .rl{color:var(--ink2); margin:2px 0 4px}
+.rule q{display:block; color:#2B313C; font-style:italic; font-size:12.5px}
+.rule.never .rh b, .rule.never .rl{color:#B42318}
+.xref{white-space:nowrap; flex-shrink:0; font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--sel); border:1px solid var(--rule);
+  border-radius:3px; padding:1px 6px; margin-left:6px; text-transform:none; letter-spacing:0}
+.xref:hover{background:var(--sel-bg)}
+
 /* ─── tables in the delta pane ──────────────────────────────────────────── */
 .panel{max-width:62ch; margin-bottom:34px}
 .panel h2{
@@ -357,13 +383,13 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
 
     <span class="grow"></span>
 
-    <label class="search">
+    <label class="search" v-if="view !== 'flow'">
       <input ref="search" type="search" v-model="q" placeholder="Search prompt and annotations"
              aria-label="Search" @keydown.enter.prevent="step($event.shiftKey ? -1 : 1)">
       <span class="k" v-if="!narrowed">/</span>
       <template v-else>
         <span class="k">{{ matchPos ? matchPos + '/' : '' }}{{ matchCount }}</span>
-        <span class="nav" v-if="view !== 'delta'">
+        <span class="nav" v-if="isDoc">
           <button @click.prevent="step(-1)" :disabled="!matchCount" title="Previous match (Shift+Enter, k)" aria-label="Previous match">&uarr;</button>
           <button @click.prevent="step(1)" :disabled="!matchCount" title="Next match (Enter, j)" aria-label="Next match">&darr;</button>
         </span>
@@ -371,11 +397,11 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
     </label>
 
     <button class="hbtn" :aria-pressed="String(showFilters)" @click="showFilters = !showFilters"
-            v-if="view !== 'delta'">
+            v-if="isDoc">
       Filters<span v-if="activeFilterCount"> · {{ activeFilterCount }}</span>
     </button>
     <button class="hbtn" :aria-pressed="String(pyMode)" @click="togglePy"
-            v-if="view !== 'delta'" title="Show the mechanical clauses as Python">
+            v-if="isDoc" title="Show the mechanical clauses as Python">
       As Python<span class="pycount">{{ codedCount }}</span>
     </button>
     <button class="hbtn" :aria-pressed="String(!plain)" @click="togglePlain">Highlight</button>
@@ -406,7 +432,7 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
     </div>
   </div>
 
-  <div class="drawer" v-if="showFilters && view !== 'delta'">
+  <div class="drawer" v-if="showFilters && isDoc">
     <div class="fgroup">
       <span class="lbl">Force</span>
       <button v-for="f in vocab.forces" :key="f" class="chip"
@@ -434,7 +460,7 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   </div>
 
   <!-- ══ document view ══════════════════════════════════════════════════ -->
-  <main v-if="view !== 'delta'" :class="{'py-mode': pyMode}">
+  <main v-if="isDoc" :class="{'py-mode': pyMode}">
     <div class="pane left" ref="left" @scroll="onScroll">
       <template v-for="b in blocks" :key="b.id">
         <div class="sec" v-if="b.first">
@@ -510,7 +536,7 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   </main>
 
   <!-- ══ delta view ═════════════════════════════════════════════════════ -->
-  <main v-else style="grid-template-columns:minmax(0,1.15fr) 18px minmax(0,.85fr)">
+  <main v-else-if="view === 'delta'" style="grid-template-columns:minmax(0,1.15fr) 18px minmax(0,.85fr)">
     <div class="pane left">
       <div class="panel">
         <h2>Every difference between the two prompts</h2>
@@ -624,6 +650,47 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
       </div>
     </div>
   </main>
+
+  <!-- ══ flow view ══════════════════════════════════════════════════════ -->
+  <main v-else style="grid-template-columns:minmax(0,1fr) 18px minmax(320px,400px)">
+    <div class="pane left">
+      <div class="panel" style="max-width:none">
+        <h2>{{ flow.title }}</h2>
+        <p class="lede" style="max-width:80ch">{{ flow.lede }} Click a node to list its rules.</p>
+        <p class="legend">
+          <span><i class="ln thick"></i>dispatches</span><span><i class="ln"></i>writes / calls</span>
+          <span><i class="ln dot"></i>reads</span><span><i class="ln"></i>× terminates</span>
+          <span class="never"><i class="ln dot"></i>× forbidden</span>
+        </p>
+      </div>
+      <div class="flowsvg" ref="flowsvg"><p class="empty">Loading diagram…</p></div>
+    </div>
+
+    <div class="rail" aria-hidden="true"></div>
+
+    <div class="pane right">
+      <div class="pin" v-if="flowNodeSel">
+        <div class="rh">
+          <span>{{ flowLabel(flowNodeSel.id) }}</span>
+          <span><button class="xref" @click="goBlock(flowNodeSel.block)">{{ flowNodeSel.block }}</button>
+            <button class="xref" @click="focusFlow(null)">show all</button></span>
+        </div>
+        <p>{{ flowNodeSel.summary }}</p>
+        <span class="kind">{{ flowNodeSel.kind }} · {{ flowEdges.length }} rules · summary synthesised from the cited blocks</span>
+      </div>
+      <div class="panel">
+        <h2 v-if="!flowNodeSel">All {{ flow.edges.length }} rules</h2>
+        <div class="rule" v-for="(e, i) in flowEdges" :key="i" :class="e.kind">
+          <div class="rh">
+            <span>{{ flowLabel(e.from) }} <b>{{ ARROW[e.kind] }}</b> {{ flowLabel(e.to) }}</span>
+            <button class="xref" @click="goBlock(e.block)">{{ e.block }}</button>
+          </div>
+          <div class="rl">{{ e.label }}</div>
+          <q>{{ e.quote }}</q>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
@@ -704,9 +771,12 @@ const App = {
       tabs: [
         { id: 'single', label: 'Single target' },
         { id: 'multi',  label: 'Multi target' },
-        { id: 'delta',  label: 'Δ Scaling' }
+        { id: 'delta',  label: 'Δ Scaling' },
+        { id: 'flow',   label: 'Flow' }
       ],
-      scaling: SCALING
+      scaling: SCALING,
+      flow: payload.flow, flowSel: null,
+      ARROW: { dispatch: '⇒', write: '→', read: '⇢', terminate: '→×', never: '⇢×' }
     };
   },
 
@@ -714,7 +784,20 @@ const App = {
     doc: function () {
       return this.view === 'multi' ? payload.docs.multi : payload.docs.single;
     },
+    isDoc: function () { return this.view === 'single' || this.view === 'multi'; },
+    flowNodeSel: function () {
+      const id = this.flowSel;
+      return id ? this.flow.nodes.find(function (n) { return n.id === id; }) : null;
+    },
+    flowEdges: function () {
+      const id = this.flowSel;
+      return id ? this.flow.edges.filter(function (e) { return e.from === id || e.to === id; })
+                : this.flow.edges;
+    },
     heading: function () {
+      if (this.view === 'flow') {
+        return { label: 'Authority', sub: 'which agent may read, write or dispatch what' };
+      }
       if (this.view === 'delta') {
         return { label: 'Single ↔ Multi', sub: 'what changes when the campaign scales' };
       }
@@ -824,7 +907,59 @@ const App = {
     },
     setTab: function (id, which) { this.tabs2[id] = which; },
     togglePy: function () { this.pyMode = !this.pyMode; this.tabs2 = {}; },
-    setView: function (v) { this.view = v; this.sel = null; },
+    setView: function (v) {
+      this.view = v; this.sel = null;
+      if (v === 'flow') this.$nextTick(this.renderFlow);
+    },
+    renderFlow: async function () {
+      const el = this.$refs.flowsvg;
+      if (!el) return;
+      const self = this;
+      try {
+        // Loaded on first use only: Mermaid is ~1 MB and the other views never need it.
+        if (!window.mermaid) {
+          window.mermaid = (await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')).default;
+          window.mermaid.initialize({
+            startOnLoad: false, securityLevel: 'loose', theme: 'base',
+            themeVariables: { fontFamily: 'IBM Plex Sans, sans-serif', fontSize: '13px',
+                              lineColor: '#5A6270', edgeLabelBackground: '#FBFBFC' },
+            flowchart: { curve: 'basis', nodeSpacing: 28, rankSpacing: 70 }
+          });
+        }
+        window.flowNode = function (id) { self.focusFlow(self.flowSel === id ? null : id); };
+        const out = await window.mermaid.render('flow-svg', this.flow.mermaid);
+        el.innerHTML = out.svg;
+        if (out.bindFunctions) out.bindFunctions(el);
+        this.focusFlow(this.flowSel);
+      } catch (err) {
+        el.innerHTML = '<p class="empty">Could not load Mermaid from the CDN: ' + String(err) + '</p>';
+      }
+    },
+    focusFlow: function (id) {
+      this.flowSel = id;
+      const el = this.$refs.flowsvg;
+      if (!el) return;
+      // Mermaid ids: nodes "…flowchart-<ID>-<n>", edges "…L_<FROM>_<TO>_<n>" (node ids have no "_").
+      const near = {};
+      if (id) this.flowEdges.forEach(function (e) { near[e.from] = near[e.to] = true; });
+      el.querySelectorAll('g.node').forEach(function (g) {
+        const m = /flowchart-(\w+)-\d+$/.exec(g.id);
+        g.classList.toggle('focus', !!id && !!m && m[1] === id);
+        g.classList.toggle('dim', !!id && !!m && !near[m[1]]);
+      });
+      el.querySelectorAll('path[id*="L_"]').forEach(function (path) {
+        const m = /L_([A-Z]+)_([A-Z]+)_\d+$/.exec(path.id);
+        path.classList.toggle('dim', !!id && !!m && m[1] !== id && m[2] !== id);
+      });
+    },
+    flowLabel: function (id) {
+      const n = this.flow.nodes.find(function (x) { return x.id === id; });
+      return n ? n.label.replace('<br/>', ' ') : id;
+    },
+    goBlock: function (id) {
+      this.setView('single');
+      this.pick(id);
+    },
     toggle: function (arr, v) {
       const i = arr.indexOf(v);
       if (i >= 0) arr.splice(i, 1); else arr.push(v);
@@ -900,7 +1035,7 @@ const App = {
       const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
       if (e.key === '/' && !typing) { e.preventDefault(); self.$refs.search.focus(); return; }
       if (e.key === 'Escape') { self.showAbout = false; self.q = ''; self.sel = null; document.activeElement.blur(); return; }
-      if (typing || self.view === 'delta') return;
+      if (typing || !self.isDoc) return;
       if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); self.step(1); }
       if (e.key === 'ArrowUp'   || e.key === 'k') { e.preventDefault(); self.step(-1); }
       if (e.key === 'p') { e.preventDefault(); self.togglePy(); }

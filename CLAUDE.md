@@ -29,6 +29,12 @@ index.html                  generated; self-contained, opens on file:// with no 
 annotations/
   single_target.json        block records for prompts/single_target/15-PGDH.md
   multi_target.json         block records for prompts/multi_target_binder_design_prompt.md
+  flow_authority.json       the Flow tab's authority graph (nodes + edges). build.py asserts
+                            each node's `match` and each edge's `quote` appear verbatim in the
+                            cited st- block, then emits Mermaid; Mermaid loads from a CDN on
+                            first opening the tab.
+                            Each node also carries a `summary` (synthesised, not quoted) shown
+                            in the pinned box when the node is clicked; required by the build.
 pycode/                     the MECHANICAL clauses re-coded as one importable package;
                             the viewer's "As Python" tab renders regions out of it
 ANALYSIS.md                 the written dissection
