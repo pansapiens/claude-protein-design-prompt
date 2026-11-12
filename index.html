@@ -2725,7 +2725,7 @@ body{
   font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:15px; line-height:1.62; -webkit-font-smoothing:antialiased;
 }
-#app{height:100%; display:flex; flex-direction:column}
+#app{height:100%; height:100dvh; display:flex; flex-direction:column}
 [v-cloak]{display:none}
 a{color:var(--sel)}
 button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
@@ -2734,10 +2734,17 @@ button{font:inherit; color:inherit; background:none; border:none; cursor:pointer
 /* ─── header ────────────────────────────────────────────────────────────── */
 header{
   flex:0 0 auto; display:flex; align-items:center; gap:20px;
-  padding:0 var(--pad); height:56px; border-bottom:1px solid var(--rule);
+  padding:11px var(--pad); min-height:56px; flex-wrap:wrap; row-gap:6px; border-bottom:1px solid var(--rule);
   background:var(--paper); position:relative; z-index:5;
 }
-.brand{display:flex; align-items:baseline; gap:10px; min-width:0}
+/* The title block is the same width on every tab, so the tabs do not move when the view
+   changes: every tab's title and subtitle are stacked in one grid cell with only the
+   current one visible, and the subtitle has a fixed width (contain stops its text
+   widening it). */
+.brand{display:grid; flex:0 1 auto; min-width:0}
+.brand > div{grid-area:1/1; display:flex; align-items:baseline; gap:10px; min-width:0; visibility:hidden}
+.brand > div.on{visibility:visible}
+.brand .sub{width:34ch; min-width:0; contain:inline-size}
 .brand h1{
   margin:0; font-size:14px; font-weight:600; letter-spacing:.01em; white-space:nowrap;
 }
@@ -2745,7 +2752,8 @@ header{
   font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink3);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.tabs{display:flex; gap:2px; background:var(--sunk); padding:3px; border-radius:6px}
+/* Tabs and search share one height, so every header row is 34px whatever it holds. */
+.tabs{height:34px; display:flex; gap:2px; background:var(--sunk); padding:3px; border-radius:6px}
 .tabs button{
   font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em;
   text-transform:uppercase; padding:5px 11px; border-radius:4px; color:var(--ink2);
@@ -2754,7 +2762,7 @@ header{
 .tabs button[aria-pressed=true]{background:var(--paper); color:var(--ink); box-shadow:0 1px 2px rgba(18,21,26,.08)}
 .grow{flex:1}
 .search{
-  display:flex; align-items:center; gap:7px; border:1px solid var(--rule);
+  height:34px; display:flex; align-items:center; gap:7px; border:1px solid var(--rule);
   border-radius:5px; padding:5px 10px; background:var(--paper); min-width:200px;
 }
 .search:focus-within{border-color:var(--sel); box-shadow:0 0 0 3px var(--sel-bg)}
@@ -2855,7 +2863,7 @@ main{flex:1; display:grid; grid-template-columns:minmax(0,1.05fr) 18px minmax(0,
 
 /* ─── inline entities ───────────────────────────────────────────────────── */
 .ent{border-radius:2px}
-.ent-code{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:#EDEFF5; color:#263043; padding:.5px 3px}
+.ent-code{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:#EDEFF5; color:#263043; padding:.5px 3px; overflow-wrap:anywhere}
 .ent-slot{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:#FBE9F5; color:#8E2A72; padding:.5px 3px}
 .ent-num {font-family:"IBM Plex Mono",monospace; font-size:.9em;  background:#FCF3E2; color:#8A5200; padding:.5px 3px}
 .ent-ctrl{font-family:"IBM Plex Mono",monospace; font-size:.82em; background:#F1EEF9; color:#55407A; padding:.5px 4px; letter-spacing:.03em}
@@ -3044,7 +3052,18 @@ td.was{color:var(--ink2)}
 td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
 .empty{color:var(--ink3); font-size:13.5px; padding:40px 0}
 
+/* flow view: the rules panel collapses like a VS Code side bar */
+main.delta{grid-template-columns:minmax(0,1.15fr) 18px minmax(0,.85fr)}
+main.flow{grid-template-columns:minmax(0,1fr) 18px minmax(320px,400px)}
+main.flow.collapsed{grid-template-columns:minmax(0,1fr)}
+main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
+.hbtn.icon{padding:4px 7px; line-height:0}
+.hbtn.icon svg{width:16px; height:14px}
+.hbtn.icon[aria-pressed]{background:none; color:var(--ink2); border-color:var(--rule)}
+.hbtn.icon:hover{color:var(--ink); background:var(--sunk)}
+
 @media (max-width:900px){
+  :root{--pad:14px}
   main{grid-template-columns:1fr; grid-template-rows:1fr auto 1fr}
   .rail{flex-direction:row; border:none; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); height:16px; padding:0 2px}
   .rail button{height:100%; width:auto; min-width:2px}
@@ -3052,7 +3071,26 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   .rail .viewport{top:0; bottom:0; left:auto; right:auto}
   .pane.left{border-right:none}
   .pane.right{border-left:none}
-  header{flex-wrap:wrap; height:auto; padding:10px var(--pad); gap:10px}
+  header{flex-wrap:wrap; height:auto; padding:8px var(--pad); gap:8px}
+  .brand{flex:1 1 100%}
+  .grow{display:none}
+  .brand .sub{width:auto; flex:1 1 0}
+  .tabs{max-width:100%; min-width:0; overflow-x:auto}
+  .search{flex:1 1 100%; min-width:0; height:auto}
+  .search input{font-size:16px}  /* below 16px, iOS zooms the page on focus */
+  .about-bg{padding:12px}
+  .about{padding:18px 16px 14px}
+  /* The flow and comparison views have no linked scrolling, so on a phone they read as
+     one page: diagram or left panel first, then the right panel underneath. */
+  main.flow, main.flow.collapsed, main.delta{display:block; overflow-y:auto}
+  main.flow > .pane, main.delta > .pane{overflow:visible; padding-bottom:32px}
+  main.flow > .rail, main.delta > .rail{display:none}
+  main.flow > .pane.right, main.delta > .pane.right{border-top:1px solid var(--rule)}
+}
+@media (pointer:coarse){
+  .tabs button, .hbtn{padding:8px 11px}
+  .hbtn.icon{padding:7px 9px}
+  .xref{padding:4px 8px}
 }
 </style>
 
@@ -3060,8 +3098,10 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
 
   <header>
     <div class="brand">
-      <h1>{{ heading.label }}</h1>
-      <span class="sub">{{ heading.sub }}</span>
+      <div v-for="t in tabs" :key="t.id" :class="{on: t.id === view}">
+        <h1>{{ headingFor(t.id).label }}</h1>
+        <span class="sub">{{ headingFor(t.id).sub }}</span>
+      </div>
     </div>
 
     <div class="tabs" role="group" aria-label="Document">
@@ -3094,6 +3134,14 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
       As Python<span class="pycount">{{ codedCount }}</span>
     </button>
     <button class="hbtn" :aria-pressed="String(!plain)" @click="togglePlain">Highlight</button>
+    <button class="hbtn icon" v-if="view === 'flow'" :aria-pressed="String(!flowCollapsed)"
+            @click="flowCollapsed = !flowCollapsed" title="Toggle rules panel (b)" aria-label="Toggle rules panel">
+      <svg viewBox="0 0 16 14" aria-hidden="true">
+        <rect x=".75" y=".75" width="14.5" height="12.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 1v12" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="10" y="1.5" width="4.5" height="11" fill="currentColor" v-if="!flowCollapsed"/>
+      </svg>
+    </button>
     <button class="hbtn" :aria-pressed="String(showAbout)" @click="showAbout = true">About</button>
   </header>
 
@@ -3227,7 +3275,7 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   </main>
 
   <!-- ══ delta view ═════════════════════════════════════════════════════ -->
-  <main v-else-if="view === 'delta'" style="grid-template-columns:minmax(0,1.15fr) 18px minmax(0,.85fr)">
+  <main v-else-if="view === 'delta'" class="delta">
     <div class="pane left">
       <div class="panel">
         <h2>Every difference between the two prompts</h2>
@@ -3343,7 +3391,7 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
   </main>
 
   <!-- ══ flow view ══════════════════════════════════════════════════════ -->
-  <main v-else style="grid-template-columns:minmax(0,1fr) 18px minmax(320px,400px)">
+  <main v-else class="flow" :class="{collapsed: flowCollapsed}">
     <div class="pane left">
       <div class="panel" style="max-width:none">
         <h2>{{ flow.title }}</h2>
@@ -3455,7 +3503,7 @@ const App = {
     return {
       payload: payload, vocab: payload.vocab,
       view: 'flow', q: '', sel: null,
-      showFilters: false, plain: false, showAbout: true,
+      showFilters: false, plain: false, showAbout: true, flowCollapsed: false,
       pyMode: false, tabs2: {},
       tagSel: [], forceSel: [],
       scroll: { top: 0, height: 1, client: 1 }, syncing: false, pending: false,
@@ -3484,15 +3532,6 @@ const App = {
       const id = this.flowSel;
       return id ? this.flow.edges.filter(function (e) { return e.from === id || e.to === id; })
                 : this.flow.edges;
-    },
-    heading: function () {
-      if (this.view === 'flow') {
-        return { label: 'Authority', sub: 'which agent may read, write or dispatch what' };
-      }
-      if (this.view === 'delta') {
-        return { label: 'Single ↔ Multi', sub: 'what changes when the campaign scales' };
-      }
-      return this.doc;
     },
     mtHtml: function () {
       const m = {};
@@ -3588,6 +3627,11 @@ const App = {
   },
 
   methods: {
+    headingFor: function (v) {
+      if (v === 'flow') return { label: 'Authority', sub: 'which agent may read, write or dispatch what' };
+      if (v === 'delta') return { label: 'Single ↔ Multi', sub: 'what changes when the campaign scales' };
+      return v === 'multi' ? payload.docs.multi : payload.docs.single;
+    },
     note: function (id) { return notes[id] || {}; },
     code: function (id) { return codeFor(id); },
     // Global default, overridable per card: flipping one card back to the note should
@@ -3769,6 +3813,7 @@ const App = {
       const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
       if (e.key === '/' && !typing) { e.preventDefault(); self.$refs.search.focus(); return; }
       if (e.key === 'Escape') { self.showAbout = false; self.q = ''; self.sel = null; document.activeElement.blur(); return; }
+      if (e.key === 'b' && !typing && self.view === 'flow' && !e.ctrlKey && !e.metaKey) { self.flowCollapsed = !self.flowCollapsed; return; }
       if (typing || !self.isDoc) return;
       if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); self.step(1); }
       if (e.key === 'ArrowUp'   || e.key === 'k') { e.preventDefault(); self.step(-1); }
