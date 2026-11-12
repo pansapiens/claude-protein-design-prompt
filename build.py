@@ -600,6 +600,9 @@ def load_flow(raw_by_id: dict[str, str]) -> dict:
     for i, e in enumerate(flow["edges"]):
         # No edge labels: they double the diagram's width. The rule list beside it carries
         # each edge's label and quote.
+        # A read is already authored as an input, file first, so the arrowheads on a node
+        # show what feeds it. (The sibling dissection of the pipeline authors the reader
+        # first and reverses it here instead.)
         lines.append(f"  {e['from']} {FLOW_ARROWS[e['kind']]} {e['to']}")
         if e["kind"] == "never":
             lines.append(f"  linkStyle {i} stroke:#B42318,color:#B42318")

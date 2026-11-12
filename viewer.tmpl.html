@@ -311,7 +311,9 @@ ins{background:#E4F3EA; color:#14603F; text-decoration:none; border-radius:2px; 
 .dnew{padding:10px 13px; font-size:13.5px; background:#F6FAF7; border-left:2px solid var(--green)}
 
 /* ─── flow view ───────────────────────────────────────────────────────── */
-.flowsvg svg{max-width:100%; height:auto}
+.flowsvg{overflow-x:auto; padding-bottom:10px; cursor:grab}
+.flowsvg.panning, .flowsvg.panning *{cursor:grabbing!important}
+.flowsvg svg{max-width:none!important; height:auto}
 .flowsvg .node{cursor:pointer}
 .flowsvg .node.focus rect, .flowsvg .node.focus path, .flowsvg .node.focus polygon{stroke-width:3px}
 .flowsvg .dim{opacity:.12}
@@ -661,11 +663,11 @@ td.now{color:#8A5200; font-family:"IBM Plex Mono",monospace; font-size:12px}
         <p class="lede" style="max-width:80ch">{{ flow.lede }} Click a node to list its rules.</p>
         <p class="legend">
           <span><i class="ln thick"></i>dispatches</span><span><i class="ln"></i>writes / calls</span>
-          <span><i class="ln dot"></i>reads</span><span><i class="ln"></i>× terminates</span>
+          <span><i class="ln dot"></i>input to</span><span><i class="ln"></i>× terminates</span>
           <span class="never"><i class="ln dot"></i>× forbidden</span>
         </p>
       </div>
-      <div class="flowsvg" ref="flowsvg"><p class="empty">Loading diagram…</p></div>
+      <div class="flowsvg" ref="flowsvg" @mousedown="flowPan" @auxclick.prevent><p class="empty">Loading diagram…</p></div>
     </div>
 
     <div class="rail" aria-hidden="true"></div>
@@ -931,11 +933,53 @@ const App = {
         window.flowNode = function (id) { self.focusFlow(self.flowSel === id ? null : id); };
         const out = await window.mermaid.render('flow-svg', this.flow.mermaid);
         el.innerHTML = out.svg;
+        // Mermaid writes an inline max-width that shrinks the diagram to the pane. This
+        // one is wider than the pane and would scale down to unreadable text, so pin it to
+        // its intrinsic size, let .flowsvg scroll, and open on the orchestrator.
+        const svg = el.querySelector('svg');
+        const vb = svg && svg.getAttribute('viewBox');
+        if (vb) {
+          const d = vb.split(/\s+/);
+          svg.style.maxWidth = 'none';
+          svg.setAttribute('width', d[2]);
+          svg.setAttribute('height', d[3]);
+        }
         if (out.bindFunctions) out.bindFunctions(el);
+        const root = el.querySelector('g.node[id*="-' + this.flow.nodes[0].id + '-"]');
+        if (root) {
+          const r = root.getBoundingClientRect(), e2 = el.getBoundingClientRect();
+          el.scrollLeft += (r.left - e2.left) - (e2.width - r.width) / 2;
+        }
         this.focusFlow(this.flowSel);
       } catch (err) {
         el.innerHTML = '<p class="empty">Could not load Mermaid from the CDN: ' + String(err) + '</p>';
       }
+    },
+    // Drag the diagram's whitespace to pan it. The diagram is wider than the pane and can
+    // be taller than the window, so horizontal movement scrolls the diagram box and
+    // vertical movement scrolls the pane it sits in. A drag that starts on a node is left
+    // alone, so clicking a node still selects it; middle-drag pans from anywhere.
+    flowPan: function (e) {
+      if (e.button !== 0 && e.button !== 1) return;
+      if (e.button === 0 && e.target.closest('g.node')) return;   // the node takes it
+      e.preventDefault();      // stops text selection, and Chrome's middle-click autoscroll
+      const box = this.$refs.flowsvg, pane = box.closest('.pane');
+      const x = e.clientX, y = e.clientY;
+      const left = box.scrollLeft, top = pane ? pane.scrollTop : 0;
+      box.classList.add('panning');
+      if (pane) pane.style.scrollBehavior = 'auto';   // .pane is smooth-scrolling
+      const move = function (ev) {
+        box.scrollLeft = left - (ev.clientX - x);
+        if (pane) pane.scrollTop = top - (ev.clientY - y);
+      };
+      const up = function () {
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseup', up);
+        box.classList.remove('panning');
+        if (pane) pane.style.scrollBehavior = '';
+      };
+      window.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', up);
     },
     focusFlow: function (id) {
       this.flowSel = id;
