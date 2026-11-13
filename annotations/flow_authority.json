@@ -68,11 +68,12 @@
     },
     {
       "id": "MONITOR",
-      "label": "monitor ×N<br/>1 per 10 jobs",
+      "label": "monitor<br/>1 per 10 jobs",
       "kind": "agent",
       "block": "st-214",
       "match": "For every 10 jobs you maintain, launch a monitor sub-agent",
-      "summary": "Assigned at a ratio of one monitor per 10 active jobs. It tracks job liveness, ingests completed outputs into the design-count ledger (including non-zero exits that wrote output files), and terminates sandboxes after successful compute_done confirmation. The orchestrator briefs define job assignments and completion notification paths."
+      "summary": "Assigned at a ratio of one monitor per 10 active jobs. It tracks job liveness, ingests completed outputs into the design-count ledger (including non-zero exits that wrote output files), and terminates sandboxes after successful compute_done confirmation. The orchestrator briefs define job assignments and completion notification paths.",
+      "many": true
     },
     {
       "id": "GATEFN",

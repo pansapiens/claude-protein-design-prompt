@@ -587,6 +587,12 @@ def load_flow(raw_by_id: dict[str, str]) -> dict:
         assert n["kind"] in FLOW_SHAPES, f"flow node {n['id']}: kind {n['kind']}"
         assert n["match"] in raw_by_id[n["block"]], f"flow node {n['id']}: {n['match']!r} not in {n['block']}"
         assert n.get("summary", "").strip(), f"flow node {n['id']}: missing summary"
+        # `many` marks a party the campaign runs more than one of at a time. Only an agent
+        # qualifies: submit_gate() is called from everywhere and is still one rule, and a
+        # ledger subfile per frame is still one ledger.
+        assert n.get("many") in (None, True), f"flow node {n['id']}: many must be true"
+        assert not (n.get("many") and n["kind"] != "agent"), \
+            f"flow node {n['id']}: many on a {n['kind']} node"
     for e in flow["edges"]:
         assert e["from"] in ids and e["to"] in ids, f"flow edge {e['from']}->{e['to']}: unknown node"
         assert e["kind"] in FLOW_ARROWS, f"flow edge {e['from']}->{e['to']}: kind {e['kind']}"
@@ -595,6 +601,15 @@ def load_flow(raw_by_id: dict[str, str]) -> dict:
 
     lines = ["flowchart TB"]
     for n in flow["nodes"]:
+        # A party there may be several of at once is drawn stacked, so "one per 10 jobs"
+        # is legible from the shape and not only from the label. Mermaid's `processes`
+        # shape needs the v11 shape syntax, and the class goes on its own `class`
+        # statement: that syntax and the `:::` suffix are each documented, their
+        # combination is not.
+        if n.get("many"):
+            lines.append(f'  {n["id"]}@{{ shape: processes, label: "{n["label"]}" }}')
+            lines.append(f'  class {n["id"]} {n["kind"]}')
+            continue
         a, b = FLOW_SHAPES[n["kind"]]
         lines.append(f"  {n['id']}{a}{n['label']}{b}:::{n['kind']}")
     for i, e in enumerate(flow["edges"]):
