@@ -41,8 +41,8 @@ class MethodVocab:
     """Written once by the orchestrator at roster validation, then frozen.
 
     structure_method and seq_method are NOT free text. One token per tool, with
-    rfdiffusion and rfdiffusion3 distinct -- collapsing two model generations into one
-    token would silently corrupt every per-method count and cap downstream.
+    rfdiffusion and rfdiffusion3 distinct: collapsing two model generations into one
+    token would corrupt every per-method count and cap downstream without warning.
     """
 
     structure_methods: frozenset[str]
@@ -62,7 +62,7 @@ def assign_provenance(row: DesignRow, root_backbone_id: str, structure_method: s
     """Assigned at backbone-generation time and propagated unchanged downstream.
 
     One id per de novo backbone, shared by every derived sequence and every partial-
-    diffusion variant -- which is what makes the per-backbone cap meaningful rather than
+    diffusion variant; this makes the per-backbone cap meaningful rather than
     a count of near-duplicates.
     """
     row.root_backbone_id = root_backbone_id
@@ -125,9 +125,9 @@ def _recompute_one(row: DesignRow, gate: str, threshold: float) -> bool:
 class SelectionCaps:
     """Six ceilings, applied in selection order. Ceilings, not quotas.
 
-    If the ranked pool cannot fill 30 rows under these, the fix is upstream -- more
-    designs, more methods -- not a relaxation. The relaxation ladder in st-185 is the
-    last resort, and it has its own floors.
+    If the ranked pool cannot fill 30 rows under these, the fix is upstream: generate
+    more designs and test more methods, rather than relaxing caps. The relaxation ladder
+    in st-185 is the last resort and maintains its own floors.
     """
 
     levenshtein_min: int = 5             # (b) reject pairs closer than this
@@ -235,7 +235,7 @@ def rank_key(row: DesignRow):
 
     A row below the seed protocol after a failed top-up is still RANKED, under a lower
     tier, with its seed count disclosed. The unranked section is reserved for rows with
-    missing or zero scores -- a different failure entirely, and conflating the two would
+    missing or zero scores: a different failure entirely, and conflating the two would
     hide incomplete measurement behind an apparent quality judgement.
     """
     return (row.min_seeds >= SEEDS_FINAL, row.pose_PASS, row.rank_zscore)
@@ -251,7 +251,7 @@ def assign_ranks(rows: Sequence[DesignRow]) -> list[DesignRow]:
 def write_score(value: Optional[float]) -> float:
     """A missing per-arm score is NaN. Never 0.0, -1, -999 or an empty string.
 
-    A sentinel silently becomes a real number in a downstream mean; NaN does not.
+    A sentinel value would be computed as a valid float in downstream averages; NaN does not.
     """
     return math.nan if value is None else value
 
@@ -260,8 +260,8 @@ def needs_seed_topup(row: DesignRow) -> bool:
     """DELIVERABLES dispatches one targeted top-up wave before sheet-freeze.
 
     Companion off-target and oligomer runs go with it so selectivity_delta and N:N stay
-    seed-matched. These are audit re-scoring and are exempt from the close-out wave ban
-    -- but never during a WATCHDOG halt.
+    seed-matched. These are audit re-scoring and are exempt from the close-out wave ban;
+    top-up is forbidden during a WATCHDOG halt.
     """
     return row.min_seeds < SEEDS_FINAL
 
@@ -290,10 +290,10 @@ def reach_row_count(pool: Sequence[DesignRow], regenerated: bool) -> tuple[list[
 
     Regeneration comes first and is not optional: the ladder is only entered after more
     designs and more methods have been tried. Novelty is last and stays bounded by the
-    absolute floors, so even the last resort cannot ship a target mimic or a natural
+    absolute floors, ensuring even the last resort cannot output a target mimic or a natural
     sequence copy.
 
-    If even that cannot reach 30, ship the actual N. Padding with duplicates is forbidden.
+    If even that cannot reach 30, deliver the actual N. Padding with duplicates is forbidden.
     """
     assert regenerated, "regenerate upstream before entering the ladder"
     steps: list[str] = []
@@ -314,7 +314,7 @@ def reach_row_count(pool: Sequence[DesignRow], regenerated: bool) -> tuple[list[
 
 
 def relax_by_configuration_only(writer_thresholds: dict, gate_predicates_touched: bool) -> None:
-    """Relaxation changes the writer's configured thresholds -- never by deleting,
+    """Relaxation changes the writer's configured thresholds, never by deleting,
     commenting out, no-oping or monkeypatching a gate predicate.
 
     The distinction matters because a disabled predicate leaves no trace in the sheet,
@@ -334,7 +334,7 @@ def assert_distinct_seeds(seeds: Sequence[int], n_seeds: int) -> None:
 # @block st-240 kind=logic
 def route_row(row: DesignRow, required_gates: Sequence[str],
               topup_attempted: bool) -> tuple[str, Optional[str]]:
-    """Ranked, or unranked with the reason named. Nothing ships unexplained.
+    """Ranked, or unranked with the reason named. No candidate is delivered unexplained.
 
     Seed-count alone never routes a row to unranked until a top-up has been tried and
     failed: a design a few seeds short of protocol is incomplete, not below-protocol.
@@ -358,8 +358,8 @@ def route_row(row: DesignRow, required_gates: Sequence[str],
 
 
 def closing_check(rows: Sequence[DesignRow]) -> None:
-    """No ranked row carries an empty or zero score. A deliverable that fails this does
-    not ship until fixed, and a short list is never padded to depth."""
+    """No ranked row carries an empty or zero score. A deliverable that fails this is
+    not finalized until fixed, and a short list is never padded to depth."""
     bad = [r.design_id for r in rows
            if r.rank is not None and (math.isnan(r.final_score) or r.final_score == 0)]
     assert not bad, f"ranked rows with empty or zero score: {bad[:5]}"

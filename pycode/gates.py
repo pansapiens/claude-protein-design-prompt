@@ -1,8 +1,8 @@
 """The gates: four pre-scoring filters, and the per-target validation gate.
 
 The filters run inside the generation job, before any co-folding spend. The validation
-gate is a file, and `submit_gate` in `governor.py` reads it -- which is what makes it a
-gate rather than a claim.
+gate is a file, and `submit_gate` in `governor.py` reads it, making it an enforced
+precondition rather than an unchecked claim.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ KNOWN_BINDER_CORPUS = "02 ProteinBase"
 
 def stage_novelty_databases(hour: float) -> list[str]:
     """UniRef90 and the known-binder corpus are staged in the first hour, alongside
-    roster validation -- but production scoring is *not* gated on that staging.
+    roster validation, but production scoring is *not* gated on that staging.
 
     The novelty check and the Ubiquitin rejection are required before a row reaches the
     FINAL ranked sheet, not before first production dispatch. Ordering the two this way
@@ -118,8 +118,8 @@ def monomer_foldability_gate(row: DesignRow, mean_plddt: Optional[float] = None,
     """The binder alone must fold, at a per-target threshold frozen at the gate.
 
     ESMFold2 emits pLDDT on 0-1 while the threshold is conventionally written on 0-100,
-    so normalise before comparing -- reading a 0.82 as failing an 82 threshold would
-    silently reject the whole pool.
+    so normalize before comparing; reading 0.82 as failing an 82 threshold would
+    mistakenly reject the entire pool.
     """
     if mean_plddt is None:
         return bool(row.gates.get("monomer_foldability", False))
@@ -134,7 +134,7 @@ def structural_plausibility_gate(row: DesignRow, clashes: int = 0,
                                  geometry_ok: bool = True,
                                  max_clashes: int = 0,
                                  min_core_packing: float = 0.0) -> bool:
-    """Backbone geometry, steric clashes, core packing -- at thresholds chosen at
+    """Backbone geometry, steric clashes, core packing: evaluated against thresholds chosen at
     kickoff and frozen, like every other threshold in the funnel."""
     return geometry_ok and clashes <= max_clashes and core_packing >= min_core_packing
 
@@ -166,8 +166,8 @@ class ValidationGate:
     stoichiometry scoring clearly above negative controls.
 
     (b) is dropped only when no literature control exists after a comprehensive search.
-    If controls exist and (b) fails on every instrument, self-authorization is barred --
-    the three listed remedies are the only way forward.
+    If controls exist and (b) fails on every instrument, self-authorization is barred;
+    the three listed remedies are the only permitted paths.
     """
 
     target: str

@@ -464,16 +464,15 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
       <h2 id="about-h">Claude Protein Design Prompt Analysis</h2>
       <p>This is a dissection of the protein binder design campaign prompts Anthropic released as
         <a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Anthropic/claude-protein-binder-design</a>:
-        a prompt for a single protein target, and a multi-target version.</p>
-      <p>To help navigate and interpret the prompts, the viewer shows the prompt text on the left, a
-        per-block annotation on the right, and a quick navigation overview between them. The prompt text is
-        the unmodified source. The annotations are this project's own reading of it.</p>
-      <p>The 50 clauses that are <em>mechanically</em> enforced are additionally re-coded as Python,
-        which you can read side by side with the prose using the As Python button. That code is a
-        reconstruction for reading, not the campaign's implementation.</p>
-      <p>The Flow tab, shown first, is a diagram of the overall orchestration: which agents, state
-        stores and external surfaces exist, and which prompt rules give each one authority over the
-        others. Click a node to list its rules, each tied to the prompt block it quotes.</p>
+        a single-target prompt and a multi-target variant.</p>
+      <p>The viewer displays the prompt text on the left, per-block annotations on the right, and an
+        overview navigation rail between them. The prompt text is the unmodified release source; the
+        annotations provide technical analysis.</p>
+      <p>The 50 clauses enforced <em>mechanically</em> are also reconstructed as Python code,
+        readable side by side with the prose via the As Python button. This reconstruction clarifies
+        logic and contracts rather than implementing live services.</p>
+      <p>The Flow tab outlines campaign orchestration: the agents, state stores, external surfaces,
+        and the prompt rules defining their authority. Click any node to inspect its rules and prompt quotations.</p>
       <h3>Original sources</h3>
       <ul>
         <li><a href="https://huggingface.co/datasets/Anthropic/claude-protein-binder-design" target="_blank" rel="noopener">Dataset on Hugging Face</a></li>
@@ -593,10 +592,10 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
       <div class="panel">
         <h2>Every difference between the two prompts</h2>
         <p class="lede">
-          The multi-target prompt is the single-target prompt with a scaling vector applied.
-          Of {{ payload.docs.single.blocks.length }} blocks, {{ changedBlockCount }} differ —
-          and all but one of those changes is a substituted constant. Methods, scoring, gating,
-          verification and safety are byte-identical.
+          The multi-target prompt applies a scaling vector to the single-target prompt.
+          Of {{ payload.docs.single.blocks.length }} blocks, {{ changedBlockCount }} differ,
+          and all but one change is a substituted constant. Methods, scoring, gating,
+          verification, and safety clauses are byte-identical.
         </p>
       </div>
       <div class="region" v-for="(r, i) in payload.regions" :key="i">
@@ -630,7 +629,7 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
     <div class="pane right">
       <div class="panel">
         <h2>The scaling vector</h2>
-        <p class="lede">Fourteen targets, five times the money, twice the clock.</p>
+        <p class="lede">Fourteen targets, a 5x budget ($50k vs $10k), and twice the duration (48 h vs 24 h).</p>
         <table>
           <thead><tr><th>Parameter</th><th>Single</th><th>Multi</th></tr></thead>
           <tbody>
@@ -645,9 +644,8 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
         <h2>Template slots</h2>
         <p class="lede">
           Derived by diffing all {{ payload.n_single_prompts }} single-target prompts against
-          15-PGDH, not hardcoded. {{ payload.slot_lines.length }} varying lines resolve to
-          {{ payload.slots.length }} slots — and 29 of those lines are the shared reference list
-          renumbering itself, not new content.
+          15-PGDH rather than hardcoding. The {{ payload.slot_lines.length }} varying lines resolve to
+          {{ payload.slots.length }} slots; 29 of those lines simply renumber the shared reference list.
         </p>
         <table>
           <thead><tr><th>Slot</th><th>Lines</th><th>Targets affected</th></tr></thead>
@@ -664,11 +662,11 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
       <div class="panel">
         <h2>The mechanical clauses, as code</h2>
         <p class="lede">
-          All {{ payload.pymeta.n_blocks }} MECHANICAL blocks are re-coded as one
+          All {{ payload.pymeta.n_blocks }} MECHANICAL blocks are reconstructed as an
           importable Python package under <code>pycode/</code>:
           {{ payload.pymeta.n_regions }} regions across
-          {{ payload.pymeta.files.length }} modules, sharing one vocabulary. The build
-          compiles every module and runs its selftest — {{ payload.pymeta.selftest }}.
+          {{ payload.pymeta.files.length }} modules sharing a common vocabulary. The build
+          compiles every module and executes the selftest ({{ payload.pymeta.selftest }}).
           Open any MECHANICAL block and switch its card to <strong>As Python</strong>.
         </p>
         <table>
@@ -685,9 +683,9 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
       <div class="panel">
         <h2>Enforcement profile</h2>
         <p class="lede">
-          How the single-target prompt's {{ payload.docs.single.blocks.length }} blocks distribute
+          Distribution of the single-target prompt's {{ payload.docs.single.blocks.length }} blocks
           across normative force. Roughly a third of the document is machine-checked rather than
-          merely instructed.
+          only instructed in prose.
         </p>
         <table>
           <thead><tr><th>Force</th><th>Blocks</th><th>Share</th></tr></thead>

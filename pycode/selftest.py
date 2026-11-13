@@ -1,9 +1,9 @@
 """Exercises the pure logic in this package. Run by build.py; failing it fails the build.
 
-The point is not coverage. It is that the arithmetic the prompt states -- the 4:1
-weighting, the burn-rate adders, the six caps, the rank key, the escalation ladder --
-gives the numbers the prompt says it gives. A reconstruction that quietly disagrees with
-its source is worse than no reconstruction.
+The objective is ensuring that the arithmetic specified in the prompt (the 4:1
+weighting, burn-rate adders, six sequential caps, rank key, and escalation ladder)
+yields the exact figures stated in the prompt. A reconstruction that diverges from
+its source would misrepresent the specifications.
 """
 
 from __future__ import annotations
@@ -66,9 +66,9 @@ def test_the_bootstrap_ratio_rounds_where_the_stated_formula_floors() -> None:
 
     The prompt says max_instances MUST be derived as floor(target_hourly_rate /
     weighted_per_sandbox_rate), which is floor(94.83) = 94. It then says the 150-instance
-    bootstrap cap "runs about 1.58x even-pace" -- and 1.58 is 150/95, the ratio against
-    the *rounded* even-pace figure quoted in the prose. Against the floor its own rule
-    specifies, the bootstrap cap runs 1.60x.
+    bootstrap cap "runs about 1.58x even-pace": 1.58 corresponds to 150/95, the ratio
+    against the *rounded* even-pace figure quoted in the prose. Against the floor its
+    own rule specifies, the bootstrap cap runs 1.60x.
 
     Immaterial in dollars, but it is the kind of drift that only shows up when the prose
     is made to compute.
@@ -225,7 +225,7 @@ def test_missing_gate_result_routes_to_unranked() -> None:
 def test_reap_criterion_rejects_idle_heuristics() -> None:
     assert may_reap("success", 10, 100, True)
     assert may_reap("running", 250, 100, True)          # >2x benchmarked wall clock
-    assert not may_reap("running", 150, 100, True)      # merely slow
+    assert not may_reap("running", 150, 100, True)      # slow execution within allowable limits
     assert not may_reap("success", 10, 100, False)      # not in our job ledger
     assert timeout_for(2700) == 5400 and timeout_for(100) == 200
 

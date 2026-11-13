@@ -2,7 +2,7 @@
 
 This package is a reconstruction. The prompt states these rules in prose; this is what
 that prose says when written as code. It is not the campaign's implementation and it
-calls no real service -- `external.py` stubs the provider surface so the modules import
+calls no real service: `external.py` stubs the provider surface so the modules import
 cleanly and the pure logic can be exercised by `selftest.py`.
 
 Regions carried by the viewer are marked `# @block st-<line> kind=<kind>`, where
@@ -10,7 +10,7 @@ st-<line> is the prompt line the region encodes. Kinds:
 
     logic     an algorithm: thresholds, ordering, arithmetic, control flow
     schema    a frozen data shape (columns, dtypes, required keys)
-    config    a pinned recipe -- flags, versions, paths; code only in the sense that
+    config    a pinned recipe: flags, versions, paths; code only in the sense that
               it is machine-readable and frozen
     protocol  a contract between agents: who may write what, in what order
     lint      a rule about the campaign's own source, checkable statically
@@ -58,7 +58,7 @@ LEDGER = "/ledger"
 
 @dataclass
 class DesignRow:
-    """One candidate binder, as it travels from generation to the shipped sheet.
+    """One candidate binder, from generation to the final design sheet.
 
     The field set is the schema's required columns (st-179); per-arm score columns are
     held in dicts keyed by arm rather than flattened, so `sc_dockq["ptxv2"]` here is
@@ -108,7 +108,7 @@ class DesignRow:
 
     @property
     def min_seeds(self) -> int:
-        """Seed count on the *weakest* arm -- the tier the rank key sorts on."""
+        """Seed count on the weakest arm, determining tier ordering."""
         return min(self.n_seeds.values()) if self.n_seeds else 0
 
 
@@ -147,7 +147,7 @@ def assert_construct_realized(frozen: ScoringConstruct, observed: ScoringConstru
     """Compare what an arm asserted against what its own output structure contains.
 
     Called by the scoring job on its own output, at the validation gate AND on every
-    production row -- not by trusting the input script's intent. A mismatch writes the
+    production row, without relying on input script declarations. A mismatch writes the
     score as NaN with this status, never as a number.
     """
     if (observed.n_target_chains != frozen.n_target_chains

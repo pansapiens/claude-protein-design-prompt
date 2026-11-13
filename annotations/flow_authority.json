@@ -1,6 +1,6 @@
 {
   "title": "Subagent roles",
-  "lede": "Each agent role, the shared state it reads or writes, and the external surfaces it alone may touch. Every node and arrow cites the block of the prompt that states it.",
+  "lede": "Agent roles, shared state files, external surfaces, and the prompt rules defining their authority. Every node and edge cites the corresponding prompt block.",
   "nodes": [
     {
       "id": "ORCH",
@@ -8,7 +8,7 @@
       "kind": "agent",
       "block": "st-1",
       "match": "top-level orchestrator",
-      "summary": "Top-level agent. Every obligation in the prompt is its own, but production work is delegated. It dispatches the standing singletons and work agents, writes the heartbeat on every loop, parks only on a bounded wait_for_notification, and never touches Modal sandboxes, billing or submit_gate() itself. Sub-agents carry the same document, but their scope comes from the brief the orchestrator writes for them."
+      "summary": "Top-level coordinator. Production work is delegated. It dispatches standing singletons and work agents, writes the heartbeat on every loop, waits only via bounded wait_for_notification, and never accesses Modal sandboxes, billing, or submit_gate() directly. Sub-agents receive the full prompt, with individual scope defined by the orchestrator brief."
     },
     {
       "id": "SETUP",
@@ -16,7 +16,7 @@
       "kind": "agent",
       "block": "st-210",
       "match": "SETUP (and only SETUP)",
-      "summary": "First sub-agent, dispatched at T0 with the orchestrator blocking on it. It alone creates the four campaign Modal volumes, seeds the governor at ceiling 150 (basis BOOTSTRAP) and writes submit_gate.py. Nothing else may be dispatched until it returns OK with their hashes."
+      "summary": "Initial sub-agent, dispatched at T0 while the orchestrator blocks. It creates the four campaign Modal volumes, seeds the governor with ceiling 150 (basis BOOTSTRAP), and writes submit_gate.py. Subsequent dispatch is blocked until SETUP returns OK with component hashes."
     },
     {
       "id": "BUDGET",
@@ -24,7 +24,7 @@
       "kind": "agent",
       "block": "st-154",
       "match": "A standing BUDGET sub-agent",
-      "summary": "Long-lived singleton on a 15-minute cycle. It owns all metered-spend reads and the governor after T0, publishes per-target totals and weights, writes WAKE when spend lags pace, and runs the only campaign-wide sandbox reap sweep."
+      "summary": "Long-lived singleton on a 15-minute cycle. It manages metered-spend queries and updates the governor after T0, publishes per-target totals and weights, writes WAKE when spending falls behind pace, and runs the campaign-wide sandbox reap sweep."
     },
     {
       "id": "WATCHDOG",
@@ -32,7 +32,7 @@
       "kind": "agent",
       "block": "st-214",
       "match": "WATCHDOG",
-      "summary": "Long-lived singleton on a 5-minute cycle. It reads the orchestrator heartbeat: stale by more than 15 minutes, it posts a stall notice and writes WAKE; it can halt GPU dispatch by setting the governor ceiling to 0 (dead orchestrator or runaway GPU count). It re-dispatches BUDGET if BUDGET's liveness file goes stale."
+      "summary": "Long-lived singleton on a 5-minute cycle. If the orchestrator heartbeat becomes older than 15 minutes, it posts a stall notice and writes WAKE. It can halt GPU dispatch by setting the governor ceiling to 0 on an inactive orchestrator or runaway GPU count. It also re-dispatches BUDGET if the BUDGET liveness file becomes stale."
     },
     {
       "id": "CLOCK",
@@ -40,7 +40,7 @@
       "kind": "agent",
       "block": "st-208",
       "match": "CLOCK sub-agent",
-      "summary": "Long-lived singleton, dispatched within the first 15 minutes. It writes elapsed fraction and hours remaining every 5 minutes so the orchestrator never relies on its own sense of time."
+      "summary": "Long-lived singleton dispatched within the first 15 minutes. It records elapsed fraction and remaining hours every 5 minutes to prevent orchestrator clock estimation errors."
     },
     {
       "id": "SCRIBE",
@@ -48,7 +48,7 @@
       "kind": "agent",
       "block": "st-172",
       "match": "SCRIBE function",
-      "summary": "Owns the one saved function that produces every number in Slack posts and reports, by running a fresh server-side SUM/COUNT over the ledger at post time. On its hourly cycle it also re-dispatches any singleton whose liveness file is stale."
+      "summary": "Executes the canonical function generating metrics for Slack updates and reports via fresh server-side SUM/COUNT queries over the ledger. On each hourly cycle, it re-dispatches any singleton whose liveness file is stale."
     },
     {
       "id": "DISPATCH",
@@ -56,7 +56,7 @@
       "kind": "agent",
       "block": "st-65",
       "match": "DISPATCH sub-agent",
-      "summary": "The job dispatcher. It takes work lists from the orchestrator, submits jobs through submit_gate(), and on every 15-minute governor cycle recomputes the (target, method) structure-count matrix so each asterisked method reaches 50 backbones per target."
+      "summary": "Receives work lists from the orchestrator and submits jobs through submit_gate(). On each 15-minute cycle, it recomputes the (target, method) structure-count matrix to ensure asterisked methods reach 50 backbones per target."
     },
     {
       "id": "DELIV",
@@ -64,7 +64,7 @@
       "kind": "agent",
       "block": "st-174",
       "match": "DELIVERABLES coordinator",
-      "summary": "The DELIVERABLES coordinator, the only role allowed to create folders or upload files in Drive. It runs close-out as a wait=False child: seed top-up first, then per-target conform, swap and blocker decisions, then the close_out/ folder with its README, design sheet, scoreboard and deviations log."
+      "summary": "DELIVERABLES coordinator authorized to create folders and upload files in Google Drive. It executes campaign close-out as an unblocked child process: topping up seeds, resolving per-target conform, swap, and blocker decisions, and writing close_out/ artifacts."
     },
     {
       "id": "MONITOR",
@@ -72,7 +72,7 @@
       "kind": "agent",
       "block": "st-214",
       "match": "For every 10 jobs you maintain, launch a monitor sub-agent",
-      "summary": "One per 10 live jobs. It watches liveness, harvests outputs into the design-count ledger (including jobs that exited non-zero but wrote results), and terminates a sandbox only after its compute_done returned success. The fleet shrinks as jobs finish. The orchestrator launches monitors and writes their briefs; which jobs each one watches, and how it hears of their completion, is for those briefs to set, not the prompt."
+      "summary": "Assigned at a ratio of one monitor per 10 active jobs. It tracks job liveness, ingests completed outputs into the design-count ledger (including non-zero exits that wrote output files), and terminates sandboxes after successful compute_done confirmation. The orchestrator briefs define job assignments and completion notification paths."
     },
     {
       "id": "GATEFN",
@@ -80,7 +80,7 @@
       "kind": "code",
       "block": "st-137",
       "match": "submit_gate(app_id",
-      "summary": "Shared module written by SETUP; the single path to GPU dispatch. Each call reads state fresh and returns False on a stale or zero governor, on a scoring job for a target without a PASS gate, or on a generation job when generation has outrun scoring."
+      "summary": "Shared module created by SETUP that gates GPU job submission. Each invocation checks current state and returns False if the governor is stale or zero, if a scoring job lacks a PASS target gate, or if generation exceeds twice scored designs."
     },
     {
       "id": "GOV",
@@ -88,7 +88,7 @@
       "kind": "state",
       "block": "st-137",
       "match": "/state/governor.json",
-      "summary": "The campaign-wide GPU concurrency ceiling. Exactly four writers are authorised: SETUP's T0 seed, BUDGET thereafter, WATCHDOG's fail-safe (ceiling 0) and the orchestrator's resume-clear. A governor older than 25 minutes is treated as ceiling 0."
+      "summary": "Maintains the campaign-wide GPU concurrency ceiling. Four writers are authorized: SETUP at T0, BUDGET on 15-minute cycles, WATCHDOG on failure (ceiling 0), and the orchestrator on resume. Governors older than 25 minutes default to ceiling 0."
     },
     {
       "id": "GATES",
@@ -96,7 +96,7 @@
       "kind": "state",
       "block": "st-111",
       "match": "/state/gates/{target}.json",
-      "summary": "Per-target validation gate record: fold recapitulation and positive-control separation for each ranking instrument, plus the frozen construct. Production scoring is blocked until it exists with status PASS. The prompt names its readers, but no block we found names its writer."
+      "summary": "Per-target validation gate record storing fold recapitulation, positive-control separation, and frozen construct definitions. Production scoring requires a PASS record. The prompt specifies readers for this file but omits an explicit writer role."
     },
     {
       "id": "HB",
@@ -104,7 +104,7 @@
       "kind": "state",
       "block": "st-214",
       "match": "/state/heartbeat.json",
-      "summary": "The orchestrator heartbeat {set_at_utc, frame_id, pending_dispatch}, written at the top of every loop. WATCHDOG judges orchestrator liveness from its age, and every GPU job exits at start-up if it is older than 30 minutes."
+      "summary": "Orchestrator heartbeat containing {set_at_utc, frame_id, pending_dispatch}, updated on each main loop iteration. WATCHDOG evaluates orchestrator liveness using heartbeat age, and GPU jobs exit on launch if the file is older than 30 minutes."
     },
     {
       "id": "WAKE",
@@ -112,7 +112,7 @@
       "kind": "state",
       "block": "st-214",
       "match": "/state/WAKE",
-      "summary": "Wake-up channel to the orchestrator, read on every wait_for_notification return. WATCHDOG writes it when the heartbeat is stale; BUDGET writes it with a specific reallocation demand when spend lags pace."
+      "summary": "Wake-up file checked by the orchestrator after wait_for_notification calls. WATCHDOG writes WAKE if the heartbeat goes stale; BUDGET writes WAKE with reallocation instructions when spending falls behind pace."
     },
     {
       "id": "AGG",
@@ -120,7 +120,7 @@
       "kind": "state",
       "block": "st-147",
       "match": "/state/ledger_agg.json",
-      "summary": "Per-target generated and scored totals summed across the ledger, written by BUDGET every cycle. submit_gate() uses it to refuse new generation for a target once generation is past 200 and more than twice what has been scored."
+      "summary": "Per-target generation and scoring totals aggregated from ledger files by BUDGET on each cycle. In submit_gate(), new generation jobs for a target are blocked once generated designs exceed 200 and more than twice the scored count."
     },
     {
       "id": "LEDGER",
@@ -128,7 +128,7 @@
       "kind": "state",
       "block": "st-145",
       "match": "/ledger/{writer_frame_id}.jsonl",
-      "summary": "The design-count ledger: one JSONL subfile per writing frame, never a shared file (concurrent volume appends silently clobber), one row per job completion. Every campaign total reported anywhere is a sum over it."
+      "summary": "Design-count ledger using one JSONL subfile per writing frame, preventing concurrent volume write corruption. Each row records one completed job, providing the underlying data for all reported campaign totals."
     },
     {
       "id": "JOBMETA",
@@ -136,7 +136,7 @@
       "kind": "state",
       "block": "st-230",
       "match": "/ledger/job_metadata/{launching_frame_id}.jsonl",
-      "summary": "One row per dispatched job (job_id, target, launching frame, GPU type, estimated hourly cost), appended by the submitter as soon as submit_gate() returns True; a path that cannot append here may not dispatch. It is where a dispatch becomes visible to the agents that act on it later: BUDGET derives rate-card spend from it, and every sandbox terminate must be scoped to a job_id recorded here."
+      "summary": "Records job metadata (job_id, target, launching frame, GPU type, estimated hourly rate) appended immediately when submit_gate() returns True. Appending is required before dispatch; BUDGET reads these entries to compute rate-card spend, and sandbox termination requires a matching job_id."
     },
     {
       "id": "SANDBOX",
@@ -144,7 +144,7 @@
       "kind": "external",
       "block": "st-244",
       "match": "live sandboxes",
-      "summary": "GPU jobs on Modal. Dispatched only after submit_gate() returns True; each job checks the governor and heartbeat at start-up and exits if either says halt. Only BUDGET's reap sweep, or a monitor after a successful job, may terminate one."
+      "summary": "Modal GPU sandboxes dispatched after submit_gate() returns True. Sandboxes inspect the governor and heartbeat on startup, exiting immediately if either signals a halt. Termination is restricted to BUDGET reap passes or monitors handling successful jobs."
     },
     {
       "id": "SLACK",
@@ -152,7 +152,7 @@
       "kind": "external",
       "block": "st-172",
       "match": "Slack post",
-      "summary": "The campaign thread for status updates, stall notices and alerts. Every number posted there must come from the SCRIBE function."
+      "summary": "Slack channel for status updates, stall alerts, and notifications. All reported figures must originate from the SCRIBE function."
     },
     {
       "id": "DRIVE",
@@ -160,7 +160,7 @@
       "kind": "external",
       "block": "st-174",
       "match": "Drive",
-      "summary": "The campaign deliverables folder. Only DELIVERABLES may create folders or upload, into exactly one campaign folder with one close_out/ sub-folder."
+      "summary": "Google Drive storage for campaign deliverables. Only the DELIVERABLES coordinator may create folders or upload files, restricted to a single campaign folder containing one close_out/ subdirectory."
     }
   ],
   "edges": [

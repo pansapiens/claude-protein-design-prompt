@@ -42,9 +42,9 @@ def send(text: str, kickoff_ts: str, reply_broadcast: bool = False, kind: str = 
     """Every send after the kickoff carries thread_ts and reply_broadcast=false.
 
     Sub-agents receive the kickoff ts in their task brief, saved once as an artifact and
-    never re-authored -- a re-authored ts is a second top-level post wearing a thread's
-    clothes. An accidental broadcast is a reporting error: acknowledge it in the next
-    status block and continue in-thread rather than deleting it.
+    never re-authored; a re-authored ts functions as a duplicate top-level post instead
+    of a thread reply. An accidental broadcast is a reporting error: acknowledge it in
+    the next status block and continue in-thread rather than deleting it.
     """
     if reply_broadcast and kind not in BROADCAST_ALLOWED:
         raise ValueError(f"broadcast not permitted for {kind!r}")
@@ -62,8 +62,8 @@ class DeliverablesCoordinator:
 
     One campaign sub-folder naming the target, and inside it exactly one close_out/
     created only at close-out, whose first file is a README listing every deliverable.
-    The connector cannot update or delete in place, so an upload is irreversible -- which
-    is why upload happens only after auditor review and only once files are final.
+    The connector cannot update or delete in place, so an upload is irreversible;
+    uploads occur only after auditor review and only once files are final.
     """
 
     def __init__(self, target: str) -> None:
@@ -89,9 +89,9 @@ def close_out_transaction(sheet: Sequence[DesignRow], mandatory_nonnull: Sequenc
     """Freeze the ranked sheet, then derive every companion from THAT snapshot.
 
     Deriving companions from live state instead would let the sheet and its own audit
-    trail disagree. A null in a required-but-non-load-bearing column downgrades the row
-    to disclosed-with-deviation rather than dropping it at close-out -- dropping at the
-    last step would silently change the shipped row count.
+    trail disagree. A null in a required non-critical column downgrades the row
+    to disclosed-with-deviation rather than dropping it at close-out: dropping at the
+    final step would alter the delivered row count unexpectedly.
     """
     frozen = list(sheet)
     downgraded = []
@@ -115,9 +115,9 @@ def report_numbers_from(csvs) -> dict:
 def rebuild_ordered_structures(sheet: Sequence[DesignRow], bundle_root: str) -> None:
     """REBUILT from the FINAL ranked sheet as the last close-out step.
 
-    Building it earlier and patching it later is how a bundle ends up with a rank prefix
-    that disagrees with the sheet -- so the assertion below checks exactly that, along
-    with every path actually resolving inside the rebuilt bundle.
+    Building it earlier and patching it later can leave a rank prefix that disagrees
+    with the sheet; the assertion below checks for agreement along with verifying that
+    every path resolves inside the rebuilt bundle.
     """
     for row in sheet:
         paths = [row.designed_structure_path] + [
@@ -135,7 +135,7 @@ def _rank_prefix_of(path: str) -> Optional[int]:
 
 # @block st-190 kind=logic
 def retrievability_check(sheet: Sequence[DesignRow], open_from_drive) -> float:
-    """OPEN every referenced file, from the Drive copy -- not just resolve its path.
+    """OPEN every referenced file from the Drive copy rather than only resolving its path.
 
     Path resolution passes on a bundle that uploaded empty; opening does not. Below 100%
     on any target is a defect remediated before close-out.
@@ -172,7 +172,7 @@ class ScoreboardRow:
         """Every non-target column is a real computed numeric on every row.
 
         No NaN, no sentinel, no free text. A value that cannot be computed is a defect
-        tracked in scoreboard_gaps.csv and remediated -- not written as a blank.
+        tracked in scoreboard_gaps.csv and remediated rather than written as a blank.
         """
         for column in SCOREBOARD_COLUMNS[1:]:
             value = self.values.get(column)

@@ -13,7 +13,7 @@ class _Surface:
     """Attribute access returns another surface; calls return None.
 
     Stands in for `host.*`, `modal.*` and the Slack/Drive connectors so that the
-    reconstruction can name the exact call the prompt names without shipping a client.
+    reconstruction can name the exact call the prompt names without providing a client.
     """
 
     def __init__(self, name: str) -> None:
@@ -32,7 +32,7 @@ class _Surface:
 # The orchestrator's only compute touchpoint (st-210), plus delegation and messaging.
 host = _Surface("host")
 
-# The provider SDK. Reachable from sub-agents and job code only -- never from the
+# The provider SDK. Reachable from sub-agents and job code only; never from the
 # orchestrator process (st-210), which is why this import lives here and not there.
 modal = _Surface("modal")
 

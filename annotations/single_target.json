@@ -2,1190 +2,1818 @@
   "st-1": {
     "title": "Scope rules for every agent carrying this document",
     "note": "The prompt is loaded as system context by the orchestrator and by every sub-agent at every depth, so it opens by disambiguating who owes what. Standards (verification, measurement, safety, reporting) bind universally; side effects (Slack, Drive, spending, cancelling siblings) belong only to whoever's task brief grants them. Without this block a 50-agent swarm would post 50 kickoff messages.",
-    "tags": ["framing", "delegation", "orchestration"],
+    "tags": [
+      "framing",
+      "delegation",
+      "orchestration"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-3": {
     "title": "The task, in one sentence",
     "note": "Template slot TASK_TARGET. Fixes the modality (de novo miniprotein binders), the method family (structure-based design-and-filter), and two competing objectives: peak affinity zero-shot AND high hit rate. Optimising only for the top design would satisfy goal 1 and fail goal 2, which is why the deliverable is 30 ranked designs rather than one.",
-    "tags": ["objective", "framing"],
+    "tags": [
+      "objective",
+      "framing"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-5": {
     "title": "Target dossier and the human comparison arm",
-    "note": "Template slot TARGET_DOSSIER: accession, oligomeric state and constitutive cofactor, which downstream sections turn into hard scoring-construct requirements. The competition link is not decoration — it establishes that human expert teams are working the same target, making this a benchmarked head-to-head rather than an open-ended exercise.",
-    "tags": ["target-biology", "objective", "reference"],
+    "note": "Template slot TARGET_DOSSIER: accession, oligomeric state, and constitutive cofactor, which downstream sections convert into hard scoring-construct requirements. The competition link establishes that human expert teams are working the same target, framing this as a benchmarked comparison rather than an open-ended exercise.",
+    "tags": [
+      "target-biology",
+      "objective",
+      "reference"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-7": {
     "title": "Reference access policy and the offline corpus",
-    "note": "Every cited source is mirrored in the bundled corpus, so a paywall or dead link is explicitly not an excuse to skip a reference. Names the entry point (_MASTER_SOURCE_INDEX) and warns that large PDFs are page-split. This is the prompt closing the most common agent failure mode: silently dropping an input it could not fetch.",
-    "tags": ["reference", "corpus", "failure-handling"],
+    "note": "Every cited source is mirrored in the bundled corpus, so a paywall or dead link does not excuse skipping a reference. Names the entry point (_MASTER_SOURCE_INDEX) and notes that large PDFs are page-split. This addresses a common failure mode where an agent omits an input it could not retrieve.",
+    "tags": [
+      "reference",
+      "corpus",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-9": {
-    "title": "Ref 1 — BenchBB benchmark",
+    "title": "Ref 1: BenchBB benchmark",
     "note": "Adaptyv's community benchmark for binder design; establishes what hit rates are achievable and how the assay that will score these designs actually works.",
-    "tags": ["reference", "calibration"],
+    "tags": [
+      "reference",
+      "calibration"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-10": {
-    "title": "Ref 2 — Protein Optimization 101",
+    "title": "Ref 2: Protein Optimization 101",
     "note": "First of a four-part Adaptyv primer series. Practitioner-level guidance on binder optimisation, included so the agent inherits community craft knowledge rather than reasoning from papers alone.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-11": {
-    "title": "Ref 3 — Protein Optimization 102",
+    "title": "Ref 3: Protein Optimization 102",
     "note": "Continuation of the optimisation primer. Relevant to the mandatory in silico optimization rounds specified later.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-12": {
-    "title": "Ref 4 — Protein Optimization 103",
+    "title": "Ref 4: Protein Optimization 103",
     "note": "Third part of the primer series.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-13": {
-    "title": "Ref 5 — Has binder design been solved?",
+    "title": "Ref 5: Has binder design been solved?",
     "note": "Adaptyv's assessment of the field's current ceiling. Frames how much headroom a campaign like this can expect, and what counts as a good result.",
-    "tags": ["reference", "calibration"],
+    "tags": [
+      "reference",
+      "calibration"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-14": {
-    "title": "Ref 6 — MBP case study with BindCraft",
+    "title": "Ref 6: MBP case study with BindCraft",
     "note": "A worked end-to-end case study on one target. The closest thing in the reference set to a template for the campaign's own workflow.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-15": {
-    "title": "Ref 7 — Crowdsourced design, EGFR competition preprint",
+    "title": "Ref 7: Crowdsourced design, EGFR competition preprint",
     "note": "The peer-reviewable write-up of a large crowdsourced binder competition. Supplies measured in vitro outcomes for a wide range of methods against one target.",
-    "tags": ["reference", "calibration"],
+    "tags": [
+      "reference",
+      "calibration"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-16": {
-    "title": "Ref 8 — EGFR competition round 1 data",
+    "title": "Ref 8: EGFR competition round 1 data",
     "note": "ProteinBase collection with per-design sequences and measured binding. Doubles as known-binder corpus material for the novelty gate.",
-    "tags": ["reference", "corpus", "filtering"],
+    "tags": [
+      "reference",
+      "corpus",
+      "filtering"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-17": {
-    "title": "Ref 9 — EGFR competition round 2 data",
+    "title": "Ref 9: EGFR competition round 2 data",
     "note": "Second round of the same competition; shows how much the field improved between rounds.",
-    "tags": ["reference", "corpus", "filtering"],
+    "tags": [
+      "reference",
+      "corpus",
+      "filtering"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-18": {
-    "title": "Ref 10 — Agents vs Humans",
+    "title": "Ref 10: Agents vs Humans",
     "note": "Directly relevant prior art: an evaluation of whether LLM agents can design proteins competitively with humans. This campaign is a scaled-up instance of that question.",
-    "tags": ["reference", "framing"],
+    "tags": [
+      "reference",
+      "framing"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-19": {
-    "title": "Ref 11 — MUNI hackathon submissions",
+    "title": "Ref 11: MUNI hackathon submissions",
     "note": "The underlying per-design data for the agents-vs-humans comparison.",
-    "tags": ["reference", "corpus"],
+    "tags": [
+      "reference",
+      "corpus"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-20": {
-    "title": "Ref 12 — TREM2 competition",
+    "title": "Ref 12: TREM2 competition",
     "note": "One of the campaign's own 14 targets, previously run as a public competition. Provides both a difficulty prior and known binders to exclude on novelty grounds.",
-    "tags": ["reference", "corpus", "target-biology"],
+    "tags": [
+      "reference",
+      "corpus",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-21": {
-    "title": "Ref 13 — Myostatin / GDF-8 competition",
+    "title": "Ref 13: Myostatin / GDF-8 competition",
     "note": "Prior art for the GDF-8 target, which is the only target in the set carrying a selectivity requirement against a close paralog.",
-    "tags": ["reference", "corpus", "target-biology"],
+    "tags": [
+      "reference",
+      "corpus",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-22": {
-    "title": "Ref 14 — GEM x Adaptyv RBX1 competition",
-    "note": "Competition announcement for RBX1, a zinc-coordinating RING domain — the target that most stresses the cofactor-representation rules below.",
-    "tags": ["reference", "target-biology"],
+    "title": "Ref 14: GEM x Adaptyv RBX1 competition",
+    "note": "Competition announcement for RBX1, a zinc-coordinating RING domain: the target that most stresses the cofactor-representation rules below.",
+    "tags": [
+      "reference",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-23": {
-    "title": "Ref 15 — RBX1 competition results",
+    "title": "Ref 15: RBX1 competition results",
     "note": "Measured outcomes for RBX1 designs.",
-    "tags": ["reference", "corpus"],
+    "tags": [
+      "reference",
+      "corpus"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-24": {
-    "title": "Ref 16 — RBX1 all submissions",
+    "title": "Ref 16: RBX1 all submissions",
     "note": "Full submission set including failures, which is the more informative half for calibrating expected hit rate.",
-    "tags": ["reference", "corpus"],
+    "tags": [
+      "reference",
+      "corpus"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-25": {
-    "title": "Ref 17 — Nipah-G submissions overview",
+    "title": "Ref 17: Nipah-G submissions overview",
     "note": "Editorial overview of the Nipah-G competition submissions.",
-    "tags": ["reference", "target-biology"],
+    "tags": [
+      "reference",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-26": {
-    "title": "Ref 18 — Nipah-G competition",
+    "title": "Ref 18: Nipah-G competition",
     "note": "Competition page for the Nipah-G attachment glycoprotein target.",
-    "tags": ["reference", "target-biology"],
+    "tags": [
+      "reference",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-27": {
-    "title": "Ref 19 — Nipah-G results",
+    "title": "Ref 19: Nipah-G results",
     "note": "Measured binding outcomes for Nipah-G designs.",
-    "tags": ["reference", "corpus"],
+    "tags": [
+      "reference",
+      "corpus"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-28": {
-    "title": "Ref 20 — Nipah-G all submissions",
+    "title": "Ref 20: Nipah-G all submissions",
     "note": "Complete Nipah-G submission set, hits and misses.",
-    "tags": ["reference", "corpus"],
+    "tags": [
+      "reference",
+      "corpus"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-29": {
-    "title": "Ref 21 — RFdiffusion re-validation",
-    "note": "An independent wet-lab re-run of RFdiffusion designs. Important because it separates published performance from reproducible performance — exactly the distinction the Verification section insists on.",
-    "tags": ["reference", "calibration", "verification"],
+    "title": "Ref 21: RFdiffusion re-validation",
+    "note": "An independent wet-lab re-run of RFdiffusion designs. It separates published performance from reproducible performance, the exact distinction required in the Verification section.",
+    "tags": [
+      "reference",
+      "calibration",
+      "verification"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-30": {
-    "title": "Ref 22 — BindCraft v1 re-validation",
+    "title": "Ref 22: BindCraft v1 re-validation",
     "note": "The same independent re-validation treatment applied to BindCraft.",
-    "tags": ["reference", "calibration", "verification"],
+    "tags": [
+      "reference",
+      "calibration",
+      "verification"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-31": {
-    "title": "Ref 23 — AlphaProteo technical report",
+    "title": "Ref 23: AlphaProteo technical report",
     "note": "DeepMind's binder generator. Cited for its results and filtering strategy; the model itself is not on the roster.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-32": {
-    "title": "Ref 24 — AlphaProteo blog",
+    "title": "Ref 24: AlphaProteo blog",
     "note": "Accessible companion to the AlphaProteo report.",
-    "tags": ["reference", "design-method"],
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-33": {
-    "title": "Ref 25 — Cao et al. 2022, design from target structure alone",
-    "note": "The foundational demonstration that binders can be designed from an unliganded target structure — the premise the whole campaign rests on.",
-    "tags": ["reference", "design-method"],
+    "title": "Ref 25: Cao et al. 2022, design from target structure alone",
+    "note": "The foundational demonstration that binders can be designed from an unliganded target structure alone, which provides the premise for the campaign.",
+    "tags": [
+      "reference",
+      "design-method"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-34": {
-    "title": "Ref 26 — Watson et al. 2023, RFdiffusion",
+    "title": "Ref 26: Watson et al. 2023, RFdiffusion",
     "note": "Method paper for a roster tool that is asterisked, i.e. subject to the 50-backbone-per-target floor.",
-    "tags": ["reference", "tooling"],
+    "tags": [
+      "reference",
+      "tooling"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-35": {
-    "title": "Ref 27 — Pacesa et al. 2025, BindCraft",
+    "title": "Ref 27: Pacesa et al. 2025, BindCraft",
     "note": "Method paper for BindCraft, whose free derivative FreeBindCraft is an asterisked roster tool.",
-    "tags": ["reference", "tooling"],
+    "tags": [
+      "reference",
+      "tooling"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-36": {
-    "title": "Ref 28 — BoltzGen preprint",
+    "title": "Ref 28: BoltzGen preprint",
     "note": "Method paper for another asterisked roster generator.",
-    "tags": ["reference", "tooling"],
+    "tags": [
+      "reference",
+      "tooling"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-37": {
-    "title": "Ref 29 — BoltzGen release designs",
-    "note": "The designs shipped with the BoltzGen release, usable both as a performance reference and as novelty-gate material.",
-    "tags": ["reference", "corpus", "filtering"],
+    "title": "Ref 29: BoltzGen release designs",
+    "note": "The designs provided with the BoltzGen release, usable both as a performance reference and as novelty-gate material.",
+    "tags": [
+      "reference",
+      "corpus",
+      "filtering"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-39": {
     "title": "Target dossier: the biology gate before any compute",
-    "note": "The densest block in the opening. It converts a literature review into machine-checked state: oligomeric state, cofactors, exact assay construct and which PDB depositions represent it. The scoring construct is then frozen per arm at gate time and re-asserted on every production row by parsing the output structure — chain count and cofactor atoms must match /state/gates/{target}.json or the score is written as NaN with CONSTRUCT_FAIL, never a number.",
-    "tags": ["target-biology", "gate", "provenance", "scoring"],
+    "note": "Converts a literature review into machine-checked state: oligomeric state, cofactors, exact assay construct, and representative PDB depositions. The scoring construct is frozen per arm at gate time and re-asserted on every production row by parsing the output structure: chain count and cofactor atoms must match /state/gates/{target}.json or the score is written as NaN with CONSTRUCT_FAIL, never a number.",
+    "tags": [
+      "target-biology",
+      "gate",
+      "provenance",
+      "scoring"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-41": {
     "title": "Design against multiple depositions, not one",
     "note": "Guards against overfitting a single crystal form. Priority goes to the structure matching the assay construct, with cross-checks against the others where affordable. Explicitly separates apo/holo conformational questions (handled by the dossier) from oligomer-modelling questions (handled at scoring).",
-    "tags": ["target-biology", "design-method"],
+    "tags": [
+      "target-biology",
+      "design-method"
+    ],
     "force": "MAY",
     "owner": "any-agent"
   },
   "st-43": {
     "title": "Epitope selection policy",
-    "note": "Prefers epitopes with design precedent and a plausible mechanism of action over novel ones, but permits novelty given a stated hypothesis. Cross-species reactivity is explicitly demoted to a secondary objective that may never cost primary affinity or hit rate — a guard against an agent optimising a metric nobody asked to maximise.",
-    "tags": ["design-method", "objective", "target-biology"],
+    "note": "Prefers epitopes with design precedent and a plausible mechanism of action over novel ones, but permits novelty given a stated hypothesis. Cross-species reactivity is explicitly a secondary objective that may never compromise primary affinity or hit rate, preventing optimization for unrequested metrics.",
+    "tags": [
+      "design-method",
+      "objective",
+      "target-biology"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-45": {
     "title": "Licence boundary on tooling",
     "note": "Any open-source tool with a commercially available licence is in scope; anything else is out. This one sentence is what later excludes AlphaFold3 weights, Rosetta/PyRosetta and ESM3 despite all three being obvious choices technically.",
-    "tags": ["licensing", "tooling"],
+    "tags": [
+      "licensing",
+      "tooling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-47": {
-    "title": "The roster is examples, not an allowlist",
-    "note": "Framing line. 'In no particular order' plus 'examples' keeps the list from being read as exhaustive — additions are governed by the rule at line 61, not by this list.",
-    "tags": ["tooling", "framing"],
+    "title": "Roster definition as examples",
+    "note": "Specifies tools in no particular order as examples rather than an exhaustive allowlist; additions are governed by the tool integration rule at line 61.",
+    "tags": [
+      "tooling",
+      "framing"
+    ],
     "force": "MAY",
     "owner": "any-agent"
   },
   "st-49": {
     "title": "Structure design / co-design roster",
-    "note": "Thirteen generators. The asterisk is load-bearing: it marks the seven methods subject to the 50-backbone-per-target floor enforced by the DISPATCH agent. The parenthetical also records that HalluDesign and Protein Hunter are wrappers that hallucinate through a co-folding backbone, so they inherit that backbone's dependencies.",
-    "tags": ["tooling", "design-method"],
+    "note": "Thirteen generators. The asterisk marks the seven methods subject to the 50-backbone-per-target floor enforced by the DISPATCH agent. HalluDesign and Protein Hunter are noted as wrappers hallucinating through a co-folding backbone, inheriting that backbone's dependencies.",
+    "tags": [
+      "tooling",
+      "design-method"
+    ],
     "force": "MUST",
     "owner": "DISPATCH"
   },
   "st-50": {
     "title": "FoldCraft install notes and why it is on the roster",
     "note": "Names the exact repository, records that it does not need PyRosetta (which would put it out of licence scope), and pre-empts two known install failures. The strategic reason for its inclusion: it can produce beta-containing and mixed alpha/beta folds, which is how the 10% non-all-alpha diversity target at line 69 gets met.",
-    "tags": ["installation", "tooling", "diversity-cap"],
+    "tags": [
+      "installation",
+      "tooling",
+      "diversity-cap"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-51": {
     "title": "Sequence design roster",
-    "note": "Only two named tools, both soluble-optimised variants. The base variants are permitted for backbone search but not for designs that get ordered — solubility liability is a wet-lab failure mode the campaign cannot measure in silico.",
-    "tags": ["tooling", "sequence-design"],
+    "note": "Names two tools, both soluble-optimized variants. Base variants are permitted for backbone search but not for designs selected for ordering, preventing CRO-level solubility failures.",
+    "tags": [
+      "tooling",
+      "sequence-design"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-52": {
     "title": "The three-arm scoring instrument, and its substitutes",
     "note": "Splits co-folders into three tiers: the frozen three-arm ranking instrument (bring up first), substitute-only supplements usable when an arm fails on a target, and AF_Unmasked as diagnostic only. The tiering is what makes 'the instrument' a stable object that can be frozen and disclosed rather than drifting per design.",
-    "tags": ["tooling", "scoring", "metric"],
+    "tags": [
+      "tooling",
+      "scoring",
+      "metric"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-53": {
     "title": "ESMFold2 install and inference recipe",
     "note": "Pins weights, warns that the PyPI 'esm' package is a different project, and freezes inference parameters so scores are comparable across the campaign. Declares both variants instrument backbones: failure to run them is a halt-and-post condition, not a degrade-and-continue. Also fences the pre-AF3 folder set to AlphaFold2/Multimer and reproductions.",
-    "tags": ["installation", "tooling", "scoring", "failure-handling"],
+    "tags": [
+      "installation",
+      "tooling",
+      "scoring",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-54": {
     "title": "Protenix v2 recipe, and the hardest bring-up gate in the prompt",
     "note": "Exact pip pin, CUDA base, checkpoint source, CLI invocation and the flags NOT to pass. Then the operational trap: the first call JIT-compiles a CUDA kernel for 4-6 minutes, so TORCH_EXTENSIONS_DIR must live on a shared persistent volume and the first canary needs a 15-minute timeout. Production generation and scoring on every target is held until this reaches roster PASS; five failed fresh-H100 attempts is a halt.",
-    "tags": ["installation", "tooling", "gate", "failure-handling"],
+    "tags": [
+      "installation",
+      "tooling",
+      "gate",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-55": {
     "title": "AlphaFold3 engine with OpenFold3 weights",
     "note": "The licence workaround: AF3's JAX code paired with open OF3 weights is fully Apache-2.0, where AF3's own weights are not. Positioned as a permissive cross-check, explicitly not allowed to displace the frozen instrument.",
-    "tags": ["installation", "licensing", "tooling"],
+    "tags": [
+      "installation",
+      "licensing",
+      "tooling"
+    ],
     "force": "MAY",
     "owner": "any-agent"
   },
   "st-57": {
     "title": "TOOL-BRINGUP stage and the sandbox-termination contract",
-    "note": "Budgets the first hour to one sub-agent per roster tool plus ipSAE, MMseqs2 and DockQ, each proving a canary and leaving a run_<tool>.py on the shared volume. Then two cost invariants: every direct Sandbox.create wraps termination in try/finally, and host.compute jobs are terminated by the per-10-jobs monitor in the same cycle they are harvested. Includes the counter-intuitive rule that a non-zero exit with declared output present is a HARVEST, not a re-run.",
-    "tags": ["tooling", "verification", "compute", "failure-handling"],
+    "note": "Budgets the first hour to one sub-agent per roster tool plus ipSAE, MMseqs2 and DockQ, each proving a canary and leaving a run_<tool>.py on the shared volume. Direct Sandbox.create invocations must wrap termination in try/finally, while host.compute jobs are terminated by monitors upon harvest. A non-zero exit with declared output present is classified as a harvest rather than a re-run.",
+    "tags": [
+      "tooling",
+      "verification",
+      "compute",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "monitor"
   },
   "st-59": {
     "title": "Structure-to-sequence adapters must be validated too",
-    "note": "A specific, experience-shaped warning: generators emit CA-only PDBs, non-standard residue comp_ids and swapped chain order, all of which break sequence design silently. The instruction is to validate the adapter on a campaign target, not the tool in isolation — testing components separately is how this class of bug survives to production.",
-    "tags": ["tooling", "verification", "failure-handling"],
+    "note": "Warns against generator hazards: CA-only PDBs, non-standard residue comp_ids, and swapped chain order, all of which break sequence design without explicit errors. Adapters must be validated on a campaign target rather than testing components in isolation, preventing interface errors from surviving to production.",
+    "tags": [
+      "tooling",
+      "verification",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-61": {
     "title": "Adding tools, and the three named exclusions",
-    "note": "New tools may join once a production agent has run them end to end on a real target; unrun or licence-unconfirmed tools are out of scope and the correct response is a logged deviation, not shipping dependent designs. Names the three exclusions on licence grounds: AlphaFold3 weights, Rosetta/PyRosetta, ESM3.",
-    "tags": ["licensing", "tooling", "failure-handling"],
+    "note": "New tools may join once a production agent has run them end to end on a real target; unverified or license-unconfirmed tools require a logged deviation rather than delivering dependent designs. AlphaFold3 weights, Rosetta/PyRosetta, and ESM3 are explicitly excluded on licensing grounds.",
+    "tags": [
+      "licensing",
+      "tooling",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-63": {
-    "title": "What counts as a design",
-    "note": "Defines the deliverable object: single-chain miniproteins of 50-120 residues, 35-160 permitted with recorded rationale. The absolute rule is that everything is generated de novo — no known miniprotein, peptide, nanobody or antibody may be used as a starting point or graft. That is what makes the campaign a test of generative design rather than of optimisation.",
-    "tags": ["objective", "design-method"],
+    "title": "Deliverable design definition",
+    "note": "Defines deliverables as single-chain miniproteins of 50-120 residues (35-160 permitted with recorded rationale). All candidates must be generated de novo; using known miniproteins, peptides, nanobodies, or antibodies as starting points or grafts is prohibited.",
+    "tags": [
+      "objective",
+      "design-method"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-65": {
     "title": "Method floor: 50 backbones per asterisked method per target",
-    "note": "The prompt's main anti-monoculture device. DISPATCH recomputes the (target, method) count matrix every 15-minute cycle, writes it to /state/floor_matrix.json — a missing matrix is itself a deviation — and prioritises under-represented cells. Throughput, cost and skill availability are explicitly rejected as grounds to skip a method. Above the floor, reallocation toward what works is encouraged. Note the single-dispatch-owner invariant: exactly one submit-token issuer, and the orchestrator never calls submit_gate itself.",
-    "tags": ["design-method", "diversity-cap", "orchestration", "concurrency"],
+    "note": "Anti-monoculture mechanism: DISPATCH recomputes the (target, method) count matrix every 15-minute cycle, writes it to /state/floor_matrix.json, and prioritizes under-represented cells. Throughput, GPU expense, and skill availability are rejected as grounds to skip an asterisked method. Exactly one submit-token issuer is authorized, and the orchestrator never calls submit_gate itself.",
+    "tags": [
+      "design-method",
+      "diversity-cap",
+      "orchestration",
+      "concurrency"
+    ],
     "force": "MECHANICAL",
     "owner": "DISPATCH"
   },
   "st-67": {
-    "title": "Target-fold mimic failure mode",
-    "note": "A generator conditioned on a full oligomeric complex, asked for a binder about the length of one protomer, will often just reproduce that protomer — because in the training data a protomer genuinely is an excellent binder of its neighbours. Named here as a design-time hazard; caught mechanically by the TM-score branch of the novelty gate at line 81.",
-    "tags": ["design-method", "failure-handling", "filtering"],
+    "title": "Target-fold mimicry failure mode",
+    "note": "A generator conditioned on an oligomeric complex may reproduce a target protomer when asked for a binder of similar length, because protomers bind neighboring chains in training data. This design hazard is filtered mechanically by the TM-score branch of the novelty gate at line 81.",
+    "tags": [
+      "design-method",
+      "failure-handling",
+      "filtering"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-69": {
     "title": "Fold diversity target: 10% non-all-alpha",
-    "note": "Defined operationally via DSSP (one beta strand of 3+ consecutive E/B residues, or helical fraction below 70%) so it can be computed rather than judged. Deliberately a reported target, not a ranking gate: if the pool cannot supply it without displacing better designs, ship fewer and state the count and reason. An example of the prompt choosing disclosure over a hard constraint.",
-    "tags": ["diversity-cap", "design-method", "reporting"],
+    "note": "Defined operationally via DSSP (one beta strand of 3+ consecutive E/B residues, or helical fraction below 70%) to enable automated computation. If the pool cannot achieve this without displacing superior designs, the prompt directs delivering fewer candidates with the count and reason stated.",
+    "tags": [
+      "diversity-cap",
+      "design-method",
+      "reporting"
+    ],
     "force": "SHOULD",
     "owner": "sheet-writer"
   },
   "st-71": {
     "title": "Sequence design protocol",
     "note": "Soluble variants for anything headed for order; base variants fine for search. Caliby must run both fixed-backbone and over a 32-structure Protpardelle-1c ensemble per its own paper. Co-design models get scored on both their native sequence and a redesign, and cross-pipeline mixing is encouraged for diversity.",
-    "tags": ["sequence-design", "design-method", "diversity-cap"],
+    "tags": [
+      "sequence-design",
+      "design-method",
+      "diversity-cap"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-73": {
-    "title": "LCP: a mandatory sequence-design restraint",
-    "note": "Local Composition Perplexity penalises homopolymer stretches per-position. Notable as the one place the prompt requires implementing a method from a figure rather than a paper — the definition lives in Figure 1, shared with permission, and lcp_score must be recorded for every sequence designed.",
-    "tags": ["sequence-design", "metric", "filtering"],
+    "title": "LCP sequence-design restraint",
+    "note": "Local Composition Perplexity penalizes homopolymer stretches per position. The method is defined in Figure 1 of the kickoff materials, and lcp_score must be recorded for every designed sequence.",
+    "tags": [
+      "sequence-design",
+      "metric",
+      "filtering"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-75": {
-    "title": "Figure 1 caption — LCP definition",
+    "title": "Figure 1 caption: LCP definition",
     "note": "Attached to the kickoff message rather than embedded in the markdown. The agent must read the figure to implement the penalty; there is no prose fallback.",
-    "tags": ["reference", "sequence-design"],
+    "tags": [
+      "reference",
+      "sequence-design"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-77": {
-    "title": "Figure 2 caption — LCP results",
+    "title": "Figure 2 caption: LCP results",
     "note": "Evidence that the LCP restraint improves sequence design, supplied so the requirement reads as motivated rather than arbitrary.",
-    "tags": ["reference", "sequence-design"],
+    "tags": [
+      "reference",
+      "sequence-design"
+    ],
     "force": "SHOULD",
     "owner": "any-agent"
   },
   "st-79": {
     "title": "Pre-scoring filters run before any co-folding spend",
-    "note": "Ordering rule with a cost rationale: cheap filters run before expensive GPU scoring. Carefully separates two timelines — UniRef90 staging is not a dispatch gate (production may start without it), but the full novelty check and Ubiquitin rejection must complete before any row reaches the FINAL sheet. Curated mini-databases are explicitly out of scope; it is full UniRef90 or nothing.",
-    "tags": ["filtering", "gate", "compute"],
+    "note": "Ordering rule with resource justification: cheap sequence filters run before expensive GPU scoring. UniRef90 staging is decoupled from initial dispatch, but full novelty verification and Ubiquitin rejection must complete before any candidate reaches the final sheet.",
+    "tags": [
+      "filtering",
+      "gate",
+      "compute"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-81": {
-    "title": "Filter 1 — novelty, with three independent thresholds",
-    "note": "Checks against UniRef90, the known-binder corpus, and every chain of the target's own reference and control structures. Three rejection criteria: >60% identity over >50% coverage, or >=30% gapped local identity over >=40 residues, or TM-score >=0.5 to any target or control chain. That last one is what catches target-mimic protomers here rather than downstream. Ubiquitin gets a named special case because it emerges with terminal extensions that defeat exact matching.",
-    "tags": ["filtering", "gate", "metric"],
+    "title": "Filter 1: Novelty, with three independent thresholds",
+    "note": "Checks against UniRef90, the known-binder corpus, and every chain of the target's own reference and control structures. Three rejection criteria apply: >60% identity over >50% coverage, >=30% gapped local identity over >=40 residues, or TM-score >=0.5 to any target or control chain (which intercepts target-mimic protomers). Ubiquitin receives special handling because it emerges with terminal extensions that defeat exact matching.",
+    "tags": [
+      "filtering",
+      "gate",
+      "metric"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-82": {
-    "title": "Filter 2 — developability liabilities",
+    "title": "Filter 2: Developability liabilities",
     "note": "Cysteine parity, homopolymer runs, surface hydrophobic patches. Cheap sequence-level checks for the things that make a protein fail at the CRO rather than in silico.",
-    "tags": ["filtering", "gate"],
+    "tags": [
+      "filtering",
+      "gate"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-83": {
-    "title": "Filter 3 — monomer foldability",
+    "title": "Filter 3: Monomer foldability",
     "note": "Does the binder fold on its own? Threshold frozen per target at the validation gate, defaulting to mean pLDDT 70. The parenthetical about scale is a real trap: ESMFold2 emits 0-1 where most tools emit 0-100, so a naive threshold comparison would pass everything or nothing.",
-    "tags": ["filtering", "gate", "metric"],
+    "tags": [
+      "filtering",
+      "gate",
+      "metric"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-84": {
-    "title": "Filter 4 — structural plausibility",
-    "note": "Backbone geometry, clashes, core packing. Thresholds are the agent's to choose but must be frozen at kickoff — the prompt consistently prefers a disclosed arbitrary threshold to a drifting one.",
-    "tags": ["filtering", "gate"],
+    "title": "Filter 4: Structural plausibility",
+    "note": "Backbone geometry, clashes, core packing. Thresholds are the agent's to choose but must be written down before production scoring begins: freezing a threshold is an explicit defense against moving the goalposts.",
+    "tags": [
+      "filtering",
+      "gate"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-86": {
-    "title": "Rejects must be traceably absent downstream",
-    "note": "A gate counts as run only when its rejections can be shown missing from every later pool. This closes the gap between a filter that computes a verdict and a filter that actually removes anything — a distinction that is invisible in logs unless someone checks.",
-    "tags": ["filtering", "verification", "provenance"],
+    "title": "Downstream exclusion of rejected designs",
+    "note": "A filtering stage is defined as complete only when rejected sequences are demonstrably absent from every downstream pool. This rule prevents filtering from being a passive logging step: the check must actively prevent bad rows from progressing.",
+    "tags": [
+      "filtering",
+      "verification",
+      "provenance"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-88": {
     "title": "Redundancy clustering, with different rules per pool type",
-    "note": "De novo pools cluster at ~90% identity before scoring so near-duplicates don't consume GPU budget. Mutagenesis and close-variant pools deliberately skip that — near-identity is the point there — and drop only exact duplicates, deferring diversity enforcement to selection time.",
-    "tags": ["filtering", "diversity-cap", "compute"],
+    "note": "De novo pools cluster at ~90% identity before scoring so near-duplicates do not consume GPU budget. Mutagenesis and close-variant pools skip that step to preserve related sequences, dropping only exact duplicates and deferring diversity enforcement to selection time.",
+    "tags": [
+      "filtering",
+      "diversity-cap",
+      "compute"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-90": {
     "title": "Provenance keys and the frozen method vocabulary",
-    "note": "root_backbone_id and structure_method are assigned at backbone generation and propagate unchanged through every downstream stage, which is what makes the per-backbone diversity cap computable. Method names are enum tokens from a campaign-frozen method_vocab.json, not free text, with rfdiffusion and rfdiffusion3 kept distinct. The sheet writer then recomputes every gate from the row's own sequence and structure and admits the row only on agreement to 1e-4 — carried values are never trusted.",
-    "tags": ["provenance", "gate", "diversity-cap"],
+    "note": "root_backbone_id and structure_method are stamped at generation time and survive every downstream step, which is how diversity caps are counted. Method names are frozen tokens from method_vocab.json (rfdiffusion and rfdiffusion3 stay distinct). The sheet writer recomputes all metrics from sequence and structure, rejecting carried values that diverge by more than 1e-4.",
+    "tags": [
+      "provenance",
+      "gate",
+      "diversity-cap"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-92": {
-    "title": "Selection caps: six ceilings applied in order",
-    "note": "Exact duplicates out, Levenshtein-5 near-neighbours out, then per-backbone 5%, per-TM90-cluster 10%, per-structure-method 50% with at least three methods, per-seq-method two-thirds. Explicitly ceilings and not quotas. The instruction if 30 rows cannot be filled is to fix upstream — generate more, use more methods — rather than relax, with the relaxation ladder deferred to the deliverable spec.",
-    "tags": ["diversity-cap", "deliverable"],
+    "title": "Selection caps, applied in order",
+    "note": "Six ceilings applied in selection order: exact duplicates, Levenshtein min-distance 5, max 5% per root backbone, max 10% per TM90 cluster, max 50% per structure method (minimum three methods), and max two-thirds per sequence method. If the ranked pool cannot fill 30 rows under these, the fix is upstream: generate more designs and test more methods, rather than relaxing caps. The relaxation ladder in st-185 is the last resort.",
+    "tags": [
+      "diversity-cap",
+      "deliverable"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-94": {
-    "title": "Why these three arms, and the cofactor rule for all of them",
-    "note": "Justifies the instrument empirically: the bundled benchmark paper shows the three chosen models match or beat AlphaFold3 as de novo binder filters, especially with multiple distinct seeds at one sample each. Restates the per-arm MSA configuration, then closes a loophole — all three are all-atom co-folders that accept ions, ligands, nucleic acids and modified residues, so a dossier-flagged cofactor is supplied to every arm and 'this arm is protein-only' is never a valid waiver.",
-    "tags": ["scoring", "calibration", "metric", "target-biology"],
+    "title": "Three-arm scoring instrument, and the cofactor rule",
+    "note": "The scoring ensemble is grounded in benchmark evidence showing the three tools match or exceed AlphaFold3 for de novo binder filtering across distinct seeds. Because all three tools support non-protein entities, target cofactors from the dossier must be supplied to every arm without exception.",
+    "tags": [
+      "scoring",
+      "calibration",
+      "metric",
+      "target-biology"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-96": {
     "title": "The instrument, stated plainly",
     "note": "Three arms, one sample per seed: ESMFold2-Fast single-sequence, ESMFold2-Full with target MSA, Protenix v2 with target MSA. The short block that everything else in the scoring section refers back to.",
-    "tags": ["scoring", "metric"],
+    "tags": [
+      "scoring",
+      "metric"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-98": {
     "title": "Two-metric ranking: ipSAE and pose agreement, and the two summary scores",
-    "note": "The scoring core. Each arm contributes ipSAE_min and sc_DockQ against the designed complex, using that arm's own argmax-ipSAE seed and best symmetric chain relabelling. pose_dockq is the minimum across arms; three-arm agreement on both metrics is called the strongest in silico evidence available. Two summaries are kept deliberately separate: final_score, the raw mean of six terms, is the headline; rank_zscore, the 4:1 ipSAE:DockQ weighted z-average, is used for ranking only. Both must be frozen and disclosed before production scoring.",
-    "tags": ["scoring", "metric", "calibration"],
+    "note": "The scoring core: each arm contributes ipSAE_min and sc_DockQ against the designed complex, using that arm's own argmax-ipSAE seed and best symmetric chain relabelling, with pose_dockq defined as the minimum across arms. Two summaries are kept separate: final_score (raw mean of six terms) is the headline, while rank_zscore (4:1 ipSAE:DockQ weighted z-average) is used for ranking only. Both scoring formulas must be frozen and disclosed before production scoring.",
+    "tags": [
+      "scoring",
+      "metric",
+      "calibration"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-100": {
     "title": "Seed-tier structure",
     "note": "Header introducing the two-tier compute strategy: cheap wide screening, expensive narrow confirmation.",
-    "tags": ["scoring", "compute"],
+    "tags": [
+      "scoring",
+      "compute"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-102": {
-    "title": "SCREEN tier — 1 seed per arm",
+    "title": "SCREEN tier: 1 seed per arm",
     "note": "The wide filter. Ranks on rank_zscore and keeps whatever top fraction the budget supports. Fast iteration is the explicit purpose; nothing at this tier is shippable.",
-    "tags": ["scoring", "compute"],
+    "tags": [
+      "scoring",
+      "compute"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-103": {
-    "title": "INTERMEDIATE / FINAL tier — 5 distinct seeds per arm",
+    "title": "INTERMEDIATE and FINAL tiers: 5 distinct seeds per arm",
     "note": "Header for the confirmation tier. 'Distinct' is enforced later by an assertion that the seed set has five unique integers and that per-design variance is non-zero.",
-    "tags": ["scoring"],
+    "tags": [
+      "scoring"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-104": {
     "title": "Intermediate use is unrestricted",
     "note": "Five-seed scoring may be used freely between waves and optimization rounds. The only thing that distinguishes intermediate from final is which pool it ranks.",
-    "tags": ["scoring"],
+    "tags": [
+      "scoring"
+    ],
     "force": "MAY",
     "owner": "any-agent"
   },
   "st-105": {
-    "title": "FINAL tier and the frozen-mask rule",
-    "note": "Spells the ranking formula out term by term: three per-arm ipSAE_min values maxed over seeds and weighted 4, three sc_DockQ values weighted 1. Under a disclosed REDUCED_MASK the raw mean runs over realised terms only and score_instrument names them. The closing sentence is the sharpest in the section — dropping a validated arm from a frozen mask is called sheet corruption, not a judgement call.",
-    "tags": ["scoring", "metric", "deliverable"],
+    "title": "FINAL tier, and the frozen-mask rule",
+    "note": "Defines the ranking formula: three seed-maximized ipSAE_min terms (weight 4) and three sc_DockQ terms (weight 1). When evaluating under a disclosed REDUCED_MASK, the mean includes only realized terms and score_instrument identifies them. Removing a validated arm from a frozen mask constitutes data corruption.",
+    "tags": [
+      "scoring",
+      "metric",
+      "deliverable"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-107": {
-    "title": "Mask freezing and pre-registration of alternatives",
-    "note": "The per-target instrument mask freezes at validation-gate time and is enforced by the sheet writer, not by convention. A different ranking formula is permitted only if it demonstrably separates controls better, and only if frozen and disclosed before any production design is scored — a pre-registration requirement borrowed straight from clinical trial practice.",
-    "tags": ["scoring", "gate", "epistemics"],
+    "title": "Mask freezing, and pre-registering alternative formulas",
+    "note": "The per-target scoring mask freezes during validation-gate execution and is enforced programmatically by the sheet writer. Alternative ranking formulas are permitted only when demonstrably superior at separating controls, provided they are frozen and documented before production scoring.",
+    "tags": [
+      "scoring",
+      "gate",
+      "epistemics"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-109": {
     "title": "Eleven co-folding considerations",
     "note": "Header for the most technically dense list in the prompt.",
-    "tags": ["scoring"],
+    "tags": [
+      "scoring"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-111": {
-    "title": "Consideration 1 — the validation gate as a file, not a claim",
-    "note": "Production scoring is blocked until /state/gates/{target}.json exists with status PASS, and submit_gate() reads that file on every scoring dispatch. The prompt is explicit that a verbal claim, a Slack post or an in-memory variable does not satisfy it. Two conditions: fold recapitulation against a named CA-RMSD threshold, and positive-control separation. If controls exist but separation fails on every instrument, self-authorisation is barred and a three-step remediation ladder applies.",
-    "tags": ["gate", "verification", "calibration"],
+    "title": "Consideration 1: The validation gate file",
+    "note": "Production scoring is blocked until /state/gates/{target}.json exists with status PASS, and submit_gate() reads that file on every scoring dispatch. Two conditions must be satisfied: fold recapitulation against a named CA-RMSD threshold, and positive-control separation. If controls exist but separation fails on every instrument, self-authorization is barred and a three-step remediation ladder applies.",
+    "tags": [
+      "gate",
+      "verification",
+      "calibration"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-112": {
-    "title": "Consideration 2 — control selection, and why antibodies are demoted",
+    "title": "Consideration 2: Control selection, and demoting antibodies",
     "note": "Non-antibody controls are preferred because co-folding models systematically underperform on antibody-antigen interfaces, so an antibody control that fails separation is weak evidence rather than a red flag. Published de novo miniprotein binders are excluded outright as separation controls: they were themselves selected by co-folding metrics, so their separation would be circular. A rare piece of explicit reasoning about evaluation bias.",
-    "tags": ["calibration", "gate", "epistemics"],
+    "tags": [
+      "calibration",
+      "gate",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-113": {
-    "title": "Consideration 3 — MSA caching and per-arm MSA policy",
-    "note": "Target-chain MSAs are staged once per target during bring-up into a shared cache that every MSA-consuming arm reads from, rather than re-querying per call. Binder chains are always single-sequence. Positive controls additionally get an MSA on the control-ligand chain. Single-sequence mode for an MSA-capable arm is a per-target deviation requiring evidence and disclosure.",
-    "tags": ["scoring", "compute", "calibration"],
+    "title": "Consideration 3: MSA caching, and the per-arm MSA policy",
+    "note": "Target-chain MSAs are staged once per target during bring-up into a shared cache that every MSA-consuming arm reads from, while binder chains are always single-sequence. Positive controls additionally receive an MSA on the control-ligand chain. Single-sequence mode for an MSA-capable arm is a per-target deviation requiring evidence and disclosure.",
+    "tags": [
+      "scoring",
+      "compute",
+      "calibration"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-114": {
-    "title": "Consideration 4 — rank on ipSAE_min, track ipTM as shadow",
+    "title": "Consideration 4: Rank on ipSAE_min, shadow ipTM",
     "note": "ipTM and LIS come free from the same forward pass and are recorded, but never rank. The reason is stated: on multimeric targets whole-complex ipTM is inflated by the native protomer-protomer interfaces, compressing design-vs-control separation. If ipTM is tracked there, it must be a binder-masked variant.",
-    "tags": ["metric", "scoring"],
+    "tags": [
+      "metric",
+      "scoring"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-115": {
-    "title": "Consideration 5 — z-scores are transductive",
-    "note": "Mean and standard deviation depend on the pool, so a z-score is comparable only within its batch — never across targets, waves or campaigns. The mitigation is to store the raw ipSAE_min vector and seed count on every row so any batch can be re-standardised later. Rank with z, report raw.",
-    "tags": ["metric", "epistemics", "provenance"],
+    "title": "Consideration 5: Transductive properties of z-scores",
+    "note": "Because mean and standard deviation depend on the pool being scored, a z-score is comparable only within its own batch: never across targets, waves, or campaigns. Raw ipSAE_min vectors and seed counts are recorded on every row so the normalization remains reproducible.",
+    "tags": [
+      "metric",
+      "epistemics",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-116": {
-    "title": "Consideration 6 — pose self-consistency",
-    "note": "The predicted complex must recapitulate the designed epitope, not merely score well. The mechanical form of this requirement is minimal and checkable: pose_dockq non-null on every ranked row.",
-    "tags": ["scoring", "gate", "metric"],
+    "title": "Consideration 6: Pose self-consistency",
+    "note": "The predicted complex must recapitulate the designed epitope rather than only scoring well. The mechanical form of this requirement is minimal and checkable: pose_dockq must be non-null on every ranked row.",
+    "tags": [
+      "scoring",
+      "gate",
+      "metric"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-117": {
-    "title": "Consideration 7 — oligomeric targets score at both 1:N and N:N",
-    "note": "Template slot OLIGOMER_CLAUSE. Cropping is allowed during design but never during scoring. Both stoichiometries are scored: 1:N feeds rank_zscore, N:N is recorded alongside with binder-binder clash count, and any design whose N:N score collapses must be disclosed. The N:N reference is constructed by applying the target's own Cn symmetry operators to the single designed pose, with the best symmetric relabelling chosen when computing metrics.",
-    "tags": ["scoring", "target-biology", "metric"],
+    "title": "Consideration 7: Oligomeric targets score at both 1:N and N:N",
+    "note": "Template slot OLIGOMER_CLAUSE. Candidates are scored in both 1:N (which feeds rank_zscore) and N:N configurations (which records binder-binder clashes and score drops). The N:N reference complex is constructed by applying target symmetry operators to the designed pose, with symmetric relabelling.",
+    "tags": [
+      "scoring",
+      "target-biology",
+      "metric"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-118": {
-    "title": "Consideration 8 — non-protein context, restated",
-    "note": "Repeats the cofactor rule in the scoring context and repeats the specific waiver it forbids. Also flags that co-folding metrics are not comparable across targets — the same fact that makes per-target z-scoring necessary.",
-    "tags": ["scoring", "target-biology", "metric"],
+    "title": "Consideration 8: Non-protein context, restated",
+    "note": "Reiterates mandatory inclusion of target cofactors across all scoring arms, explicitly forbidding waivers for protein-only modeling. It also notes that raw co-folding scores cannot be compared across targets, necessitating per-target z-scoring.",
+    "tags": [
+      "scoring",
+      "target-biology",
+      "metric"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-119": {
-    "title": "Consideration 9 — no templates in production",
+    "title": "Consideration 9: No templates in production",
     "note": "Template injection is off by default. AF_Unmasked with a target template is available only as a validation-gate diagnostic when nothing else recapitulates the apo target, and is fenced out of the production scoring and pose-check path entirely.",
-    "tags": ["scoring", "gate"],
+    "tags": [
+      "scoring",
+      "gate"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-120": {
-    "title": "Consideration 10 — check the model before blaming the model",
+    "title": "Consideration 10: Check the model before blaming the model",
     "note": "Before recording that a co-folder cannot represent RNA, DNA, a ligand or an oversized chain, read the model's own paper and API rather than the campaign's wrapper around it. A missing wrapper input class is a bring-up bug; an oversized target is handled by a reasonable crop with the model kept in the panel.",
-    "tags": ["tooling", "verification", "failure-handling"],
+    "tags": [
+      "tooling",
+      "verification",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-121": {
-    "title": "Consideration 11 — ipSAE_min defined exactly for multimers",
-    "note": "The most specification-like block in the prompt. Cites Dunbrack 2025 for the min-over-both-alignment-directions definition, then specifies the multimer construction: one union-mask call with mask_target as the union of all protomers, n0 and d0 re-derived from the union sizes, explicitly replacing the stock pairwise loop in ipsae.py. The positive control must be measured on the identical construct and pairing. Closes by noting absolute ipSAE compresses with chain count, so cross-target raw comparison is invalid.",
-    "tags": ["metric", "scoring", "calibration"],
+    "title": "Consideration 11: ipSAE_min defined exactly for multimers",
+    "note": "Follows Dunbrack (2025): evaluation over both alignment directions, using a union-mask encompassing all target protomers with re-derived n0 and d0 parameters. Controls must use the identical construct and pairing configuration, noting that raw ipSAE values scale with chain count.",
+    "tags": [
+      "metric",
+      "scoring",
+      "calibration"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-123": {
     "title": "Calibration bands: a ceiling from nature, a floor from nonsense",
-    "note": "Establishes an absolute reference frame the transductive z-scores cannot provide. Ceiling from native complexes such as Barnase/Barstar; floor from constructed negatives — non-interacting pairs, shuffled binders, cross-pair mismatches. Everything runs at the same seed count, chain construct and ipSAE pairing as the designs. Explicitly raw-score only, since z-scoring a calibration panel would defeat its purpose. Saturation is only considered once top designs reach the ceiling band on the same model.",
-    "tags": ["calibration", "metric", "epistemics"],
+    "note": "Calibration runs provide absolute reference bounds that z-scores do not provide: an upper ceiling from native complexes (such as Barnase/Barstar) and a floor from constructed negative pairs. Controls must match production seed counts, construct definitions, and ipSAE pairing.",
+    "tags": [
+      "calibration",
+      "metric",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-125": {
     "title": "Sequence feasibility metric",
     "note": "An ESMC log-likelihood or pseudo-perplexity on every ranked design. A cheap orthogonal signal: does this sequence look like a protein to a language model, independent of whether a structure model likes its pose.",
-    "tags": ["metric", "sequence-design"],
+    "tags": [
+      "metric",
+      "sequence-design"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-127": {
-    "title": "In silico optimization: at least five rounds",
-    "note": "Three named approaches, of which the middle is the most specific: feed the *predicted* complex — not the original designed structure — back into sequence design, rescore, and repeat while confidence improves, keeping every round under the same root_backbone_id so the diversity caps still bind. Minimum five rounds, continuing while metrics improve. Selection for order draws from all rounds including the original.",
-    "tags": ["design-method", "compute", "provenance"],
+    "title": "In silico optimization rounds",
+    "note": "Feed the top outputs from one round (the best-scoring predicted complex, not the original designed structure) back into sequence design, rescore, and repeat while confidence improves, keeping every round under the same root_backbone_id so the diversity caps still bind. Minimum five rounds, continuing while metrics improve. Selection for order draws from all rounds including the original.",
+    "tags": [
+      "design-method",
+      "compute",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-129": {
     "title": "Round discipline: no optimising before you have a pool",
-    "note": "Round 1 cannot start until a full generation and sequence-design wave is indexed and 1-seed screened, so optimisation never runs on noise. Each round is scored on the same instrument and seed count that ranked its parents. Promotion to 5-seed happens before parent selection. Rows below 5 seeds are ranked below all 5-seed rows with the count disclosed rather than dropped — a deliberate choice of disclosure over deletion.",
-    "tags": ["design-method", "scoring", "epistemics"],
+    "note": "Round 1 cannot start until a full generation and sequence-design wave is indexed and 1-seed screened, preventing optimization on unverified noise. Promotion to 5-seed happens before parent selection. Rows below 5 seeds are ranked below all 5-seed rows with the count disclosed rather than dropped, favoring disclosure over data deletion.",
+    "tags": [
+      "design-method",
+      "scoring",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-131": {
     "title": "Nothing computed is discarded",
-    "note": "Five enumerated retention classes: exact configuration including weights checksum and image digest, every structure file from every stage and seed, every metric at the level computed, the run manifest linking design to parent to job, and all logs and failure records. The stated rule — if it was computed, it is saved — is what makes the campaign auditable after the fact by someone who was not there.",
-    "tags": ["data-retention", "provenance", "verification"],
+    "note": "Five enumerated retention classes: exact configuration including weights checksum and image digest, every structure file from every stage and seed, every metric at the level computed, the run manifest linking design to parent to job, and all logs and failure records. The stated rule (if it was computed, it is saved) makes the campaign auditable in retrospect by an external reviewer.",
+    "tags": [
+      "data-retention",
+      "provenance",
+      "verification"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-133": {
     "title": "30 designs, ordered by someone else",
     "note": "Names the two CROs and the count, then draws a hard line: the agent does not place the order. The wet-lab step stays under human control, which is also what keeps the safety framing at line 264 coherent.",
-    "tags": ["deliverable", "safety", "objective"],
+    "tags": [
+      "deliverable",
+      "safety",
+      "objective"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-135": {
     "title": "Modal pricing and the governor arithmetic",
     "note": "Publishes the full per-second rate card and instructs verifying it at kickoff. Then derives the campaign's economics: a 4-core/32-GiB H100 box burns about $4.39/h all-in, $10,000 over 24 h is $417/h, so even pace is roughly 95 H100-equivalents and the 150-instance bootstrap cap already runs 1.58x that. max_instances is defined as a formula over the live-fleet-weighted per-sandbox rate, to be re-derived whenever the GPU mix changes.",
-    "tags": ["compute", "budget", "concurrency"],
+    "tags": [
+      "compute",
+      "budget",
+      "concurrency"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-137": {
     "title": "The governor: the longest single block in the prompt",
-    "note": "The complete spend-control system. Bootstrap ramp of 25 instances per cycle to a 150 ceiling on rate-card readings tagged UNCALIBRATED; a four-condition definition of when a metered reading counts as CALIBRATED; billing-dark alerts at T0+90min and hourly after T0+3h. Exactly four authorised writers of governor.json. Enforcement is at the submitter via submit_gate(), whose entire body is wrapped in try/except and returns False on any exception — fail-closed, because a delayed dispatch costs seconds while an ungated H100 costs dollars. Steps (a) through (g) include a dead-man switch on a stale governor file, a live-sandbox count via the Modal SDK with jittered backoff, and a headroom margin to absorb the check-then-create race. The closing clauses forbid private per-pod caps and any 'degraded mode'.",
-    "tags": ["budget", "concurrency", "compute", "orchestration"],
+    "note": "The complete spend-control system: bootstrap ramp of 25 instances per cycle to a 150 ceiling on rate-card readings tagged UNCALIBRATED, a four-condition definition of when a metered reading counts as CALIBRATED, and billing-dark alerts. Exactly four authorized writers of governor.json exist, and enforcement occurs at the submitter via submit_gate(), which is wrapped in try/except and fails closed on any exception. Logic includes a dead-man switch on stale state, live-sandbox counts with jittered backoff, and a headroom margin to absorb submission races.",
+    "tags": [
+      "budget",
+      "concurrency",
+      "compute",
+      "orchestration"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-139": {
     "title": "One GPU tier: H100 only",
     "note": "A simplification argued on two grounds. H100 throughput-per-dollar is competitive with cheaper tiers once weight-load and JIT amortise, and a single tier removes both per-method tier selection and the mixed-fleet weighted-rate calculation the governor would otherwise need. A100 is a last resort.",
-    "tags": ["compute", "budget"],
+    "tags": [
+      "compute",
+      "budget"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-141": {
-    "title": "Token accounting formula, and the SQL rule",
-    "note": "Claude spend is effectively unlimited, but reporting it is not freeform: fresh input equals input_tokens minus cache_read_tokens, and cache reads are billed at the cache-read rate exactly once. The trap named is double-counting, since input_tokens already includes cache reads. Every posted spend number must come from a server-side SUM executed in the same cell that composes the post — hand arithmetic and client-side row summing are forbidden.",
-    "tags": ["budget", "reporting", "epistemics"],
+    "title": "Token accounting and the database query rule",
+    "note": "Fresh input tokens are calculated as input_tokens minus cache_read_tokens, billing cached tokens at the cache-read rate without duplicate counting. Reported expenditure values must be calculated via server-side database SUM queries executed during message generation.",
+    "tags": [
+      "budget",
+      "reporting",
+      "epistemics"
+    ],
     "force": "MECHANICAL",
     "owner": "SCRIBE"
   },
   "st-143": {
     "title": "Scale target: 20,000 to 200,000 designs",
     "note": "A one-order-of-magnitude range rather than a number, sized to the budget. Also settles a scope question in advance: optimisation around hits counts as design work inside the campaign, not as something separate that has to be justified.",
-    "tags": ["objective", "compute"],
+    "tags": [
+      "objective",
+      "compute"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-145": {
     "title": "Design-count ledger, and why it is a tree of files",
-    "note": "One JSONL file per writing frame, never a shared file — because Modal volume appends across concurrent sandboxes are not atomic and silently clobber. Defines the coupled gen_screen job as the unit of generation work: generate, filter in-job, write survivors and the n_generated row so the method-floor matrix sees them immediately, then 1-seed screen on all three arms. Chained screens must dispatch immediately; a queued-but-undrained arm is a logged deviation. Generate-only jobs are permitted solely during bring-up.",
-    "tags": ["provenance", "data-retention", "compute", "orchestration"],
+    "note": "One JSONL file per writing frame, never a shared file, because Modal volume appends across concurrent sandboxes are not atomic and corrupt data. The coupled gen_screen job defines the unit of generation: generate, filter in-job, write survivors and the n_generated row so the method-floor matrix updates immediately, then 1-seed screen across all three arms. Chained screens dispatch immediately, and a queued-but-undrained arm is logged as a deviation.",
+    "tags": [
+      "provenance",
+      "data-retention",
+      "compute",
+      "orchestration"
+    ],
     "force": "MECHANICAL",
     "owner": "DISPATCH"
   },
   "st-147": {
     "title": "Ledger semantics, and the generation backlog cap",
     "note": "Fixes the definitions of generated, screened and ranked at kickoff so campaign totals are a single aggregation rather than a matter of interpretation; any redefinition is a deviation with a reconciliation row. Several hard-won operational rules follow: never mv a shared directory while jobs write into it, route appends through the owning singleton after a fresh remount, and treat an empty ledger after a completed scoring wave as fail-loud rather than a zero. Ends with submit_gate step (d2): generation is refused once a target has 200+ generated and more than twice its scored count.",
-    "tags": ["provenance", "reporting", "concurrency", "failure-handling"],
+    "tags": [
+      "provenance",
+      "reporting",
+      "concurrency",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-149": {
     "title": "Resources header",
     "note": "Introduces the two-line resource list that the entire budget apparatus exists to manage.",
-    "tags": ["budget", "framing"],
+    "tags": [
+      "budget",
+      "framing"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-151": {
     "title": "$10,000 of Modal spend",
     "note": "The scalar that everything in the Compute section is derived from, and the one that changes most consequentially in the multi-target variant.",
-    "tags": ["budget", "compute"],
+    "tags": [
+      "budget",
+      "compute"
+    ],
     "force": "MUST",
     "owner": "BUDGET"
   },
   "st-152": {
     "title": "Practically unlimited Claude tokens",
-    "note": "The asymmetry that shapes the whole architecture: GPU dollars are scarce and metered, agent tokens are not. It is why the prompt can demand dedicated singleton sub-agents for clock, budget, watchdog and reporting without worrying about their cost.",
-    "tags": ["budget", "delegation"],
+    "note": "The resource asymmetry shaping the architecture: GPU dollars are scarce and metered, while agent tokens are not. This enables the prompt to mandate dedicated singleton sub-agents for clock, budget, watchdog, and reporting without resource restrictions.",
+    "tags": [
+      "budget",
+      "delegation"
+    ],
     "force": "MAY",
     "owner": "orchestrator"
   },
   "st-154": {
     "title": "BUDGET is a standing agent, not a periodic task",
-    "note": "Runs the full campaign window on a 15-minute cycle and holds sole ownership of metered reads and governor writes. States the canonical-source rule plainly: the provider's metered per-job cost is authoritative, a rate-card figure is a cross-check only.",
-    "tags": ["budget", "delegation", "orchestration"],
+    "note": "Runs the full campaign window on a 15-minute cycle and holds sole ownership of metered reads and governor writes. States the canonical-source rule plainly: the provider's metered per-job expenditure is authoritative, and rate-card figures serve only as operational cross-checks.",
+    "tags": [
+      "budget",
+      "delegation",
+      "orchestration"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-156": {
-    "title": "The budget is a target to spend, not a ceiling",
-    "note": "An inversion of the usual instinct. Under-pace is called a planning failure rather than a saving, with a specific remedy: every hourly cycle while behind must add work until the projection re-enters the band. The asymmetry is quantified — 5% over beats 50% under, but 50% over is also a failure — and under-spend at close-out must be explained in the report. The guard against gaming is explicit: budget goes to productive work, and hitting a number with busywork is a defect.",
-    "tags": ["budget", "epistemics", "objective"],
+    "title": "Spend to target: $10,000 is not a ceiling",
+    "note": "The campaign's pacing imperative: $10,000 is a budget to spend, not a limit to stay safely below, and ending with substantial unspent funds is classified as a planning failure. The target band is +/-10% ($9k-$11k). The prompt supplies four explicit mechanisms to add work if spend lags pace: more designs, more seeds, more optimization rounds, or deeper exploration of borderline candidates.",
+    "tags": [
+      "budget",
+      "epistemics",
+      "objective"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-158": {
-    "title": "Scale-up trigger and evidence-weighted target shares",
-    "note": "Three consecutive under-pace cycles cause BUDGET to write a /state/WAKE entry carrying a concrete reallocation demand — which targets, which waves, how many dollars — rather than a generic alert. Per-target shares are explicitly not flat: each dossier carries a literature prior_difficulty, blended on every cycle with live observables into /state/target_weights.json, prior-dominated early and data-dominated later. The blend is the agent's to design and disclose. One hard floor: every target gets enough compute for 30 order-ready designs; above that a hard target may take 10x an easy one.",
-    "tags": ["budget", "orchestration", "compute"],
+    "title": "Scale-up trigger: how to catch up if behind pace",
+    "note": "Defines the mechanical response to falling behind: if three consecutive cycles show spend running more than 20pp below pace, or a fleet running below floor pace, scale_up_triggered() trips. The orchestrator wakes via WAKE and reallocates toward more designs, more seeds, and deeper rounds, using an evidence-weighted target_weights mechanism that balances literature difficulty priors against live campaign hit rates.",
+    "tags": [
+      "budget",
+      "orchestration",
+      "compute"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-160": {
     "title": "Generation must stay paced with scoring",
     "note": "A generated design that goes unscored is wasted compute, so the two must run at matched rates. Both directions of imbalance are reportable defects: idle GPUs while designs await scoring, and unused concurrency while jobs queue.",
-    "tags": ["compute", "concurrency", "reporting"],
+    "tags": [
+      "compute",
+      "concurrency",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "DISPATCH"
   },
   "st-162": {
-    "title": "Spend tokens freely",
-    "note": "A deliberate restatement. The prompt repeats the token-abundance point immediately before the Deliverables section, where the reporting cadence would otherwise look expensive.",
-    "tags": ["budget", "delegation"],
+    "title": "Token expenditure policy",
+    "note": "The prompt emphasizes token abundance immediately before the Deliverables section, clarifying that extensive reporting and verification steps are expected rather than constrained by token limits.",
+    "tags": [
+      "budget",
+      "delegation"
+    ],
     "force": "MAY",
     "owner": "orchestrator"
   },
   "st-164": {
     "title": "Deliverables header",
     "note": "Splits the output into continuous deliverables (Slack, Drive) and final artefacts, both of which follow.",
-    "tags": ["deliverable", "framing"],
+    "tags": [
+      "deliverable",
+      "framing"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-166": {
     "title": "Slack updates",
     "note": "Header for the four-part communication protocol.",
-    "tags": ["reporting", "cadence"],
+    "tags": [
+      "reporting",
+      "cadence"
+    ],
     "force": "MUST",
     "owner": "SCRIBE"
   },
   "st-167": {
     "title": "Kickoff post: the only top-level message of the campaign",
     "note": "Fixed header format including target, model, date and frame id. Its timestamp becomes the thread anchor: saved as an artifact and passed as thread_ts on every subsequent send. One top-level post per campaign is what keeps concurrent campaigns from colliding in a shared channel.",
-    "tags": ["reporting", "cadence", "isolation"],
+    "tags": [
+      "reporting",
+      "cadence",
+      "isolation"
+    ],
     "force": "MECHANICAL",
     "owner": "orchestrator"
   },
   "st-168": {
     "title": "Morning update at 9:00 AM Eastern",
-    "note": "The one scheduled human-facing checkpoint, broadcast out of the thread so it appears in the channel. Content is specified: progress, plan, failures and questions, plus a resource ledger with GPU dollars, token cost, per-target gate status read from the gate file, and progress fraction. 'Including weekends' pre-empts the human assumption that cadence pauses.",
-    "tags": ["reporting", "cadence"],
+    "note": "Scheduled daily status broadcast providing progress summaries, forward plans, encountered failures, and resource accounting. Reported metrics include GPU expenditure, token usage, per-target validation gate statuses, and elapsed progress. The instruction 'including weekends' prevents the assumption that reporting pauses.",
+    "tags": [
+      "reporting",
+      "cadence"
+    ],
     "force": "MUST",
     "owner": "SCRIBE"
   },
   "st-169": {
     "title": "Hourly update",
-    "note": "Brief in-thread status carrying model name, target, and current best final_score — or best ipSAE_min while no final row exists yet. The fallback matters: the update is required from hour one, before any scoring has produced a rankable row.",
-    "tags": ["reporting", "cadence"],
+    "note": "Short in-thread progress pulse: model identity, target, and current best final_score (or current best ipSAE_min if no design has reached final scoring yet). The fallback to ipSAE_min ensures the hourly update begins in hour 1 before any design completes the full pipeline.",
+    "tags": [
+      "reporting",
+      "cadence"
+    ],
     "force": "MUST",
     "owner": "SCRIBE"
   },
   "st-170": {
-    "title": "Threading invariant: exactly three permitted broadcasts",
-    "note": "Every post after kickoff carries thread_ts and reply_broadcast=false. Only the daily morning update, the campaign-conclusion post and a genuine emergency may broadcast. Sub-agents receive the thread_ts in their brief, saved once as an artifact rather than re-derived. A stray broadcast is handled proportionately: acknowledge in the next status block and continue, not halt.",
-    "tags": ["reporting", "isolation", "cadence"],
+    "title": "Stall notice",
+    "note": "Posted out of thread as a broadcast when the orchestrator has not updated its heartbeat file for 15 minutes, or when WATCHDOG detects a stuck sub-agent. Names the stuck process, elapsed time since last progress, and immediate remediation action. Stalls exceeding 30 minutes escalate to a halt.",
+    "tags": [
+      "reporting",
+      "isolation",
+      "cadence"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-171": {
-    "title": "The fixed-format status block",
-    "note": "Six mandatory fields. Field (c) carries the sharpest rule: an ESTIMATE-based pace mark must read UNCALIBRATED as its entire pace field, and no pace adjective may accompany it — the prompt refuses to let an uncalibrated number wear the costume of a calibrated one. Field (f) surfaces the deviation count from an append-only JSONL, making deviations visible hourly rather than only at close-out.",
-    "tags": ["reporting", "cadence", "epistemics"],
+    "title": "Standard status block format",
+    "note": "Six mandatory fields in every status post. Field (c) requires reporting UNCALIBRATED for uncalibrated pace estimates without descriptive adjectives, while field (f) tracks cumulative deviation counts from an append-only log.",
+    "tags": [
+      "reporting",
+      "cadence",
+      "epistemics"
+    ],
     "force": "MECHANICAL",
     "owner": "SCRIBE"
   },
   "st-172": {
     "title": "Reporting invariant: one function, fresh aggregate, every time",
     "note": "Every number in every Slack post comes from one saved SCRIBE function that runs a fresh server-side aggregate at post time and asserts the truncation flag is false. Memory, cached snapshots, client-side summation over returned rows and output-file counts are all forbidden sources. The stated priority is unusual and deliberate: a fabricated or stale figure is a worse failure than a missing one.",
-    "tags": ["reporting", "epistemics", "verification"],
+    "tags": [
+      "reporting",
+      "epistemics",
+      "verification"
+    ],
     "force": "MECHANICAL",
     "owner": "SCRIBE"
   },
   "st-173": {
-    "title": "Google Drive deliverables folder",
-    "note": "Operator-supplied folder and URL — two of the placeholders that must be filled before launch. Every Drive file must be linked from Slack so the thread stays a complete index.",
-    "tags": ["deliverable", "reporting"],
+    "title": "Drive: the deliverables folder",
+    "note": "Requires operator-supplied folder paths and URLs configured before campaign launch. Every deliverable uploaded to Drive must be linked in Slack to maintain an accessible index.",
+    "tags": [
+      "deliverable",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-174": {
     "title": "Drive invariant: one writer, one folder, transactional close-out",
-    "note": "Exactly one role may create folders or upload; exactly one campaign sub-folder named for the target; exactly one close_out/ folder whose first file is a README manifest. Close-out is transactional — freeze the ranked sheet, derive every companion from that snapshot, assert the mandatory-non-null columns. A null in a required-but-not-load-bearing column downgrades the row to disclosed-with-deviation rather than dropping it. Uploads happen only after auditor review, because the connector cannot update or delete in place.",
-    "tags": ["deliverable", "isolation", "verification"],
+    "note": "Exactly one role may create folders or upload, restricted to one campaign sub-folder with a single close_out/ directory. Close-out is transactional: snapshot the ranked sheet, derive every companion artifact from that state, and assert mandatory columns. A null in a required non-critical column downgrades the row to disclosed-with-deviation rather than dropping it.",
+    "tags": [
+      "deliverable",
+      "isolation",
+      "verification"
+    ],
     "force": "MECHANICAL",
     "owner": "DELIVERABLES"
   },
   "st-176": {
     "title": "Final deliverables header",
     "note": "Introduces the six numbered artefacts that must exist before the campaign can be declared complete.",
-    "tags": ["deliverable", "framing"],
+    "tags": [
+      "deliverable",
+      "framing"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-178": {
-    "title": "Deliverable 1 — the design sheet",
-    "note": "One CSV, exactly 30 sequences per target and only those 30, with explicit intra-target rank and full metadata. The 'and only those 30' is doing real work: it forbids shipping a longer list and letting the reader pick.",
-    "tags": ["deliverable", "provenance"],
+    "title": "Deliverable 1: The design sheet",
+    "note": "One CSV, exactly 30 sequences per target and only those 30, with explicit intra-target rank and full metadata. The constraint 'and only those 30' prohibits delivering a longer list and delegating selection to the reader.",
+    "tags": [
+      "deliverable",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "sheet-writer"
   },
   "st-179": {
     "title": "Sheet schema, frozen at kickoff",
-    "note": "A schema file written once at kickoff defines column names, dtypes, enums, units and the mandatory-non-null set; per-target writers validate every row against it and the merge script refuses renamed, retyped, missing or duplicated columns. The required-column list is long and deliberately includes provenance (root_backbone_id, parent_design_id, opt_round) and one path column per ranking arm, so every score points at the structure that produced it.",
-    "tags": ["deliverable", "provenance", "gate"],
+    "note": "A schema file written at kickoff defines column names, data types, enumerations, units, and non-null constraints, and writers validate every row against it. The required columns include full provenance (root_backbone_id, parent_design_id, opt_round) and paths to the structures evaluated by each ranking arm.",
+    "tags": [
+      "deliverable",
+      "provenance",
+      "gate"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-180": {
     "title": "Null policy, rank ordering, and the seed top-up wave",
-    "note": "Rank is a single ORDER BY: full-seed status, then pose_PASS, then rank_zscore — the only rank-assignment path in the campaign. Rows below 5 seeds after a failed top-up stay ranked with the count disclosed; the unranked section is reserved for missing or zero scores only. Missing per-arm scores are written as NaN, never as 0.0 or -999 — a sentinel would silently become a real number in any downstream mean. score_instrument records which mask produced the live score so a reader can always tell.",
-    "tags": ["deliverable", "scoring", "epistemics"],
+    "note": "Rank is determined by a single ORDER BY: full-seed status, then pose_PASS, then rank_zscore. Rows below 5 seeds after a failed top-up remain ranked with seed count disclosed, while unranked rows are reserved for missing or zero scores. Missing per-arm scores are recorded as NaN rather than numeric sentinels (such as 0.0 or -999) to prevent distorting downstream means, and score_instrument records the active mask.",
+    "tags": [
+      "deliverable",
+      "scoring",
+      "epistemics"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-181": {
     "title": "Gate recompute at write time",
     "note": "The writer recomputes every gate from raw inputs at the same threshold the carried flag was set at, and any disagreement is fail-loud and blocks the row. Short, but it is what turns every upstream gate from a promise into a verified fact at the last possible moment.",
-    "tags": ["gate", "verification", "deliverable"],
+    "tags": [
+      "gate",
+      "verification",
+      "deliverable"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-182": {
     "title": "Companion files header",
     "note": "Introduces the two machine-readable files that make the sheet independently reproducible.",
-    "tags": ["deliverable", "provenance"],
+    "tags": [
+      "deliverable",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "sheet-writer"
   },
   "st-183": {
-    "title": "per_seed_metrics.parquet — the sheet's audit trail",
+    "title": "per_seed_metrics.parquet: The sheet's audit trail",
     "note": "One row per design x arm x seed with raw values, so any sheet score can be reproduced without recompute. Coverage must be 100% of ranked design_ids by exact case-sensitive match, and no (design, arm) group may be uniformly null on the ranking metric. Before finalising, 30 sampled rows per target are recomputed from the companion alone and must agree to 1e-4 or the companion is regenerated.",
-    "tags": ["deliverable", "provenance", "verification"],
+    "tags": [
+      "deliverable",
+      "provenance",
+      "verification"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-184": {
-    "title": "instrument_realization.csv — what the instrument actually was",
+    "title": "instrument_realization.csv: What the instrument actually was",
     "note": "One row per (target, arm) recording gate status, seeds run, whether the arm fed final_score, control separation, drop reason, and the cofactor and chain-count columns from the dossier rule. Every numeric is DERIVED from the companion and the gate file at write time, never hand-authored, with row-for-row agreement asserted against a recount. This is the table that makes 'we ran the three-arm instrument' checkable rather than assertable, and the report's scoring section is generated from it.",
-    "tags": ["deliverable", "verification", "provenance", "scoring"],
+    "tags": [
+      "deliverable",
+      "verification",
+      "provenance",
+      "scoring"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-185": {
     "title": "Row count and the relaxation ladder",
-    "note": "Exactly 30 ranked rows per target. If gates leave fewer after upstream regeneration has been tried, relax in a fixed order one step at a time, recording on each affected row which step admitted it: diversity caps first with hard stops, then liability flags. pose_dockq and final_score-non-null are never relaxed. Novelty is last resort only, with absolute floors that never move — no two identical rows, no target mimics, no natural-sequence copies. If 30 is still unreachable, ship fewer; padding with duplicates is forbidden. The final sentence forbids implementing relaxation by deleting, commenting out, no-oping or monkeypatching a gate predicate.",
-    "tags": ["deliverable", "gate", "diversity-cap", "epistemics"],
+    "note": "Requires exactly 30 ranked candidates per target, relaxing filters in a defined sequence only after upstream regeneration is exhausted: diversity caps first, then liability flags, with novelty as a bounded last resort. pose_dockq and final_score constraints cannot be relaxed, and padding short candidate lists with duplicate entries is prohibited. The prompt explicitly forbids implementing relaxation by deleting, commenting out, or monkeypatching gate predicates.",
+    "tags": [
+      "deliverable",
+      "gate",
+      "diversity-cap",
+      "epistemics"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-186": {
-    "title": "Deliverable 2 — the report",
-    "note": "A publication-ready PDF in the style of a top-tier Baker-lab paper, with figures and citations. The operative clause is the last one: immediately before declaring it final, every quantitative claim in the abstract and key results is regenerated from the as-shipped artefacts; anything that does not reproduce is corrected and anything untraceable is removed.",
-    "tags": ["deliverable", "reporting", "verification"],
+    "title": "Deliverable 2: The report",
+    "note": "A publication-formatted PDF documenting campaign methods, figures, and literature citations. Before finalization, all quantitative figures in the abstract and results must be recomputed from delivered artifacts, correcting discrepancies and removing unverified statements.",
+    "tags": [
+      "deliverable",
+      "reporting",
+      "verification"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-187": {
-    "title": "Deliverable 3 — the supplement",
+    "title": "Deliverable 3: The supplement",
     "note": "One archive for everything that does not belong in a PDF.",
-    "tags": ["deliverable", "data-retention"],
+    "tags": [
+      "deliverable",
+      "data-retention"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-188": {
     "title": "Supplement contents and path discipline",
-    "note": "For every ranked design: the designed complex and every predicted complex used for scoring, in a fixed directory layout keyed by rank and design_id. The sheet's path columns point into this bundle using bundle-relative paths only, deliberately independent of per-job tarballs and Modal workspace paths — so the deliverable stays valid after the compute environment is gone.",
-    "tags": ["deliverable", "provenance", "data-retention"],
+    "note": "For every ranked design: the designed complex and every predicted complex used for scoring, in a fixed directory layout keyed by rank and design_id. The sheet's path columns point into this bundle using bundle-relative paths only, independent of per-job tarballs and Modal workspace paths, so the deliverable remains valid after the compute environment is deleted.",
+    "tags": [
+      "deliverable",
+      "provenance",
+      "data-retention"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-189": {
-    "title": "ordered_structures is rebuilt from the final sheet",
-    "note": "Rebuild is the last close-out step, so the structures cannot drift from the sheet that references them. After rebuild the writer asserts every path column resolves to a real file and that no path embeds a rank prefix disagreeing with the sheet's rank — catching the specific failure where a sheet is re-ranked but the directory names are not.",
-    "tags": ["deliverable", "verification", "provenance"],
+    "title": "The numbered-directory copy step",
+    "note": "Rebuilds the structure directory from the final design sheet as the concluding close-out step, preventing path discrepancies. Verification asserts that every referenced file exists and that path rank prefixes match assigned sheet ranks.",
+    "tags": [
+      "deliverable",
+      "verification",
+      "provenance"
+    ],
     "force": "MECHANICAL",
     "owner": "DELIVERABLES"
   },
   "st-190": {
-    "title": "Retrievability check: open every file, from Drive",
-    "note": "Path resolution is not enough — every referenced file must actually open, and from the Drive copy rather than the local one. Below 100% on any target is a defect that blocks close-out. This tests the delivery, not the build.",
-    "tags": ["deliverable", "verification"],
+    "title": "Files must be readable off Drive",
+    "note": "Path resolution is not enough: every referenced file in the sheet and supplement must open from Google Drive through the connector before close-out completes. A broken link or truncated upload is a close-out blocker, not a minor defect.",
+    "tags": [
+      "deliverable",
+      "verification"
+    ],
     "force": "MECHANICAL",
     "owner": "DELIVERABLES"
   },
   "st-191": {
     "title": "Packaging rules and the byte-split last resort",
     "note": "One .tar.gz at the natural granularity, verified to open with a stock unarchiver before being declared delivered. Byte-splitting is a last resort with two concrete reasons: a part cannot be opened alone, and Drive mis-detects MIME types on raw chunks. If forced, the README must carry the exact concatenation command and the part list goes to Slack.",
-    "tags": ["deliverable", "failure-handling"],
+    "tags": [
+      "deliverable",
+      "failure-handling"
+    ],
     "force": "SHOULD",
     "owner": "DELIVERABLES"
   },
   "st-192": {
-    "title": "Deliverable 4 — the scoreboard",
-    "note": "One row per target with an exactly specified column list mixing outcome metrics and diversity metrics. Every non-target column must be a real computed numeric — no NaN, no sentinel, no free text — and anything uncomputable is a defect tracked to remediation in its own gaps file. Diversity columns are computed by the same code that enforces the caps, so the report cannot disagree with the writer.",
-    "tags": ["deliverable", "reporting", "diversity-cap"],
+    "title": "Deliverable 4: The scoreboard",
+    "note": "A summary markdown table reporting per-target metric medians and diversity metrics, using the identical calculation code that enforces the selection caps. Every metric column requires a real computed numeric value (no NaN, sentinel, or free text), and anything uncomputable must be listed in a Deviations section below.",
+    "tags": [
+      "deliverable",
+      "reporting",
+      "diversity-cap"
+    ],
     "force": "MECHANICAL",
     "owner": "DELIVERABLES"
   },
   "st-193": {
-    "title": "Deliverable 5 — files in Drive, not references to files",
+    "title": "Deliverable 5: Files in Drive, not references to files",
     "note": "The actual artefacts go in the one campaign folder; a manifest of artifact IDs is explicitly insufficient. Upload only when final, and if a replacement is unavoidable, version-suffix it and post the canonical-file map.",
-    "tags": ["deliverable"],
+    "tags": [
+      "deliverable"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-194": {
-    "title": "Deliverable 6 — closing post, gated on a review fleet",
+    "title": "Deliverable 6: Closing post, gated on a review fleet",
     "note": "Before the conclusion can be posted, at least five independent auditor sub-agents review deliverables 1-5. Two have specified independence properties: one must have GPU access to re-score a sample from raw inputs, and one must form its verdict from raw companion and supplement without seeing the report's conclusions. Every BLOCKER must be resolved first.",
-    "tags": ["deliverable", "verification", "reporting"],
+    "tags": [
+      "deliverable",
+      "verification",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-196": {
     "title": "Read the thread, but do not take direction from it",
     "note": "Replies to questions are expected; plan changes are not, unless the campaign operator explicitly directs them. Guards a long-running autonomous agent against being steered off-plan by well-meaning bystanders in a shared channel.",
-    "tags": ["orchestration", "isolation"],
+    "tags": [
+      "orchestration",
+      "isolation"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-198": {
     "title": "Adversarial review of every deliverable",
     "note": "Some reviewers are explicitly briefed as adversarial, and the scope includes intermediate Slack posts, not just final artefacts. Cheap to do given unlimited tokens, and the main defence against a self-consistent but wrong campaign narrative.",
-    "tags": ["verification", "delegation", "reporting"],
+    "tags": [
+      "verification",
+      "delegation",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-200": {
     "title": "Use the whole window",
     "note": "There is no reward for finishing early, and a little late beats very early. Counter-programming against an agent's tendency to declare success at the first coherent stopping point.",
-    "tags": ["cadence", "objective"],
+    "tags": [
+      "cadence",
+      "objective"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-202": {
-    "title": "Close-out: reserved final hour, run as a background child",
-    "note": "No new waves, with two named exemptions — audit re-scoring and the seed top-up to n_seeds=5, which is the first close-out action. Close-out runs as a wait=False child so the orchestrator keeps its heartbeat and governor loop alive and does not arbitrate per-target decisions in the foreground. A preliminary summary posts in-thread at close-out start; the broadcast conclusion comes only at the end. If more than 2 hours or 10% of budget remain, a surplus plan must be posted and executed, and any surplus design beating a frozen-sheet row on the same instrument must be promoted.",
-    "tags": ["cadence", "deliverable", "orchestration", "budget"],
+    "title": "Close-out reserve and surplus budget plan",
+    "note": "The final hour is reserved for close-out and runs as an unblocked child process so the orchestrator's heartbeat and governor loops stay alive. No new waves may be launched with two named exemptions: audit re-scoring and the seed top-up to n_seeds=5. If the governor shows substantial budget remaining at T0+23h, the orchestrator drafts and executes a surplus-budget plan.",
+    "tags": [
+      "cadence",
+      "deliverable",
+      "orchestration",
+      "budget"
+    ],
     "force": "MUST",
     "owner": "DELIVERABLES"
   },
   "st-204": {
-    "title": "Throttles expire, and never kill in-flight work",
-    "note": "Any emergency throttle carries an explicit expiry or review checkpoint and applies only to new dispatch. Running jobs always complete — a sub-agent receiving a budget steer must never cancel, terminate or reap. A measure still in force two hours after its emergency ended is itself a reportable defect, closing the ratchet where safety measures accumulate and never lift.",
-    "tags": ["failure-handling", "concurrency", "budget"],
+    "title": "Emergency throttles have a hard expiration",
+    "note": "Any emergency throttle on generation or scoring must include an explicit expiration time and apply only to new dispatches. Running jobs always complete: a sub-agent receiving a budget steer must never cancel, terminate, or reap. A throttle active two hours after its root cause is resolved is a reportable defect.",
+    "tags": [
+      "failure-handling",
+      "concurrency",
+      "budget"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-206": {
     "title": "24 hours",
     "note": "The wall clock, and the scalar that most shapes the delegation architecture: at this duration the orchestrator cannot do the work itself.",
-    "tags": ["cadence", "objective"],
+    "tags": [
+      "cadence",
+      "objective"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-208": {
-    "title": "Timing: dormancy is a defect, and the CLOCK singleton",
-    "note": "Opens by dismantling the human frame — no rest, no breaks, and the clock does not stop when idle. Any interval not spent in a tool call or a bounded event wait is dormancy, with a target of zero dormant minutes. Distinguishes a harness compaction restart from an SDK hang, and forbids treating the former as a reason to cancel children or reap sandboxes. Then the concrete mechanism: an agent cannot natively tell time, so a dedicated CLOCK singleton is dispatched within 15 minutes, before the kickoff post, running an internal loop that writes liveness every 5 minutes and never returns between cycles.",
-    "tags": ["cadence", "orchestration", "delegation", "failure-handling"],
+    "title": "Timing and CLOCK: the no-hang contract",
+    "note": "Opens by defining operational pacing: no rest, no breaks, and the clock does not stop when idle. Any five-minute interval without an in-flight tool call or bounded wait is classified as a hang, with a target of zero hung minutes across the campaign. A dedicated CLOCK singleton dispatches in the first 15 minutes, writing elapsed fraction and hours remaining every 5 minutes to prevent orchestrator time errors.",
+    "tags": [
+      "cadence",
+      "orchestration",
+      "delegation",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "CLOCK"
   },
   "st-210": {
-    "title": "Orchestrator discipline: never sleep, never touch the provider SDK",
-    "note": "A behavioural specification for the root frame. No time.sleep at any duration; the only permitted parking is wait_for_notification bounded by the next timed obligation. No tool call over ~5 minutes; no foreground collect loops; more than ~5 consecutive waits without an interleaved action is itself a defect. The strongest rule is total: the orchestrator never calls any compute-provider SDK or billing API, not even for diagnostics — all Modal work runs in sub-agents, and its only compute touchpoint is the host.compute submit/result surface. Also fixes the campaign's boot order: dispatch SETUP, block on its return, and dispatch nothing else until it returns OK.",
-    "tags": ["orchestration", "concurrency", "failure-handling"],
+    "title": "Orchestrator discipline: no SDK, no foreground loops, block on SETUP",
+    "note": "Prohibits time.sleep, long-running tool calls over 5 minutes, direct provider SDK or billing API access, and all Modal sandboxes from the orchestrator process. The orchestrator must block on the SETUP sub-agent at T0 before dispatching any other work. It interacts with compute solely through host delegation and task completion.",
+    "tags": [
+      "orchestration",
+      "concurrency",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "orchestrator"
   },
   "st-212": {
-    "title": "Sub-agents: aggressive swarming on one model",
-    "note": "All agents at every depth run the same base model as the orchestrator, so the campaign measures one model's capability rather than an ensemble's. Plan for >50 concurrent work agents at peak. Serial execution of independent methods inside one sub-agent is a reportable deviation. Includes a concrete fallback if the harness refuses a sub-agent's own delegation: the orchestrator dispatches the would-be grandchildren itself as root-level (target x stage) or (target x model) cells.",
-    "tags": ["delegation", "concurrency", "orchestration"],
+    "title": "Sub-agent swarm, single base model",
+    "note": "Sub-agents at all delegation depths must run on the orchestrator's base model to evaluate single-model capability. The campaign architecture expects swarms of over 50 concurrent agents at peak. If the harness rejects a sub-agent's own delegation, the fallback is to request root dispatch from the orchestrator.",
+    "tags": [
+      "delegation",
+      "concurrency",
+      "orchestration"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-214": {
     "title": "Delegation: the full agent org chart and its failure detectors",
-    "note": "The prompt's architectural centrepiece. A posted delegation architecture in hour one; a quantified failure condition (orchestrator token cost above one third of campaign total after hour 1); four mandatory dedicated singletons. WATCHDOG escalates on heartbeat staleness — stall notice at 15 minutes, ceiling=0 with basis DEAD_ORCHESTRATOR at 30 — and independently brakes a runaway fleet on sandbox count alone, so the halt does not depend on BUDGET being alive or the heartbeat being stale. Singletons are internal while-loops that write liveness unconditionally every cycle; liveness is file age, not frame status, so a kernel reset costs one cycle rather than the chain. Ends with fleet rules: one monitor per 10 jobs, the mandatory out/ copy, the output_file_count<=2 canary-failure rule, and an in-sandbox dead-man switch in the first lines of every run_<tool>.py that self-exits on ceiling=0 or a stale heartbeat — the only control that survives every Claude-side frame being dead.",
-    "tags": ["delegation", "orchestration", "concurrency", "failure-handling"],
+    "note": "The prompt's architectural core: a posted delegation architecture in hour 1, dedicated singletons, and failure detectors. WATCHDOG escalates on heartbeat staleness (stall notice at 15 minutes, ceiling=0 at 30 minutes) and halts a runaway fleet on sandbox count alone. Singletons write liveness every cycle, while monitor sub-agents track jobs at a 1:10 ratio and harvest outputs.",
+    "tags": [
+      "delegation",
+      "orchestration",
+      "concurrency",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "WATCHDOG"
   },
   "st-216": {
     "title": "Literature: re-read on triggers, not on a schedule",
     "note": "Three named triggers, all diagnostic rather than routine: a tool under-producing or failing its gate, a substitution of one instrument for another, and a budget reallocation toward or away from a method. The reasoning is that a config flag or documented limitation usually explains the failure, so reading the paper is cheaper than debugging blind. Each triggered re-read is recorded in the living ideas document.",
-    "tags": ["reference", "verification", "failure-handling"],
+    "tags": [
+      "reference",
+      "verification",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-218": {
-    "title": "State only what you have established",
-    "note": "The epistemic core. Every factual claim traces to an executed computation or saved artifact; 'verified' means you ran the check and have its output. The last sentence is the most operationally specific in the prompt: no external identifier — DOI, PMID, PDB ID, accession or URL — may be written from memory, ever. Each must be the literal output of a lookup executed in the same session that wrote it.",
-    "tags": ["epistemics", "verification", "reporting"],
+    "title": "Epistemics: no ungrounded claims, no hallucinated literature",
+    "note": "Every factual claim must trace to an executed tool call, an artifact, or the prompt itself. Citing external identifiers (DOI, PMID, PDB ID, accession, or URL) from model memory is prohibited; every identifier must originate from a tool lookup executed within the current session.",
+    "tags": [
+      "epistemics",
+      "verification",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-220": {
-    "title": "Anomalies are bugs until investigated",
-    "note": "Four named tells, all of which look like success to a careless reader: a score of exactly zero, a gate passing or failing everything, a perfect metric, an impossible runtime. The required response is to halt the affected stage and diagnose, not note and continue. Also extends to inherited inputs — target structures, construct definitions, hotspot numberings — which must be verified against primary sources before anything is built on them.",
-    "tags": ["failure-handling", "verification", "epistemics"],
+    "title": "Diagnosing anomalous outputs",
+    "note": "Suspicious outputs (such as all-zero scores, identical gate passes, perfect metrics, or runs completing in seconds) are treated as software defects rather than positive results. Inherited inputs (target structures, construct definitions, hotspot numberings) must be verified against source files before use.",
+    "tags": [
+      "failure-handling",
+      "verification",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-222": {
     "title": "Cheapest falsifying check first",
     "note": "Before committing significant compute, run the cheapest test that could prove the plan wrong. A seconds-scale sanity check that could kill a multi-hour run always comes first.",
-    "tags": ["verification", "compute", "epistemics"],
+    "tags": [
+      "verification",
+      "compute",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-224": {
     "title": "Report messy results as messy",
     "note": "One sentence, no elaboration. Permission to be inconclusive, which an agent optimising for a satisfying report would not otherwise take.",
-    "tags": ["epistemics", "reporting"],
+    "tags": [
+      "epistemics",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-226": {
-    "title": "Lead with the unfavorable result",
-    "note": "Headlines must state the worst defensible reading of the data — not a balanced one. Deviations from the stated method are disclosed, and analyses tuned after seeing results must be declared along with how many configurations were tried. The last clause is a direct guard against garden-of-forking-paths reporting.",
-    "tags": ["epistemics", "reporting"],
+    "title": "Conservative reporting: highlight limitations",
+    "note": "Findings must emphasize conservative interpretations of results rather than optimistic summaries. Methodological changes and retrospective parameter tuning must be documented alongside the total number of tested configurations.",
+    "tags": [
+      "epistemics",
+      "reporting"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-228": {
     "title": "Standards bind tighter under autonomy",
     "note": "The justification for everything in the Behavior section. Because no human reviews the work before resources are spent, the agent's own verification discipline is the only gate. Resolves the standing tie-break: when in doubt between a confident result and a flagged uncertainty, flag it.",
-    "tags": ["epistemics", "framing", "verification"],
+    "tags": [
+      "epistemics",
+      "framing",
+      "verification"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-230": {
-    "title": "Roster PASS: five conditions, on a real target",
-    "note": "Defines validation operationally. All five must hold on a campaign target rather than a toy peptide, in the same image and flags as production: container builds and imports, weights checksum matches upstream, an end-to-end run of 2-4 designs exits zero, outputs parse as real structures with no NaN coordinates, and the downstream sequence-design adapter consumes one and emits a sequence. Production dispatches exactly that image_id. Also caps commitment — no more than ~10% of budget to any single model until every roster model has passed or been dropped with consequence stated — and requires a canary before any fan-out over 10 jobs. Ends with the reap criterion: terminal status in the ledger, or no output for 2x benchmarked wall-clock; 'looks idle' is explicitly not sufficient.",
-    "tags": ["verification", "tooling", "gate", "compute"],
+    "title": "Roster PASS: five required conditions",
+    "note": "Requires validating each candidate tool on a campaign target under five criteria: container build, weight checksum verification, clean exit on test candidates, valid structure generation, and successful sequence adapter integration. Compute commitments are capped at ~10% per model until validation completes.",
+    "tags": [
+      "verification",
+      "tooling",
+      "gate",
+      "compute"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-232": {
-    "title": "Your own build is the source of truth; skills are reference only",
-    "note": "Defines a build as three things: a pinned image with commit SHAs, weights pulled from the canonical release into a campaign volume, and a run_<tool>.py driver the agent wrote. Then a pointed instruction about the agent's own tooling — a skill's existence is never evidence the tool works in your image, its helpers are never called in production, and where a skill and the upstream README disagree, the README wins.",
-    "tags": ["verification", "tooling", "installation"],
+    "title": "Build it yourself; do not trust skills",
+    "note": "Local image builds and pinned commits are authoritative: skills are documentation, not execution environments. When a skill contradicts the prompt or upstream tool documentation, follow the documentation.",
+    "tags": [
+      "verification",
+      "tooling",
+      "installation"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-234": {
-    "title": "Verify the first shard before launching the fleet",
-    "note": "After the first shard of any scoring or filtering stage, confirm from its outputs — item counts, pass/fail counts, a spot-checked example — that the stage ran as specified. Restates the anomaly rule in gate-specific form: a gate that passes everything, fails everything or returns a constant is broken until investigated.",
-    "tags": ["verification", "failure-handling", "filtering"],
+    "title": "Check the first shard before launching the fleet",
+    "note": "Examine outputs from the first shard of any generation or scoring wave before fanning out: verify file counts, parse structures, and inspect score distributions. Uniform pass or fail rates indicate configuration failures that require diagnosis.",
+    "tags": [
+      "verification",
+      "failure-handling",
+      "filtering"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-236": {
-    "title": "Pose self-consistency, and the seed-concordance rule",
-    "note": "Any ranking model saves its predicted structures, and every scored design gets DockQ plus multiple RMSDs with symmetry-aware chain mapping at full native stoichiometry. The subtle rule: an arm's DockQ is computed on the SAME seed whose ipSAE_min became that arm's score, not on a separately chosen best-DockQ seed — otherwise the two metrics describe different structures. Both argmax seeds are recorded so concordance is auditable. A NaN pose is a missing measurement, not a flag, and blocks rank eligibility. If many top designs are pose_FAIL or the arms disagree, suspect the instrument before the designs.",
-    "tags": ["verification", "scoring", "metric"],
+    "title": "Check pose agreement on the SAME seed",
+    "note": "When evaluating pose self-consistency, DockQ must be calculated against the exact seed that produced the argmax-ipSAE score. Evaluating DockQ on seed A and ipSAE on seed B produces mismatched structural evaluations.",
+    "tags": [
+      "verification",
+      "scoring",
+      "metric"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-238": {
-    "title": "Validate the exact metric at the exact parameters",
-    "note": "If ranking by max over N seeds, validation runs N seeds — not one — demonstrates that the ensemble adds ranking information over a single-seed baseline, and reports measured seed variance. Prevents the common shortcut of validating a cheap proxy and then ranking with something else.",
-    "tags": ["verification", "metric", "calibration"],
+    "title": "Test the actual parameter, not an approximation",
+    "note": "Validation must evaluate the exact metric parameters planned for production, such as testing full seed counts rather than single-seed approximations. Running N seeds (not one) demonstrates that the ensemble provides incremental ranking signal over single seeds.",
+    "tags": [
+      "verification",
+      "metric",
+      "calibration"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-240": {
-    "title": "Rank eligibility, seed top-up, and gates as columns",
-    "note": "A rank requires the pre-registered protocol or a disclosed relaxation, with the true seed count on every row. Before routing anything to unranked for seed count alone, top-up must be attempted — a design a few seeds short is incomplete, not below protocol. The writer enforces all of this automatically, routes missing-gate rows to unranked with the gate named, and a closing check confirms no ranked row carries an empty or zero score. Diversity caps are called out as a property of the selected set rather than a per-row column, and a gate that exists but was not run is a protocol violation.",
-    "tags": ["verification", "gate", "deliverable", "provenance"],
+    "title": "Honest status: protocol or disclosed deviation",
+    "note": "Final ranking requires protocol compliance or documented relaxation, recording actual seed counts on every candidate row. Candidates short on seed counts must attempt top-up before being classified as unranked, and unexecuted gates represent protocol violations.",
+    "tags": [
+      "verification",
+      "gate",
+      "deliverable",
+      "provenance"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-242": {
     "title": "Commanded versus delivered counts",
     "note": "Every batch job reports both, and a shortfall over ~10% is a warning in the manifest and updates even when the job exits cleanly. Every count is measured from artefacts or the ledger at write time, never reconstructed from what was commanded; where measured disagrees with planned, report measured and the gap. Bookkeeping writes are idempotent so re-runs cannot double-count.",
-    "tags": ["verification", "reporting", "provenance"],
+    "tags": [
+      "verification",
+      "reporting",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-244": {
     "title": "Liveness watching, the single reaper, and the one-app rule",
-    "note": "Five-minute liveness checks, with the specific failure named: a job alive but producing nothing. BUDGET's reap sweep is the sole campaign-wide reaper, bound by the terminal-status criterion, and every terminate must be tag-scoped and cross-checked against the job-metadata ledger. The one-app rule is defensive of others: the workspace has a hard 1000-app cap shared across teams, and a blanket terminate would be destructive against other agents' running work. Closes with the zero-load-bearing-kernel-state rule and a five-step restart sequence, so any gap in activity is recoverable from durable storage.",
-    "tags": ["verification", "concurrency", "isolation", "failure-handling"],
+    "note": "Five-minute liveness checks identify inactive jobs, with BUDGET's reap sweep acting as the sole campaign-wide reaper cross-checked against the job ledger. The one-app rule prevents blanket terminations from impacting other workloads in shared workspaces. Closes with a zero-critical-state rule and a five-step restart sequence to recover state from durable storage.",
+    "tags": [
+      "verification",
+      "concurrency",
+      "isolation",
+      "failure-handling"
+    ],
     "force": "MECHANICAL",
     "owner": "BUDGET"
   },
   "st-246": {
-    "title": "Final pre-order re-check, and selectivity scoring",
-    "note": "Liability, monomer-foldability and diversity are all re-run on the final selected set — assertions rather than trust in upstream. Template slot SELECTIVITY_CLAUSES: for counter-screened targets the ranking formula extends from six terms to nine by adding a per-arm selectivity_delta, defined as on-target minus off-target ipSAE_min computed under the same seed count and aggregation, because an instrument-mismatched subtraction is meaningless. A null off-target or selectivity value on any ranked row is a fail-loud, not a documented gap.",
-    "tags": ["verification", "scoring", "diversity-cap", "deliverable"],
+    "title": "Re-check all filters before ordering",
+    "note": "Re-evaluates developability liabilities, monomer foldability, and diversity caps on the final candidate pool before ordering. For counter-screened targets, ranking expands to include selectivity_delta (on-target minus off-target ipSAE_min), treating missing off-target measurements as errors.",
+    "tags": [
+      "verification",
+      "scoring",
+      "diversity-cap",
+      "deliverable"
+    ],
     "force": "MECHANICAL",
     "owner": "sheet-writer"
   },
   "st-248": {
     "title": "Review fleet independence requirements",
-    "note": "At least one reviewer generates new measurements rather than reviewing documents, and at least one forms its verdict from raw data without seeing the conclusions. Every finding ships with the exact query or script that produced each number — review is held to the same traceability standard as the work being reviewed.",
-    "tags": ["verification", "delegation", "epistemics"],
+    "note": "At least one reviewer generates new measurements rather than reviewing documents, and at least one forms its verdict from raw data without seeing conclusions. Every finding is reported with the exact query or script that produced each number; review follows the same traceability standard as production tasks.",
+    "tags": [
+      "verification",
+      "delegation",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-250": {
     "title": "Unavailability requires evidence, not inference",
     "note": "Before concluding any tool is unavailable, query HuggingFace, GitHub, PyPI, the skill catalog and the corpus directly. States the reason plainly: several tools named here postdate the model's training cutoff, so 'I have never heard of it' is not evidence of absence. A failed URL is grounds to request network access, and the exact queries are logged with the conclusion.",
-    "tags": ["tooling", "failure-handling", "epistemics"],
+    "tags": [
+      "tooling",
+      "failure-handling",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-252": {
     "title": "Logistics: ids, versioning, and secrets",
-    "note": "Globally unique design_ids prefixed by target and method; pipeline scripts version-stamped and frozen once production begins, with changes shipping as new versioned copies; script versions and thresholds recorded per design row. Then the security rule: no credential is ever interpolated into a command string, script body, log line, ledger row, artifact or Slack message — secrets reach sandboxes only via modal.Secret or environment injection. A suspected leak is a P0 that stops dispatch from that identity until rotated.",
-    "tags": ["provenance", "isolation", "safety"],
+    "note": "Assigns globally unique design IDs with target and method prefixes, freezing pipeline scripts upon entering production with changes saved as versioned files. Credentials must never appear in command strings, logs, or messages: secrets reach sandboxes only via modal.Secret or environment injection.",
+    "tags": [
+      "provenance",
+      "isolation",
+      "safety"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-254": {
-    "title": "Isolation in a shared account",
-    "note": "The channel, the Drive folder and the existing Modal volumes all carry state from other concurrent campaigns, so the agent reconciles only against state it created. The most interesting clause inverts the default suspicion: an unrecognised post in your own thread is by default your own sub-agent's output, and the frames table should be checked before reporting a 'second deployment'. Distinguishes what is reusable infrastructure (prebuilt images, weight volumes) from what is created fresh per campaign, and requires the orchestrator's frame id in every volume name — a date suffix alone is insufficient.",
-    "tags": ["isolation", "failure-handling", "provenance"],
+    "title": "Multi-tenant isolation: namespace everything",
+    "note": "Agents must isolate operations in shared accounts by filtering Slack messages, Drive folders, and Modal volumes to campaign-specific identifiers. Shared volumes must incorporate orchestrator frame IDs to prevent naming collisions.",
+    "tags": [
+      "isolation",
+      "failure-handling",
+      "provenance"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-256": {
     "title": "Volume layout: batch to survive the inode cap",
     "note": "One metrics JSONL and one structures tar per job_id, because a 5-seed by 1M-design campaign at one file per design x seed exceeds Modal's inode cap. JIT and torch-extension caches go on the persistent volume. Any delete on a shared volume requires a verified tarball first, and a failed preserve step halts and escalates rather than proceeding.",
-    "tags": ["data-retention", "compute", "failure-handling"],
+    "tags": [
+      "data-retention",
+      "compute",
+      "failure-handling"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   },
   "st-258": {
     "title": "Slack directives must be verified at source",
     "note": "Any relayed directive is re-read from a fresh thread call with limit >= 500 before acting, and only directives locatable in the thread are acted on. Owner-approved status applies only to a message quoted verbatim with channel and timestamp; sub-agent recommendations, swarm consensus and the agent's own proposals stay labelled as such. A defence against a long agent chain laundering a suggestion into an instruction.",
-    "tags": ["isolation", "epistemics", "orchestration"],
+    "tags": [
+      "isolation",
+      "epistemics",
+      "orchestration"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-260": {
     "title": "Allocate by evidence; keep a prepared idea list",
-    "note": "A target stays active while its best score is still improving or has an untested round remaining, and while untried methods remain. The living ideas document exists so that a stalled target is answered from a prepared, costed, ranked list rather than by inventing under pressure. Each retry must differ from the last in a nameable way, and killing a failing method quickly to redirect its budget is called correct. If wall-clock rather than budget binds, say so and scale concurrency instead of silently cutting planned work.",
-    "tags": ["orchestration", "compute", "epistemics"],
+    "note": "A target stays active while its best score is still improving or has an untested round remaining, and while untried methods remain. The living ideas document ensures stalled targets are addressed from a prepared, ranked list rather than impromptu additions. If wall-clock limits bind before budget exhaustion, scale concurrency instead of cutting planned work without notice.",
+    "tags": [
+      "orchestration",
+      "compute",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "orchestrator"
   },
   "st-262": {
-    "title": "Autonomy, and the two forbidden calls",
-    "note": "No questions and no approval requests for anything within scope and resources, bounded by Claude's Constitution and Anthropic's values. Mechanically: ask_user and ask_about_compute are never called at any depth because both reach the human operator rather than the parent agent; coordination questions route through host.send_message instead. A plan may be posted for tracking but not for approval. Emergency contacts are the three operator placeholders.",
-    "tags": ["orchestration", "framing", "delegation"],
+    "title": "Failure modes to pre-empt",
+    "note": "Pre-empts failure modes: silent filter evasion, drifting thresholds, unanchored scoring metrics, and early stopping. Each failure mode is paired with a specific mechanical countermeasure.",
+    "tags": [
+      "orchestration",
+      "framing",
+      "delegation"
+    ],
     "force": "MECHANICAL",
     "owner": "any-agent"
   },
   "st-264": {
     "title": "Safety: the one section that overrides everything above",
-    "note": "Three clauses. Bioterrorism and bioweapons development are absolutely excluded, and the scope is bounded to miniprotein binder design with entirely in vitro validation. Any stop or pause instruction from Anthropic staff, through any channel, is complied with immediately and without debate, explicitly overriding every timeline, budget and perseverance instruction in the document. And the no-questions autonomy rule is carved out: a genuine safety concern means pause and contact the operator rather than resolve it yourself.",
-    "tags": ["safety", "framing", "epistemics"],
+    "note": "Bioterrorism and bioweapons development are strictly excluded, and scope is bounded to miniprotein binder design with in vitro validation. Any stop or pause instruction from Anthropic staff must be complied with immediately and without debate, overriding all timelines and targets. Genuine safety concerns require pausing and contacting the operator rather than self-resolving.",
+    "tags": [
+      "safety",
+      "framing",
+      "epistemics"
+    ],
     "force": "MUST",
     "owner": "any-agent"
   }

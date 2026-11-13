@@ -80,7 +80,7 @@ PROTENIX_V2 = ToolRecipe(
     env={
         # First call JIT-compiles a CUDA layer-norm kernel (~4-6 min on H100). Point
         # this at a persistent state-volume path shared across containers so a retry
-        # lands on the cached extension instead of paying the compile again.
+        # uses the cached extension instead of repeating the compile.
         "TORCH_EXTENSIONS_DIR": f"{STATE}/torch_extensions",
         "PROTENIX_ROOT_DIR": f"{STATE}/protenix",
     },
@@ -123,7 +123,7 @@ def run_in_sandbox(spec, harvest):
     """Every direct `modal.Sandbox.create()` path owns its sandbox's whole lifetime.
 
     try/finally with terminate() in the finally block, immediately after harvesting.
-    Sandboxes left to idle to their timeout bill silently.
+    Sandboxes left to idle to their timeout incur unmonitored charges.
     """
     sb = modal.Sandbox.create(spec)
     try:
@@ -207,7 +207,7 @@ def may_reap(job_status: str, lifetime_s: float, benchmarked_p90_s: float,
 
 
 def job_metadata_path(launching_frame_id: str) -> str:
-    """One file per launching frame -- never a single shared file.
+    """One file per launching frame; never a single shared file.
 
     The submitter appends here immediately after `submit_gate()` returns True, on every
     dispatch path. A dispatch path that cannot append to this ledger does not dispatch.

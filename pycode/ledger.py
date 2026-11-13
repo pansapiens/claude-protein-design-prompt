@@ -18,7 +18,7 @@ from .campaign import LEDGER, STATE
 # @block st-145 kind=schema
 @dataclass
 class LedgerRow:
-    """One row per job completion. The whole schema, deliberately minimal."""
+    """One row per job completion. The complete schema, keeping fields minimal."""
 
     ts_utc: float
     job_id: str
@@ -32,11 +32,12 @@ class LedgerRow:
 
 
 def ledger_path(writer_frame_id: str) -> str:
-    """One file per writing frame -- never a single shared file.
+    """One file per writing frame; never a single shared file.
 
-    Volume appends across concurrent sandboxes are not atomic and silently clobber, so
-    a single shared ledger loses rows without erroring. A per-writer subfile tree makes
-    concurrent appends structurally safe and the total a sum over the tree.
+    Volume appends across concurrent sandboxes are not atomic and corrupt data during
+    concurrent writes, so a single shared ledger loses rows without erroring. A
+    per-writer subfile tree makes concurrent appends structurally safe and the total
+    a sum over the tree.
     """
     return f"{LEDGER}/{writer_frame_id}.jsonl"
 
@@ -50,7 +51,7 @@ def gen_screen_job(target: str, n_backbones: int, write_row) -> None:
     The n_generated row is written before the screen so the method-floor matrix sees the
     survivors immediately. Where the structure tool's image cannot carry the screening
     stacks, the screen is chained as an immediately-dispatched job on the same
-    survivors -- a queued-but-undrained arm is a logged deviation.
+    survivors; a queued-but-undrained arm is a logged deviation.
     """
     survivors = generate_and_filter(target, n_backbones)
     write_row(stage="gen_screen", n_generated=len(survivors), n_scored=0)
@@ -123,8 +124,8 @@ IDEMPOTENCY_KEY = ("job_id", "stage")
 
 def never_move_in_flight(path: str, jobs_writing_into: int) -> None:
     """Never mv or rewrite a shared directory while jobs that write into it are live,
-    and route every shared append through its owning singleton after a fresh re-mount --
-    an append against a stale FUSE snapshot clobbers the file."""
+    and route every shared append through its owning singleton after a fresh re-mount;
+    an append against a stale FUSE snapshot corrupts the file."""
     assert jobs_writing_into == 0, f"{path} has {jobs_writing_into} writers in flight"
 
 
@@ -136,8 +137,8 @@ def token_cost(input_tokens: int, cache_read_tokens: int, output_tokens: int,
     """Exactly this formula, because input_tokens already includes cache reads.
 
     Billing cache reads at the fresh rate, or adding them twice, are the two ways to get
-    this wrong, and both inflate the reported figure rather than deflating it -- which
-    means the error would never show up as a budget overrun.
+    this wrong, and both inflate the reported figure rather than deflating it;
+    this means the error would never show up as a budget overrun.
     """
     fresh_input = input_tokens - cache_read_tokens
     return (fresh_input * fresh_rate

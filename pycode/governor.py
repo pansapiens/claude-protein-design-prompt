@@ -26,7 +26,7 @@ from .external import modal
 from .gates import validation_gate_pass
 from .roster import may_reap
 
-# ── what a sandbox costs ──────────────────────────────────────────────────────────────
+# ── sandbox pricing and rates ─────────────────────────────────────────────────────────
 
 # @block st-135 kind=logic
 GPU_HOURLY_USD = {
@@ -48,9 +48,9 @@ MEM_HOURLY_USD_PER_GIB = 0.008
 def burn_rate_usd_per_hour(gpu_type: str, cores: float, mem_gib: float) -> float:
     """GPU + CPU + memory, billed per second and separately.
 
-    A typical 4-core/32-GiB H100 box is ~$4.39/h all-in, not $3.95 -- the adders are
-    roughly 11% and a projection that ignores them runs under pace on paper while
-    running over pace in fact.
+    A typical 4-core/32-GiB H100 box is ~$4.39/h all-in, not $3.95: additional resource
+    charges are roughly 11% and a projection that ignores them runs under pace on paper
+    while running over pace in fact.
     """
     return (GPU_HOURLY_USD[gpu_type]
             + max(cores, 0.125) * CPU_HOURLY_USD_PER_CORE
@@ -126,9 +126,9 @@ def is_calibrated(canary_cost_present: bool, value: float, ratecard_usd: float,
                   previous_value: float, asof_advanced: bool) -> bool:
     """All four conditions, or the reading is not calibrated.
 
-    Once the first calibrated reading lands, metered becomes the ONLY basis for raising
-    the governor. Holding, lowering and writing ceiling=0 always keep computing the
-    rate-card projection and act on whichever figure is HIGHER.
+    Once the first calibrated reading is recorded, metered spend becomes the ONLY basis
+    for raising the governor. Holding, lowering and writing ceiling=0 always keep
+    computing the rate-card projection and act on whichever figure is HIGHER.
     """
     return (canary_cost_present
             and (value > 20.0 or value >= 0.9 * ratecard_usd)
@@ -182,8 +182,8 @@ def submit_gate(app_id: str, project_tag: str, timeout_s: int,
     """One True authorizes exactly one container start. Never per-batch, never per-loop.
 
     The ENTIRE body is wrapped so that any exception returns False with GATE_ERROR: the
-    gate is FAIL-CLOSED, never fail-open, because a delayed dispatch costs seconds while
-    an ungated H100 dispatch costs unrecoverable dollars.
+    gate is FAIL-CLOSED, never fail-open, because "a delayed dispatch costs seconds while
+    an ungated H100 dispatch can be multiple unrecoverable dollars".
 
     Steps (a)-(g) below are the prompt's own lettering.
     """
@@ -223,7 +223,7 @@ def _refuse(reason: str) -> bool:
 def count_live_gpu_sandboxes(app_id: str, project_tag: str) -> int:
     """Step (e): ALL sandboxes minus tagged-CPU, via the provider SDK.
 
-    Deliberately not the harness's own usage table, which lags. Rate-limited inside the
+    Does not use the harness usage table, which lags. Rate-limited inside the
     module to one SDK call per 8 seconds per process, and the count subtracts sandboxes
     whose job state is terminal or whose lifetime exceeds 2x its wall-clock budget.
     """
@@ -235,7 +235,7 @@ def count_live_gpu_sandboxes(app_id: str, project_tag: str) -> int:
 
 
 def backlog_ok(target: Optional[str], stage: Optional[str], read_file) -> bool:
-    """Generation cannot outrun scoring -- see `ledger.gen_backlog_ok`."""
+    """Generation cannot outrun scoring; see `ledger.gen_backlog_ok`."""
     from .ledger import gen_backlog_ok
     return gen_backlog_ok(target, stage, read_file)
 
@@ -257,11 +257,11 @@ def sandbox_kwargs(benchmarked_p90_s: float, kind: str = "gpu") -> dict:
 
 # @block st-154 kind=protocol
 def budget_agent(campaign_end: float, now=time.time) -> None:
-    """A standing sub-agent for the full window on a 15-minute cycle -- not a periodic
-    task the orchestrator remembers to run.
+    """A standing sub-agent running continuously on a 15-minute cycle rather than
+    an ad-hoc orchestrator task.
 
     It owns all metered reads and all writes to governor.json. GPU dollars come from the
-    provider's metered per-job cost field; a rate-card figure is a cross-check only.
+    provider's metered per-job spend field; a rate-card figure is a cross-check only.
     """
     while now() < campaign_end:
         gov = read_governor()
@@ -281,8 +281,8 @@ def write_governor(gov: Governor) -> str:
 
 
 def read_metered_spend() -> float:
-    """Summed over rows whose object_id is THIS campaign's app id -- never the workspace
-    total, which includes other teams' arms."""
+    """Summed over rows whose object_id is THIS campaign's app id, excluding workspace
+    totals from other teams."""
     return 0.0
 
 
@@ -325,7 +325,7 @@ class TargetWeight:
 def target_weights(dossiers, observables, elapsed_fraction: float) -> dict[str, TargetWeight]:
     """Early in the campaign the prior dominates; later the live signal does.
 
-    Shares are relative on any positive scale -- the dispatcher normalizes. The only
+    Shares are relative on any positive scale; the dispatcher normalizes. The only
     hard bound is a floor: every target gets enough compute for 30 order-ready designs,
     and above that floor a hard target may take 10x the spend of an easy one.
     """
@@ -388,7 +388,7 @@ RESTART_SEQUENCE = (
 
 
 def orchestrator_state_is_durable(in_memory_keys: set[str]) -> bool:
-    """Zero load-bearing state in kernel memory is what makes any gap recoverable.
+    """Zero critical state in kernel memory ensures recovery after any interruption.
 
     The design-count ledger, the spend ledger, the active-job table and the per-target
     progress tracker all live in durable storage, written via the same batched heartbeat

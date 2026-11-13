@@ -30,7 +30,7 @@ def ipsae_min(prediction, binder_chain: str, target_chains: Sequence[str],
 
     For a multimeric target the mask is a *union*: mask_target is every residue whose
     asym_id is not the binder, with n0/d0 re-derived from the union mask sizes. This
-    single call replaces the stock pairwise loop over (binder, protomer_i) -- the
+    single call replaces the stock pairwise loop over (binder, protomer_i); the
     pairwise version answers a different question and is not comparable.
 
     Absolute ipSAE compresses with chain count, so raw cross-target comparison is
@@ -65,7 +65,7 @@ SUBSTITUTE_ARM_PREFERENCE = (
 def sc_dockq(designed_complex, prediction, dockq: Callable[..., float]) -> float:
     """DockQ between the designed complex and this arm's argmax-ipSAE_min prediction.
 
-    The chain mapping is the best symmetric relabeling -- the one that maximises DockQ.
+    The chain mapping is the best symmetric relabeling: the one that maximizes DockQ.
     That applies on monomeric targets too, because chain ids in the designed and
     predicted structures need not agree.
     """
@@ -74,7 +74,7 @@ def sc_dockq(designed_complex, prediction, dockq: Callable[..., float]) -> float
 
 
 def pose_dockq(row: DesignRow) -> float:
-    """Minimum over the arms that ran -- the weakest arm sets the pose verdict."""
+    """Minimum over the arms that ran: the weakest arm sets the pose verdict."""
     ran = [v for v in row.sc_dockq.values() if not math.isnan(v)]
     return min(ran) if ran else math.nan
 
@@ -109,7 +109,7 @@ def final_score(row: DesignRow, mask: Sequence[str]) -> float:
     """The headline value: the raw mean of the six terms.
 
     Under a disclosed REDUCED_MASK the mean runs over the realized terms only, and
-    `score_instrument` names them -- so a reader can always tell which arms produced
+    `score_instrument` names them, allowing verification of which arms produced
     the number. Dropping a validated arm from a frozen mask is sheet corruption.
     """
     values = [v for _, v in score_terms(row, mask) if not math.isnan(v)]
@@ -122,7 +122,7 @@ def rank_zscore(row: DesignRow, mask: Sequence[str],
 
     The 4:1 weighting says the campaign trusts interface confidence four times as much
     as pose agreement for *ordering*, while still requiring pose agreement to pass as a
-    gate. The two scores answer different questions and are deliberately not merged.
+    gate. The two scores answer different questions and are not merged.
     """
     num = den = 0.0
     for name, value in score_terms(row, mask):
@@ -170,7 +170,7 @@ def pose_self_consistent(row: DesignRow) -> bool:
 # @block st-236 kind=logic
 def assert_seed_concordance(row: DesignRow, arm: str) -> None:
     """The self-consistency DockQ for an arm is computed on the SAME seed whose
-    ipSAE_min became that arm's score -- not on a separately-chosen max-DockQ seed.
+    ipSAE_min became that arm's score, not on a separately chosen max-DockQ seed.
 
     Choosing the best seed per metric independently would report an agreement that no
     single prediction ever achieved. Both argmaxes are recorded so the discrepancy is
@@ -183,8 +183,9 @@ def assert_seed_concordance(row: DesignRow, arm: str) -> None:
 def rank_eligible_on_pose(row: DesignRow) -> bool:
     """A NaN pose result is a missing measurement, not a flag: the check must have RUN.
 
-    pose_FAIL rows still ship, at the bottom of the target's ranked set, with the count
-    disclosed -- so a suspect instrument shows up as a pattern instead of vanishing.
+    pose_FAIL rows are still retained at the bottom of the target's ranked set, with the
+    count disclosed; this ensures a suspect instrument appears as a pattern rather than
+    disappearing.
     """
     return pose_self_consistent(row)
 

@@ -33,7 +33,7 @@ def floor_matrix(ledger_rows, targets: Sequence[str],
     """The (target, method) structure-count matrix, recomputed every governor cycle.
 
     Every cell below the floor is an open obligation, and a missing matrix is itself a
-    deviation -- so failing to compute it cannot pass for having nothing to do.
+    deviation; failing to compute it cannot pass as having nothing to do.
     """
     matrix = {(t, m): 0 for t in targets for m in asterisked_methods}
     for row in ledger_rows:
@@ -55,7 +55,7 @@ class Dispatcher:
     """The single submit-token issuer. Exactly one, campaign-wide.
 
     The orchestrator hands it work lists and never loads or calls submit_gate itself.
-    Any dispatch restructuring -- per-target pods, screen orchestrators -- must preserve
+    Any dispatch restructuring (per-target pods, screen orchestrators) must preserve
     this: two issuers means two views of the concurrency ceiling, and the race between
     them is exactly what the governor exists to prevent.
     """
@@ -85,8 +85,8 @@ def clock_agent(campaign_end: float, write_file, now=time.time) -> None:
     returns between cycles.
 
     The premise is stated plainly in the prompt: the agent cannot tell the time and must
-    not rely on its own sense of elapsed time. Dormancy -- any interval neither running
-    a tool call nor parked on a bounded wait -- is a defect, and the target is zero
+    not rely on its own sense of elapsed time. Dormancy (any interval neither running
+    a tool call nor parked on a bounded wait) is a defect, with a target of zero
     dormant minutes across the whole window.
     """
     while now() < campaign_end:
@@ -107,7 +107,7 @@ def is_sdk_hang(has_rolling_summary_marker: bool, tool_call_in_flight: bool,
     """A harness compaction restart is NOT a hang and must not trigger child
     cancellation or sandbox reaping.
 
-    It looks like a stall -- a gap with no in-flight tool call -- but reaping on it would
+    It resembles a stall (a gap with no in-flight tool call), but reaping on it would
     destroy healthy work every time the context rolls over. Only a specific call in
     flight past its expected duration counts.
     """
@@ -144,9 +144,9 @@ MAX_CONSECUTIVE_WAITS = 5
 def lint_orchestrator_source(source: str) -> list[str]:
     """These rules are checkable statically, which is the honest way to encode them.
 
-    The orchestrator never imports modal and never touches the provider SDK -- not in the
-    foreground, not with a timeout, not for diagnostics. Its only compute touchpoint is
-    the host.compute job-submit/result surface.
+    The orchestrator never imports modal and never touches the provider SDK: not in the
+    foreground, not with a timeout, and not for diagnostics. Its only compute touchpoint
+    is the host.compute job-submit/result surface.
     """
     violations = []
     tree = ast.parse(source)
@@ -184,8 +184,8 @@ def first_action() -> dict:
     """Dispatch SETUP and BLOCK on its return. Nothing else may be dispatched until it
     returns OK with the gate module's sha256.
 
-    SETUP alone creates the volumes, seeds the governor, and writes lib/submit_gate.py --
-    a single origin for the one artifact every dispatcher depends on.
+    SETUP alone creates the volumes, seeds the governor, and writes lib/submit_gate.py,
+    providing a single origin for the artifact every dispatcher depends on.
     """
     result = host.delegate("SETUP", block=True)
     assert result["status"] == "OK", "no sub-agent may be dispatched until SETUP is OK"
@@ -218,9 +218,8 @@ def watchdog_action(s: WatchdogState) -> list[str]:
 
     The ladder keys on heartbeat staleness: notice at 15 minutes, halt at 30. The
     runaway check keys on nothing but the live count, so it fires even when BUDGET is
-    dead and the heartbeat is fresh -- the two failure modes are independent and so are
+    dead and the heartbeat is fresh; the two failure modes are independent and so are
     their detectors.
-
     Note what the halt does NOT do: it records the orchestrator's pending dispatches but
     does not issue them, because those would be fresh submitter frames during a
     ceiling=0 halt.
@@ -247,7 +246,7 @@ def watchdog_agent(campaign_end: float, app_id: str, project_tag: str,
     A cycle that reads state but skips the liveness write is a defect: liveness is the
     file's age, not the frame's running status, so a silent cycle is indistinguishable
     from a dead watchdog. And it never suppresses its halt on a message claiming the
-    orchestrator is alive -- only a fresh heartbeat file counts.
+    orchestrator is alive; only a fresh heartbeat file counts.
     """
     runaway_cycles = 0
     while now() < campaign_end:
@@ -280,9 +279,9 @@ def budget_honors_basis(gov: Governor, heartbeat_age_minutes: float,
 def in_sandbox_preflight(governor, heartbeat, now: float) -> int:
     """The FIRST executable lines of every run_<tool>.py, before any weight download.
 
-    This is the only control that runs when every agent frame is dead. It costs under a
-    second and it is the reason a halted campaign stops burning money even if nothing on
-    the harness side is alive to terminate anything.
+    This is the only control that runs when every agent frame is dead. It runs in under a
+    second and prevents a halted campaign from continuing spend even if no harness
+    process is alive to terminate jobs.
     """
     if governor["ceiling"] == 0 or (now - heartbeat["set_at_utc"]) > 30 * 60:
         return 0
