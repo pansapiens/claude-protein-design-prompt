@@ -325,6 +325,9 @@ ins{background:#E4F3EA; color:#14603F; text-decoration:none; border-radius:2px; 
 .flowsvg .node{cursor:pointer}
 .flowsvg .node.focus rect, .flowsvg .node.focus path, .flowsvg .node.focus polygon{stroke-width:3px}
 .flowsvg .dim{opacity:.12}
+/* The terminating arrow ends in a circle. Mermaid's circle marker is drawn hollow;
+   filled, it reads as a terminus rather than as a small node. */
+.flowsvg marker circle{fill:#5A6270; stroke:#5A6270}
 .legend{display:flex; flex-wrap:wrap; gap:14px; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink2); margin:0}
 .legend .never{color:#B42318}
 .legend .ln{display:inline-block; width:22px; vertical-align:middle; margin-right:6px; border-top:1.5px solid currentColor}
@@ -706,14 +709,15 @@ main.flow.collapsed > .rail, main.flow.collapsed > .pane.right{display:none}
     <div class="pane left">
       <div class="panel" style="max-width:none">
         <h2>{{ flow.title }}</h2>
-        <p class="lede" style="max-width:80ch">{{ flow.lede }} Click a node to list its rules.</p>
+        <p class="lede" style="max-width:80ch">{{ flow.lede }} Click a node to list its rules; drag to pan, wheel to zoom.</p>
         <p class="legend">
           <span><i class="ln thick"></i>dispatches</span><span><i class="ln"></i>writes / calls</span>
-          <span><i class="ln dot"></i>input to</span><span><i class="ln"></i>× terminates</span>
+          <span><i class="ln dot"></i>input to</span><span><i class="ln"></i>&#9679; terminates</span>
           <span class="never"><i class="ln dot"></i>× forbidden</span>
         </p>
       </div>
-      <div class="flowsvg" ref="flowsvg" @mousedown="flowPan" @auxclick.prevent><p class="empty">Loading diagram…</p></div>
+      <div class="flowsvg" ref="flowsvg" @mousedown="flowPan" @auxclick.prevent
+           @wheel.prevent="flowWheel"><p class="empty">Loading diagram…</p></div>
     </div>
 
     <div class="rail" aria-hidden="true"></div>
@@ -825,8 +829,8 @@ const App = {
         { id: 'delta',  label: 'Δ Scaling' }
       ],
       scaling: SCALING,
-      flow: payload.flow, flowSel: null,
-      ARROW: { dispatch: '⇒', write: '→', read: '⇢', terminate: '→×', never: '⇢×' }
+      flow: payload.flow, flowSel: null, flowZoom: 1, flowBase: null,
+      ARROW: { dispatch: '⇒', write: '→', read: '⇢', terminate: '→●', never: '⇢×' }
     };
   },
 
@@ -985,6 +989,10 @@ const App = {
           svg.style.maxWidth = 'none';
           svg.setAttribute('width', d[2]);
           svg.setAttribute('height', d[3]);
+          // Intrinsic size, kept so the wheel scales from it rather than compounding
+          // rounding errors across zoom steps.
+          this.flowBase = { w: parseFloat(d[2]), h: parseFloat(d[3]) };
+          this.flowZoom = 1;
         }
         if (out.bindFunctions) out.bindFunctions(el);
         const root = el.querySelector('g.node[id*="-' + this.flow.nodes[0].id + '-"]');
@@ -995,6 +1003,31 @@ const App = {
         this.focusFlow(this.flowSel);
       } catch (err) {
         el.innerHTML = '<p class="empty">Could not load Mermaid from the CDN: ' + String(err) + '</p>';
+      }
+    },
+    // Wheel over the diagram zooms it about the pointer, the way a map does: the node
+    // under the cursor stays under the cursor. The svg's width and height attributes are
+    // scaled rather than a CSS transform, so the scroll box keeps real bounds and the
+    // drag-pan below keeps working at every zoom level.
+    flowWheel: function (e) {
+      const box = this.$refs.flowsvg, svg = box && box.querySelector('svg');
+      if (!svg || !this.flowBase) return;
+      const z0 = this.flowZoom;
+      const z = Math.min(3, Math.max(0.2, z0 * Math.exp(-e.deltaY * 0.0015)));
+      if (z === z0) return;
+      const r = svg.getBoundingClientRect();
+      const rx = (e.clientX - r.left) / (this.flowBase.w * z0);
+      const ry = (e.clientY - r.top) / (this.flowBase.h * z0);
+      this.flowZoom = z;
+      svg.setAttribute('width', this.flowBase.w * z);
+      svg.setAttribute('height', this.flowBase.h * z);
+      box.scrollLeft += this.flowBase.w * (z - z0) * rx;
+      const pane = box.closest('.pane');
+      if (pane) {
+        const smooth = pane.style.scrollBehavior;
+        pane.style.scrollBehavior = 'auto';       // .pane is smooth-scrolling
+        pane.scrollTop += this.flowBase.h * (z - z0) * ry;
+        pane.style.scrollBehavior = smooth;
       }
     },
     // Drag the diagram's whitespace to pan it. The diagram is wider than the pane and can

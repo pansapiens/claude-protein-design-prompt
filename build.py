@@ -573,7 +573,7 @@ def validate(blocks: list[dict], notes: dict, label: str, strict: bool) -> list[
     return problems if strict else [p for p in problems if "unknown" in p or "bad" in p]
 
 
-FLOW_ARROWS = {"dispatch": "==>", "write": "-->", "read": "-.->", "terminate": "--x", "never": "-.-x"}
+FLOW_ARROWS = {"dispatch": "==>", "write": "-->", "read": "-.->", "terminate": "--o", "never": "-.-x"}
 FLOW_SHAPES = {"agent": ('(["', '"])'), "code": ('[["', '"]]'), "state": ('[("', '")]'),
                "external": ('{{"', '"}}')}
 
